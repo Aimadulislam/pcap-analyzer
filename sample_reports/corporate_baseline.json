@@ -1,0 +1,364 @@
+{
+  "metadata": {
+    "file_path": "/app/applet/examples/corporate_baseline.pcap",
+    "file_name": "corporate_baseline.pcap",
+    "file_size_bytes": 904,
+    "file_format": "PCAP (Standard Libpcap)",
+    "packet_count": 10,
+    "first_timestamp": 1700003000.0,
+    "last_timestamp": 1700003004.009999,
+    "duration_seconds": 4.00999903678894,
+    "parser_engine": "Native"
+  },
+  "summary": {
+    "total_packets": 10,
+    "total_bytes": 720,
+    "capture_duration": 4.00999903678894,
+    "unique_source_ips": 3,
+    "unique_destination_ips": 4,
+    "unique_conversations": 8,
+    "tcp_packet_count": 4,
+    "udp_packet_count": 4,
+    "icmp_packet_count": 2,
+    "dns_packet_count": 4,
+    "http_packet_count": 0,
+    "tls_packet_count": 1,
+    "protocol_distribution": {
+      "DNS": 4,
+      "TCP": 3,
+      "TLS": 1,
+      "ICMP": 2
+    },
+    "protocol_bytes": {
+      "DNS": 283,
+      "TCP": 162,
+      "TLS": 127,
+      "ICMP": 148
+    },
+    "top_source_ips": [
+      {
+        "ip": "10.10.10.15",
+        "packet_count": 8,
+        "byte_count": 592,
+        "percentage": 80.0
+      },
+      {
+        "ip": "140.82.121.4",
+        "packet_count": 1,
+        "byte_count": 54,
+        "percentage": 10.0
+      },
+      {
+        "ip": "10.10.10.1",
+        "packet_count": 1,
+        "byte_count": 74,
+        "percentage": 10.0
+      }
+    ],
+    "top_destination_ips": [
+      {
+        "ip": "1.1.1.1",
+        "packet_count": 4,
+        "byte_count": 283,
+        "percentage": 40.0
+      },
+      {
+        "ip": "140.82.121.4",
+        "packet_count": 3,
+        "byte_count": 235,
+        "percentage": 30.0
+      },
+      {
+        "ip": "10.10.10.15",
+        "packet_count": 2,
+        "byte_count": 128,
+        "percentage": 20.0
+      },
+      {
+        "ip": "10.10.10.1",
+        "packet_count": 1,
+        "byte_count": 74,
+        "percentage": 10.0
+      }
+    ],
+    "top_destination_ports": [
+      {
+        "port": 53,
+        "packet_count": 4,
+        "percentage": 40.0
+      },
+      {
+        "port": 443,
+        "packet_count": 3,
+        "percentage": 30.0
+      },
+      {
+        "port": 50100,
+        "packet_count": 1,
+        "percentage": 10.0
+      }
+    ],
+    "tcp_flags_distribution": {
+      "SYN": 2,
+      "ACK": 3
+    }
+  },
+  "protocols": {
+    "DNS": 4,
+    "TCP": 3,
+    "TLS": 1,
+    "ICMP": 2
+  },
+  "top_sources": [
+    {
+      "ip": "10.10.10.15",
+      "packet_count": 8,
+      "byte_count": 592,
+      "percentage": 80.0
+    },
+    {
+      "ip": "140.82.121.4",
+      "packet_count": 1,
+      "byte_count": 54,
+      "percentage": 10.0
+    },
+    {
+      "ip": "10.10.10.1",
+      "packet_count": 1,
+      "byte_count": 74,
+      "percentage": 10.0
+    }
+  ],
+  "top_destinations": [
+    {
+      "ip": "1.1.1.1",
+      "packet_count": 4,
+      "byte_count": 283,
+      "percentage": 40.0
+    },
+    {
+      "ip": "140.82.121.4",
+      "packet_count": 3,
+      "byte_count": 235,
+      "percentage": 30.0
+    },
+    {
+      "ip": "10.10.10.15",
+      "packet_count": 2,
+      "byte_count": 128,
+      "percentage": 20.0
+    },
+    {
+      "ip": "10.10.10.1",
+      "packet_count": 1,
+      "byte_count": 74,
+      "percentage": 10.0
+    }
+  ],
+  "flows": [
+    {
+      "flow_id": "10.10.10.15:50100 -> 140.82.121.4:443 [TCP]",
+      "source_ip": "10.10.10.15",
+      "destination_ip": "140.82.121.4",
+      "source_port": 50100,
+      "destination_port": 443,
+      "protocol": "TCP",
+      "packet_count": 3,
+      "byte_count": 235,
+      "first_seen": 1700003003.0,
+      "last_seen": 1700003003.029999,
+      "duration_seconds": 0.0299990177154541,
+      "syn_count": 1,
+      "syn_ack_count": 0,
+      "ack_count": 2,
+      "fin_count": 0,
+      "rst_count": 0,
+      "completed_handshake": true
+    },
+    {
+      "flow_id": "10.10.10.15:53000 -> 1.1.1.1:53 [UDP]",
+      "source_ip": "10.10.10.15",
+      "destination_ip": "1.1.1.1",
+      "source_port": 53000,
+      "destination_port": 53,
+      "protocol": "UDP",
+      "packet_count": 1,
+      "byte_count": 70,
+      "first_seen": 1700003000.0,
+      "last_seen": 1700003000.0,
+      "duration_seconds": 0.0,
+      "syn_count": 0,
+      "syn_ack_count": 0,
+      "ack_count": 0,
+      "fin_count": 0,
+      "rst_count": 0,
+      "completed_handshake": false
+    },
+    {
+      "flow_id": "10.10.10.15:53001 -> 1.1.1.1:53 [UDP]",
+      "source_ip": "10.10.10.15",
+      "destination_ip": "1.1.1.1",
+      "source_port": 53001,
+      "destination_port": 53,
+      "protocol": "UDP",
+      "packet_count": 1,
+      "byte_count": 74,
+      "first_seen": 1700003000.5,
+      "last_seen": 1700003000.5,
+      "duration_seconds": 0.0,
+      "syn_count": 0,
+      "syn_ack_count": 0,
+      "ack_count": 0,
+      "fin_count": 0,
+      "rst_count": 0,
+      "completed_handshake": false
+    },
+    {
+      "flow_id": "10.10.10.15:53002 -> 1.1.1.1:53 [UDP]",
+      "source_ip": "10.10.10.15",
+      "destination_ip": "1.1.1.1",
+      "source_port": 53002,
+      "destination_port": 53,
+      "protocol": "UDP",
+      "packet_count": 1,
+      "byte_count": 69,
+      "first_seen": 1700003001.0,
+      "last_seen": 1700003001.0,
+      "duration_seconds": 0.0,
+      "syn_count": 0,
+      "syn_ack_count": 0,
+      "ack_count": 0,
+      "fin_count": 0,
+      "rst_count": 0,
+      "completed_handshake": false
+    },
+    {
+      "flow_id": "10.10.10.15:53003 -> 1.1.1.1:53 [UDP]",
+      "source_ip": "10.10.10.15",
+      "destination_ip": "1.1.1.1",
+      "source_port": 53003,
+      "destination_port": 53,
+      "protocol": "UDP",
+      "packet_count": 1,
+      "byte_count": 70,
+      "first_seen": 1700003001.5,
+      "last_seen": 1700003001.5,
+      "duration_seconds": 0.0,
+      "syn_count": 0,
+      "syn_ack_count": 0,
+      "ack_count": 0,
+      "fin_count": 0,
+      "rst_count": 0,
+      "completed_handshake": false
+    },
+    {
+      "flow_id": "140.82.121.4:443 -> 10.10.10.15:50100 [TCP]",
+      "source_ip": "140.82.121.4",
+      "destination_ip": "10.10.10.15",
+      "source_port": 443,
+      "destination_port": 50100,
+      "protocol": "TCP",
+      "packet_count": 1,
+      "byte_count": 54,
+      "first_seen": 1700003003.009999,
+      "last_seen": 1700003003.009999,
+      "duration_seconds": 0.0,
+      "syn_count": 0,
+      "syn_ack_count": 1,
+      "ack_count": 0,
+      "fin_count": 0,
+      "rst_count": 0,
+      "completed_handshake": false
+    },
+    {
+      "flow_id": "10.10.10.15 -> 10.10.10.1 [ICMP]",
+      "source_ip": "10.10.10.15",
+      "destination_ip": "10.10.10.1",
+      "source_port": null,
+      "destination_port": null,
+      "protocol": "ICMP",
+      "packet_count": 1,
+      "byte_count": 74,
+      "first_seen": 1700003004.0,
+      "last_seen": 1700003004.0,
+      "duration_seconds": 0.0,
+      "syn_count": 0,
+      "syn_ack_count": 0,
+      "ack_count": 0,
+      "fin_count": 0,
+      "rst_count": 0,
+      "completed_handshake": false
+    },
+    {
+      "flow_id": "10.10.10.1 -> 10.10.10.15 [ICMP]",
+      "source_ip": "10.10.10.1",
+      "destination_ip": "10.10.10.15",
+      "source_port": null,
+      "destination_port": null,
+      "protocol": "ICMP",
+      "packet_count": 1,
+      "byte_count": 74,
+      "first_seen": 1700003004.009999,
+      "last_seen": 1700003004.009999,
+      "duration_seconds": 0.0,
+      "syn_count": 0,
+      "syn_ack_count": 0,
+      "ack_count": 0,
+      "fin_count": 0,
+      "rst_count": 0,
+      "completed_handshake": false
+    }
+  ],
+  "dns": [
+    {
+      "packet_number": 1,
+      "timestamp": 1700003000.0,
+      "source_ip": "10.10.10.15",
+      "query": "github.com",
+      "query_type": "A",
+      "response": null,
+      "answers": []
+    },
+    {
+      "packet_number": 2,
+      "timestamp": 1700003000.5,
+      "source_ip": "10.10.10.15",
+      "query": "api.github.com",
+      "query_type": "A",
+      "response": null,
+      "answers": []
+    },
+    {
+      "packet_number": 3,
+      "timestamp": 1700003001.0,
+      "source_ip": "10.10.10.15",
+      "query": "slack.com",
+      "query_type": "A",
+      "response": null,
+      "answers": []
+    },
+    {
+      "packet_number": 4,
+      "timestamp": 1700003001.5,
+      "source_ip": "10.10.10.15",
+      "query": "google.com",
+      "query_type": "A",
+      "response": null,
+      "answers": []
+    }
+  ],
+  "http": [],
+  "tls": [
+    {
+      "packet_number": 8,
+      "timestamp": 1700003003.029999,
+      "source_ip": "10.10.10.15",
+      "destination_ip": "140.82.121.4",
+      "version": "TLS 1.2",
+      "handshake_type": "ClientHello",
+      "sni": null
+    }
+  ],
+  "findings": [],
+  "errors": []
+}

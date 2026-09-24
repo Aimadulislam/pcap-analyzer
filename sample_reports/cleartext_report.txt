@@ -1,0 +1,135 @@
+==============================================================================
+      PCAP THREAT ANALYSIS & NETWORK FORENSICS REPORT
+      Automated Defensive Packet Inspection & Threat Parser
+==============================================================================
+
+==============================================================================
+ 1. Analysis Overview
+==============================================================================
+Target Capture:     cleartext_credentials.pcap
+Analysis Status:    Completed successfully
+Total Packets:      7
+Capture Duration:   00:01.019
+Detection Engine:   Rule-based Heuristic Analyzer (Deterministic)
+Total Findings:     2
+Severity Breakdown: CRITICAL: 0 | HIGH: 0 | MEDIUM: 0 | LOW: 2 | INFO: 0
+
+==============================================================================
+ 2. Capture Metadata
+==============================================================================
+File Path:          /app/applet/examples/cleartext_credentials.pcap
+File Size:          668 B (668 bytes)
+Capture Format:     PCAP (Standard Libpcap)
+Dissection Engine:  Native
+Start Timestamp:    2023-11-14 22:46:40 UTC
+End Timestamp:      2023-11-14 22:46:41 UTC
+
+==============================================================================
+ 3. Traffic Statistics
+==============================================================================
+Total Data Volume:  532 B (532 bytes)
+Average Packet:     76.0 bytes
+Unique Endpoints:   3 Source IPs | 3 Destination IPs
+Active Flows:       4 distinct conversation channels
+
+==============================================================================
+ 4. Protocol Distribution
+==============================================================================
+Protocol        Packets      Percentage   Bytes          
+------------------------------------------------------------
+TCP             6             85.71%      324 B          
+HTTP            1             14.29%      208 B          
+
+==============================================================================
+ 5. Top Talkers
+==============================================================================
+Top Transmitting Sources:
+  Source IP              Packets      Traffic Volume  Share     
+  --------------------------------------------------------------
+  192.168.1.42           5            424 B           71.43%
+  198.51.100.80          1            54 B            14.29%
+  203.0.113.99           1            54 B            14.29%
+
+Top Destination Endpoints:
+  Destination IP         Packets      Traffic Volume  Share     
+  --------------------------------------------------------------
+  198.51.100.80          3            316 B           42.86%
+  192.168.1.42           2            108 B           28.57%
+  203.0.113.99           2            108 B           28.57%
+
+==============================================================================
+ 6. Top Conversations (Flow Matrix)
+==============================================================================
+  Flow Identifier                                Pkts     Bytes        Handshake 
+  --------------------------------------------------------------------------
+  192.168.1.42:49200 -> 198.51.100.80:80 [TCP]   3        316 B        ESTABLISHED
+  192.168.1.42:49250 -> 203.0.113.99:4444 [TCP]  2        108 B        ESTABLISHED
+  198.51.100.80:80 -> 192.168.1.42:49200 [TCP]   1        54 B         SYN-ONLY/FAIL
+  203.0.113.99:4444 -> 192.168.1.42:49250 [TCP]  1        54 B         SYN-ONLY/FAIL
+
+==============================================================================
+ 7. DNS Analysis
+==============================================================================
+DNS Resolution Requests Observed: 0
+  No DNS queries identified in this capture.
+
+==============================================================================
+ 8. HTTP Analysis (Cleartext Web)
+==============================================================================
+HTTP Transaction Records Observed: 1
+  Method   Host                         URI                                 
+  ------------------------------------------------------------------------
+  GET      corp-intranet.local          /login.php?user=admin               
+
+==============================================================================
+ 9. TLS Analysis (Encrypted Traffic)
+==============================================================================
+TLS Sessions Identified: 0
+  No TLS ClientHello/Record handshakes observed.
+
+==============================================================================
+ 10. Security Findings & Detections
+==============================================================================
+[LOW] FINDING #01: Activity observed on uncommon port 4444 (Metasploit-Default)
+  Rule Identifier:  RULE-003
+  Category:         Security Observation
+  Confidence Score: 0.65
+  Target Port:      4444 (Metasploit-Default)
+  Description:      Identified 2 packets directed toward destination port 4444, a non-standard port frequently monitored in SOC baselines for Metasploit-Default activity.
+  Telemetry Evidence:
+    - Destination port: 4444
+    - Service reference: Metasploit-Default
+    - Packet count: 2
+    - Total bytes: 108
+    - Source hosts: ['192.168.1.42']
+    - Destination hosts: ['203.0.113.99']
+
+[LOW] FINDING #02: Unencrypted HTTP communication observed
+  Rule Identifier:  RULE-008
+  Category:         Cleartext Communication
+  Confidence Score: 0.95
+  Description:      Identified 3 packets utilizing unencrypted HTTP. Cleartext protocols expose headers, cookies, and payloads to passive packet interception and adversary tampering.
+  Telemetry Evidence:
+    - Protocol: HTTP
+    - Packet count: 3
+    - Observed hosts: ['corp-intranet.local']
+    - Active endpoint pairs: ['192.168.1.42 -> 198.51.100.80']
+
+
+==============================================================================
+ 11. Parsing Errors & Stream Anomalies
+==============================================================================
+  Zero parsing errors encountered. All packets parsed cleanly.
+
+==============================================================================
+ 12. Analyst Notes & Recommendations
+==============================================================================
+  * Heuristic Assessment: Detections are generated using deterministic statistical
+    and layer-boundary rules. An alert indicates suspicious activity patterns,
+    not certified malicious compromise. Corroborate with endpoint telemetry.
+  * Immediate Next Steps:
+    [*] MIGRATION: Audit cleartext web and unencrypted services for TLS enforcement.
+    [*] BASELINE: Verify if high-volume query hosts are legitimate internal resolvers.
+==============================================================================
+                    END OF PCAP INVESTIGATION REPORT
+==============================================================================

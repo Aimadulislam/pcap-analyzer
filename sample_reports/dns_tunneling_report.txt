@@ -1,0 +1,139 @@
+==============================================================================
+      PCAP THREAT ANALYSIS & NETWORK FORENSICS REPORT
+      Automated Defensive Packet Inspection & Threat Parser
+==============================================================================
+
+==============================================================================
+ 1. Analysis Overview
+==============================================================================
+Target Capture:     dns_tunneling_c2.pcap
+Analysis Status:    Completed successfully
+Total Packets:      110
+Capture Duration:   00:05.450
+Detection Engine:   Rule-based Heuristic Analyzer (Deterministic)
+Total Findings:     2
+Severity Breakdown: CRITICAL: 0 | HIGH: 1 | MEDIUM: 1 | LOW: 0 | INFO: 0
+
+==============================================================================
+ 2. Capture Metadata
+==============================================================================
+File Path:          /app/applet/examples/dns_tunneling_c2.pcap
+File Size:          17.38 KB (17,800 bytes)
+Capture Format:     PCAP (Standard Libpcap)
+Dissection Engine:  Native
+Start Timestamp:    2023-11-14 22:30:00 UTC
+End Timestamp:      2023-11-14 22:30:05 UTC
+
+==============================================================================
+ 3. Traffic Statistics
+==============================================================================
+Total Data Volume:  15.64 KB (16,016 bytes)
+Average Packet:     145.6 bytes
+Unique Endpoints:   1 Source IPs | 1 Destination IPs
+Active Flows:       110 distinct conversation channels
+
+==============================================================================
+ 4. Protocol Distribution
+==============================================================================
+Protocol        Packets      Percentage   Bytes          
+------------------------------------------------------------
+DNS             110          100.00%      15.64 KB       
+
+==============================================================================
+ 5. Top Talkers
+==============================================================================
+Top Transmitting Sources:
+  Source IP              Packets      Traffic Volume  Share     
+  --------------------------------------------------------------
+  10.0.5.120             110          15.64 KB        100.00%
+
+Top Destination Endpoints:
+  Destination IP         Packets      Traffic Volume  Share     
+  --------------------------------------------------------------
+  10.0.0.2               110          15.64 KB        100.00%
+
+==============================================================================
+ 6. Top Conversations (Flow Matrix)
+==============================================================================
+  Flow Identifier                                Pkts     Bytes        Handshake 
+  --------------------------------------------------------------------------
+  10.0.5.120:52000 -> 10.0.0.2:53 [UDP]          1        144 B        SYN-ONLY/FAIL
+  10.0.5.120:52001 -> 10.0.0.2:53 [UDP]          1        146 B        SYN-ONLY/FAIL
+  10.0.5.120:52002 -> 10.0.0.2:53 [UDP]          1        146 B        SYN-ONLY/FAIL
+  10.0.5.120:52003 -> 10.0.0.2:53 [UDP]          1        146 B        SYN-ONLY/FAIL
+  10.0.5.120:52004 -> 10.0.0.2:53 [UDP]          1        146 B        SYN-ONLY/FAIL
+  10.0.5.120:52005 -> 10.0.0.2:53 [UDP]          1        144 B        SYN-ONLY/FAIL
+  10.0.5.120:52006 -> 10.0.0.2:53 [UDP]          1        146 B        SYN-ONLY/FAIL
+  10.0.5.120:52007 -> 10.0.0.2:53 [UDP]          1        146 B        SYN-ONLY/FAIL
+
+==============================================================================
+ 7. DNS Analysis
+==============================================================================
+DNS Resolution Requests Observed: 110
+  Packet #   Source IP          Record Queried Domain                      
+  ------------------------------------------------------------------------
+  1          10.0.5.120         A      chunk000.4a6f686e446f655f53534e5... 
+  2          10.0.5.120         A      chunk001.50617373776f72643132332... 
+  3          10.0.5.120         A      chunk002.657866696c74726174696f6... 
+  4          10.0.5.120         A      chunk003.63325f68656172746265617... 
+  5          10.0.5.120         A      chunk004.6b657967656e5f7273615f3... 
+  6          10.0.5.120         A      chunk005.4a6f686e446f655f53534e5... 
+  7          10.0.5.120         A      chunk006.50617373776f72643132332... 
+  8          10.0.5.120         A      chunk007.657866696c74726174696f6... 
+
+==============================================================================
+ 8. HTTP Analysis (Cleartext Web)
+==============================================================================
+HTTP Transaction Records Observed: 0
+  No cleartext HTTP request/response payloads detected.
+
+==============================================================================
+ 9. TLS Analysis (Encrypted Traffic)
+==============================================================================
+TLS Sessions Identified: 0
+  No TLS ClientHello/Record handshakes observed.
+
+==============================================================================
+ 10. Security Findings & Detections
+==============================================================================
+[HIGH] FINDING #01: Suspicious DNS query characteristics detected (Potential DNS Tunneling / DGA)
+  Rule Identifier:  RULE-005
+  Category:         DNS Anomaly
+  Confidence Score: 0.82
+  Source Endpoint:  10.0.5.120
+  Description:      Observed 110 DNS queries from 10.0.5.120 with abnormal structural properties (excessive string length and/or elevated Shannon entropy in subdomain prefixes), frequently associated with data staging over DNS or algorithmic domain generation.
+  Telemetry Evidence:
+    - Suspicious query count: 110
+    - Sample queries: [{'domain': 'chunk000.4a6f686e446f655f53534e5f3939392d30302d31323334.tunnel.stealth-c2-domain.org', 'length': 84, 'subdomain_entropy': 2.406, 'source_ip': '10.0.5.120', 'reason': 'Excessive string length'}, {'domain': 'chunk001.50617373776f7264313233215f41646d696e5f546f6b656e.tunnel.stealth-c2-domain.org', 'length': 86, 'subdomain_entropy': 2.75, 'source_ip': '10.0.5.120', 'reason': 'Excessive string length'}, {'domain': 'chunk002.657866696c74726174696f6e5f62617463685f3030313233.tunnel.stealth-c2-domain.org', 'length': 86, 'subdomain_entropy': 2.75, 'source_ip': '10.0.5.120', 'reason': 'Excessive string length'}, {'domain': 'chunk003.63325f6865617274626561745f6163746976655f73657373.tunnel.stealth-c2-domain.org', 'length': 86, 'subdomain_entropy': 2.75, 'source_ip': '10.0.5.120', 'reason': 'Excessive string length'}, {'domain': 'chunk004.6b657967656e5f7273615f343039365f707269766174656b.tunnel.stealth-c2-domain.org', 'length': 86, 'subdomain_entropy': 2.75, 'source_ip': '10.0.5.120', 'reason': 'Excessive string length'}, {'domain': 'chunk005.4a6f686e446f655f53534e5f3939392d30302d31323334.tunnel.stealth-c2-domain.org', 'length': 84, 'subdomain_entropy': 2.75, 'source_ip': '10.0.5.120', 'reason': 'Excessive string length'}, {'domain': 'chunk006.50617373776f7264313233215f41646d696e5f546f6b656e.tunnel.stealth-c2-domain.org', 'length': 86, 'subdomain_entropy': 2.75, 'source_ip': '10.0.5.120', 'reason': 'Excessive string length'}, {'domain': 'chunk007.657866696c74726174696f6e5f62617463685f3030313233.tunnel.stealth-c2-domain.org', 'length': 86, 'subdomain_entropy': 2.75, 'source_ip': '10.0.5.120', 'reason': 'Excessive string length'}]
+
+[MEDIUM] FINDING #02: High DNS query volume from client host
+  Rule Identifier:  RULE-004
+  Category:         DNS Anomaly
+  Confidence Score: 0.70
+  Source Endpoint:  10.0.5.120
+  Description:      Host 10.0.5.120 generated 110 DNS queries (20.2 queries/sec) requesting 110 unique domains. Elevated query volume may warrant investigation into local background processes or C2 polling.
+  Telemetry Evidence:
+    - Total dns queries: 110
+    - Queries per second: 20.18
+    - Unique domains queried: 110
+    - Sample domains: ['chunk000.4a6f686e446f655f53534e5f3939392d30302d31323334.tunnel.stealth-c2-domain.org', 'chunk001.50617373776f7264313233215f41646d696e5f546f6b656e.tunnel.stealth-c2-domain.org', 'chunk002.657866696c74726174696f6e5f62617463685f3030313233.tunnel.stealth-c2-domain.org', 'chunk003.63325f6865617274626561745f6163746976655f73657373.tunnel.stealth-c2-domain.org', 'chunk004.6b657967656e5f7273615f343039365f707269766174656b.tunnel.stealth-c2-domain.org']
+
+
+==============================================================================
+ 11. Parsing Errors & Stream Anomalies
+==============================================================================
+  Zero parsing errors encountered. All packets parsed cleanly.
+
+==============================================================================
+ 12. Analyst Notes & Recommendations
+==============================================================================
+  * Heuristic Assessment: Detections are generated using deterministic statistical
+    and layer-boundary rules. An alert indicates suspicious activity patterns,
+    not certified malicious compromise. Corroborate with endpoint telemetry.
+  * Immediate Next Steps:
+    [!] HIGH PRIORITY: Investigate identified reconnaissance and anomalous sources.
+    [!] Correlate targeted ports against firewall logs and internal asset inventories.
+    [*] BASELINE: Verify if high-volume query hosts are legitimate internal resolvers.
+==============================================================================
+                    END OF PCAP INVESTIGATION REPORT
+==============================================================================

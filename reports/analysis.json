@@ -1,0 +1,1687 @@
+{
+  "metadata": {
+    "file_path": "/app/applet/tests/fixtures/mixed_forensics.pcap",
+    "file_name": "mixed_forensics.pcap",
+    "file_size_bytes": 3338,
+    "file_format": "PCAP (Standard Libpcap)",
+    "packet_count": 30,
+    "first_timestamp": 1.0,
+    "last_timestamp": 5.0,
+    "duration_seconds": 4.0,
+    "parser_engine": "Native",
+    "sha256_hash": "df85f5e20a241c3d30de7a5436b75d8ca179b9d739b6b31ca31d06b7e4f08515",
+    "analysis_timestamp": "2026-09-23T13:07:34.339201+00:00",
+    "analyzer_version": "2.0.0",
+    "profile_name": "home_lab",
+    "profile_source": "built-in (home_lab)"
+  },
+  "integrity": {
+    "sha256": "df85f5e20a241c3d30de7a5436b75d8ca179b9d739b6b31ca31d06b7e4f08515",
+    "file_name": "mixed_forensics.pcap",
+    "file_size_bytes": 3338
+  },
+  "configuration": {
+    "profile_name": "home_lab",
+    "profile_description": "Sensitive profile for low-traffic homelabs, student labs, and developer testbeds.",
+    "syn_scan_unique_port_threshold": 6,
+    "syn_scan_unique_host_threshold": 4,
+    "syn_scan_min_packets": 8,
+    "syn_scan_completion_ratio_max": 0.35,
+    "connection_flood_rate_threshold": 80.0,
+    "connection_flood_min_packets": 120,
+    "unusual_ports": [
+      1337,
+      31337,
+      4444,
+      4445,
+      5555,
+      6667,
+      8888,
+      9999,
+      12345,
+      2323
+    ],
+    "unusual_port_packet_threshold": 2,
+    "dns_query_volume_threshold": 30,
+    "dns_query_rate_threshold": 20.0,
+    "dns_suspicious_length_threshold": 45,
+    "dns_high_entropy_threshold": 3.75,
+    "dns_unique_domains_threshold": 15,
+    "dns_tunneling_min_label_length": 24,
+    "http_uri_max_length": 256,
+    "http_uncommon_ports": [
+      8080,
+      8000,
+      8888,
+      8880,
+      3000,
+      5000
+    ],
+    "tls_uncommon_ports": [
+      8443,
+      9443,
+      4433,
+      10443
+    ],
+    "failed_connection_threshold": 8,
+    "icmp_volume_threshold": 25,
+    "icmp_rate_threshold": 15.0,
+    "cleartext_protocols": [
+      "HTTP",
+      "FTP",
+      "TELNET",
+      "POP3",
+      "IMAP"
+    ]
+  },
+  "summary": {
+    "total_packets": 30,
+    "total_bytes": 2834,
+    "capture_duration": 4.0,
+    "unique_source_ips": 7,
+    "unique_destination_ips": 7,
+    "unique_conversations": 22,
+    "tcp_packet_count": 23,
+    "udp_packet_count": 7,
+    "icmp_packet_count": 0,
+    "dns_packet_count": 7,
+    "http_packet_count": 3,
+    "tls_packet_count": 2,
+    "total_syn_packets": 16,
+    "completed_handshakes": 1,
+    "incomplete_handshakes": 15,
+    "total_resets": 0,
+    "protocol_distribution": {
+      "DNS": 7,
+      "TCP": 18,
+      "TLS": 2,
+      "HTTP": 3
+    },
+    "protocol_bytes": {
+      "DNS": 677,
+      "TCP": 972,
+      "TLS": 270,
+      "HTTP": 915
+    },
+    "top_source_ips": [
+      {
+        "ip": "10.0.0.99",
+        "packet_count": 15,
+        "byte_count": 810,
+        "percentage": 50.0
+      },
+      {
+        "ip": "192.168.10.45",
+        "packet_count": 5,
+        "byte_count": 515,
+        "percentage": 16.67
+      },
+      {
+        "ip": "192.168.1.50",
+        "packet_count": 4,
+        "byte_count": 316,
+        "percentage": 13.33
+      },
+      {
+        "ip": "172.16.5.20",
+        "packet_count": 3,
+        "byte_count": 915,
+        "percentage": 10.0
+      },
+      {
+        "ip": "1.1.1.1",
+        "packet_count": 1,
+        "byte_count": 89,
+        "percentage": 3.33
+      },
+      {
+        "ip": "192.168.1.10",
+        "packet_count": 1,
+        "byte_count": 54,
+        "percentage": 3.33
+      },
+      {
+        "ip": "192.168.20.15",
+        "packet_count": 1,
+        "byte_count": 135,
+        "percentage": 3.33
+      }
+    ],
+    "top_destination_ips": [
+      {
+        "ip": "10.0.0.1",
+        "packet_count": 15,
+        "byte_count": 810,
+        "percentage": 50.0
+      },
+      {
+        "ip": "8.8.8.8",
+        "packet_count": 5,
+        "byte_count": 515,
+        "percentage": 16.67
+      },
+      {
+        "ip": "192.168.1.10",
+        "packet_count": 3,
+        "byte_count": 243,
+        "percentage": 10.0
+      },
+      {
+        "ip": "172.16.5.80",
+        "packet_count": 3,
+        "byte_count": 915,
+        "percentage": 10.0
+      },
+      {
+        "ip": "192.168.1.50",
+        "packet_count": 2,
+        "byte_count": 143,
+        "percentage": 6.67
+      },
+      {
+        "ip": "1.1.1.1",
+        "packet_count": 1,
+        "byte_count": 73,
+        "percentage": 3.33
+      },
+      {
+        "ip": "192.168.20.5",
+        "packet_count": 1,
+        "byte_count": 135,
+        "percentage": 3.33
+      }
+    ],
+    "top_destination_ports": [
+      {
+        "port": 53,
+        "packet_count": 6,
+        "percentage": 20.0
+      },
+      {
+        "port": 443,
+        "packet_count": 4,
+        "percentage": 13.33
+      },
+      {
+        "port": 80,
+        "packet_count": 3,
+        "percentage": 10.0
+      },
+      {
+        "port": 54321,
+        "packet_count": 1,
+        "percentage": 3.33
+      },
+      {
+        "port": 49152,
+        "packet_count": 1,
+        "percentage": 3.33
+      },
+      {
+        "port": 1000,
+        "packet_count": 1,
+        "percentage": 3.33
+      },
+      {
+        "port": 1001,
+        "packet_count": 1,
+        "percentage": 3.33
+      },
+      {
+        "port": 1002,
+        "packet_count": 1,
+        "percentage": 3.33
+      },
+      {
+        "port": 1003,
+        "packet_count": 1,
+        "percentage": 3.33
+      },
+      {
+        "port": 1004,
+        "packet_count": 1,
+        "percentage": 3.33
+      }
+    ],
+    "tcp_flags_distribution": {
+      "SYN": 17,
+      "ACK": 7
+    }
+  },
+  "protocols": {
+    "DNS": 7,
+    "TCP": 18,
+    "TLS": 2,
+    "HTTP": 3
+  },
+  "top_sources": [
+    {
+      "ip": "10.0.0.99",
+      "packet_count": 15,
+      "byte_count": 810,
+      "percentage": 50.0
+    },
+    {
+      "ip": "192.168.10.45",
+      "packet_count": 5,
+      "byte_count": 515,
+      "percentage": 16.67
+    },
+    {
+      "ip": "192.168.1.50",
+      "packet_count": 4,
+      "byte_count": 316,
+      "percentage": 13.33
+    },
+    {
+      "ip": "172.16.5.20",
+      "packet_count": 3,
+      "byte_count": 915,
+      "percentage": 10.0
+    },
+    {
+      "ip": "1.1.1.1",
+      "packet_count": 1,
+      "byte_count": 89,
+      "percentage": 3.33
+    },
+    {
+      "ip": "192.168.1.10",
+      "packet_count": 1,
+      "byte_count": 54,
+      "percentage": 3.33
+    },
+    {
+      "ip": "192.168.20.15",
+      "packet_count": 1,
+      "byte_count": 135,
+      "percentage": 3.33
+    }
+  ],
+  "top_destinations": [
+    {
+      "ip": "10.0.0.1",
+      "packet_count": 15,
+      "byte_count": 810,
+      "percentage": 50.0
+    },
+    {
+      "ip": "8.8.8.8",
+      "packet_count": 5,
+      "byte_count": 515,
+      "percentage": 16.67
+    },
+    {
+      "ip": "192.168.1.10",
+      "packet_count": 3,
+      "byte_count": 243,
+      "percentage": 10.0
+    },
+    {
+      "ip": "172.16.5.80",
+      "packet_count": 3,
+      "byte_count": 915,
+      "percentage": 10.0
+    },
+    {
+      "ip": "192.168.1.50",
+      "packet_count": 2,
+      "byte_count": 143,
+      "percentage": 6.67
+    },
+    {
+      "ip": "1.1.1.1",
+      "packet_count": 1,
+      "byte_count": 73,
+      "percentage": 3.33
+    },
+    {
+      "ip": "192.168.20.5",
+      "packet_count": 1,
+      "byte_count": 135,
+      "percentage": 3.33
+    }
+  ],
+  "flows": [
+    {
+      "flow_id": "192.168.10.45:54321 -> 8.8.8.8:53 [UDP]",
+      "source_ip": "192.168.10.45",
+      "destination_ip": "8.8.8.8",
+      "source_port": 54321,
+      "destination_port": 53,
+      "protocol": "UDP",
+      "packet_count": 5,
+      "byte_count": 515,
+      "first_seen": 3.0,
+      "last_seen": 3.399999,
+      "duration_seconds": 0.3999990000000002,
+      "packets_per_second": 12.5,
+      "bytes_per_second": 1287.5,
+      "syn_count": 0,
+      "syn_ack_count": 0,
+      "ack_count": 0,
+      "fin_count": 0,
+      "rst_count": 0,
+      "completed_handshake": false,
+      "classification": "UDP communication"
+    },
+    {
+      "flow_id": "192.168.1.50:49152 -> 192.168.1.10:443 [TCP]",
+      "source_ip": "192.168.1.50",
+      "destination_ip": "192.168.1.10",
+      "source_port": 49152,
+      "destination_port": 443,
+      "protocol": "TCP",
+      "packet_count": 3,
+      "byte_count": 243,
+      "first_seen": 1.199999,
+      "last_seen": 1.229999,
+      "duration_seconds": 0.030000000000000027,
+      "packets_per_second": 100.0,
+      "bytes_per_second": 8100.0,
+      "syn_count": 1,
+      "syn_ack_count": 0,
+      "ack_count": 2,
+      "fin_count": 0,
+      "rst_count": 0,
+      "completed_handshake": true,
+      "classification": "normal TCP session"
+    },
+    {
+      "flow_id": "172.16.5.20:49152 -> 172.16.5.80:80 [TCP]",
+      "source_ip": "172.16.5.20",
+      "destination_ip": "172.16.5.80",
+      "source_port": 49152,
+      "destination_port": 80,
+      "protocol": "TCP",
+      "packet_count": 3,
+      "byte_count": 915,
+      "first_seen": 4.0,
+      "last_seen": 4.2,
+      "duration_seconds": 0.20000000000000018,
+      "packets_per_second": 15.0,
+      "bytes_per_second": 4575.0,
+      "syn_count": 0,
+      "syn_ack_count": 0,
+      "ack_count": 3,
+      "fin_count": 0,
+      "rst_count": 0,
+      "completed_handshake": false,
+      "classification": "normal TCP session"
+    },
+    {
+      "flow_id": "192.168.1.50:54321 -> 1.1.1.1:53 [UDP]",
+      "source_ip": "192.168.1.50",
+      "destination_ip": "1.1.1.1",
+      "source_port": 54321,
+      "destination_port": 53,
+      "protocol": "UDP",
+      "packet_count": 1,
+      "byte_count": 73,
+      "first_seen": 1.0,
+      "last_seen": 1.0,
+      "duration_seconds": 0.0,
+      "packets_per_second": 1000.0,
+      "bytes_per_second": 73000.0,
+      "syn_count": 0,
+      "syn_ack_count": 0,
+      "ack_count": 0,
+      "fin_count": 0,
+      "rst_count": 0,
+      "completed_handshake": false,
+      "classification": "UDP communication"
+    },
+    {
+      "flow_id": "1.1.1.1:53 -> 192.168.1.50:54321 [UDP]",
+      "source_ip": "1.1.1.1",
+      "destination_ip": "192.168.1.50",
+      "source_port": 53,
+      "destination_port": 54321,
+      "protocol": "UDP",
+      "packet_count": 1,
+      "byte_count": 89,
+      "first_seen": 1.05,
+      "last_seen": 1.05,
+      "duration_seconds": 0.0,
+      "packets_per_second": 1000.0,
+      "bytes_per_second": 89000.0,
+      "syn_count": 0,
+      "syn_ack_count": 0,
+      "ack_count": 0,
+      "fin_count": 0,
+      "rst_count": 0,
+      "completed_handshake": false,
+      "classification": "UDP communication"
+    },
+    {
+      "flow_id": "192.168.1.10:443 -> 192.168.1.50:49152 [TCP]",
+      "source_ip": "192.168.1.10",
+      "destination_ip": "192.168.1.50",
+      "source_port": 443,
+      "destination_port": 49152,
+      "protocol": "TCP",
+      "packet_count": 1,
+      "byte_count": 54,
+      "first_seen": 1.209999,
+      "last_seen": 1.209999,
+      "duration_seconds": 0.0,
+      "packets_per_second": 1000.0,
+      "bytes_per_second": 54000.0,
+      "syn_count": 0,
+      "syn_ack_count": 1,
+      "ack_count": 0,
+      "fin_count": 0,
+      "rst_count": 0,
+      "completed_handshake": false,
+      "classification": "normal TCP session"
+    },
+    {
+      "flow_id": "10.0.0.99:45000 -> 10.0.0.1:1000 [TCP]",
+      "source_ip": "10.0.0.99",
+      "destination_ip": "10.0.0.1",
+      "source_port": 45000,
+      "destination_port": 1000,
+      "protocol": "TCP",
+      "packet_count": 1,
+      "byte_count": 54,
+      "first_seen": 2.0,
+      "last_seen": 2.0,
+      "duration_seconds": 0.0,
+      "packets_per_second": 1000.0,
+      "bytes_per_second": 54000.0,
+      "syn_count": 1,
+      "syn_ack_count": 0,
+      "ack_count": 0,
+      "fin_count": 0,
+      "rst_count": 0,
+      "completed_handshake": false,
+      "classification": "incomplete TCP connection"
+    },
+    {
+      "flow_id": "10.0.0.99:45001 -> 10.0.0.1:1001 [TCP]",
+      "source_ip": "10.0.0.99",
+      "destination_ip": "10.0.0.1",
+      "source_port": 45001,
+      "destination_port": 1001,
+      "protocol": "TCP",
+      "packet_count": 1,
+      "byte_count": 54,
+      "first_seen": 2.049999,
+      "last_seen": 2.049999,
+      "duration_seconds": 0.0,
+      "packets_per_second": 1000.0,
+      "bytes_per_second": 54000.0,
+      "syn_count": 1,
+      "syn_ack_count": 0,
+      "ack_count": 0,
+      "fin_count": 0,
+      "rst_count": 0,
+      "completed_handshake": false,
+      "classification": "incomplete TCP connection"
+    },
+    {
+      "flow_id": "10.0.0.99:45002 -> 10.0.0.1:1002 [TCP]",
+      "source_ip": "10.0.0.99",
+      "destination_ip": "10.0.0.1",
+      "source_port": 45002,
+      "destination_port": 1002,
+      "protocol": "TCP",
+      "packet_count": 1,
+      "byte_count": 54,
+      "first_seen": 2.1,
+      "last_seen": 2.1,
+      "duration_seconds": 0.0,
+      "packets_per_second": 1000.0,
+      "bytes_per_second": 54000.0,
+      "syn_count": 1,
+      "syn_ack_count": 0,
+      "ack_count": 0,
+      "fin_count": 0,
+      "rst_count": 0,
+      "completed_handshake": false,
+      "classification": "incomplete TCP connection"
+    },
+    {
+      "flow_id": "10.0.0.99:45003 -> 10.0.0.1:1003 [TCP]",
+      "source_ip": "10.0.0.99",
+      "destination_ip": "10.0.0.1",
+      "source_port": 45003,
+      "destination_port": 1003,
+      "protocol": "TCP",
+      "packet_count": 1,
+      "byte_count": 54,
+      "first_seen": 2.149999,
+      "last_seen": 2.149999,
+      "duration_seconds": 0.0,
+      "packets_per_second": 1000.0,
+      "bytes_per_second": 54000.0,
+      "syn_count": 1,
+      "syn_ack_count": 0,
+      "ack_count": 0,
+      "fin_count": 0,
+      "rst_count": 0,
+      "completed_handshake": false,
+      "classification": "incomplete TCP connection"
+    },
+    {
+      "flow_id": "10.0.0.99:45004 -> 10.0.0.1:1004 [TCP]",
+      "source_ip": "10.0.0.99",
+      "destination_ip": "10.0.0.1",
+      "source_port": 45004,
+      "destination_port": 1004,
+      "protocol": "TCP",
+      "packet_count": 1,
+      "byte_count": 54,
+      "first_seen": 2.2,
+      "last_seen": 2.2,
+      "duration_seconds": 0.0,
+      "packets_per_second": 1000.0,
+      "bytes_per_second": 54000.0,
+      "syn_count": 1,
+      "syn_ack_count": 0,
+      "ack_count": 0,
+      "fin_count": 0,
+      "rst_count": 0,
+      "completed_handshake": false,
+      "classification": "incomplete TCP connection"
+    },
+    {
+      "flow_id": "10.0.0.99:45005 -> 10.0.0.1:1005 [TCP]",
+      "source_ip": "10.0.0.99",
+      "destination_ip": "10.0.0.1",
+      "source_port": 45005,
+      "destination_port": 1005,
+      "protocol": "TCP",
+      "packet_count": 1,
+      "byte_count": 54,
+      "first_seen": 2.25,
+      "last_seen": 2.25,
+      "duration_seconds": 0.0,
+      "packets_per_second": 1000.0,
+      "bytes_per_second": 54000.0,
+      "syn_count": 1,
+      "syn_ack_count": 0,
+      "ack_count": 0,
+      "fin_count": 0,
+      "rst_count": 0,
+      "completed_handshake": false,
+      "classification": "incomplete TCP connection"
+    },
+    {
+      "flow_id": "10.0.0.99:45006 -> 10.0.0.1:1006 [TCP]",
+      "source_ip": "10.0.0.99",
+      "destination_ip": "10.0.0.1",
+      "source_port": 45006,
+      "destination_port": 1006,
+      "protocol": "TCP",
+      "packet_count": 1,
+      "byte_count": 54,
+      "first_seen": 2.299999,
+      "last_seen": 2.299999,
+      "duration_seconds": 0.0,
+      "packets_per_second": 1000.0,
+      "bytes_per_second": 54000.0,
+      "syn_count": 1,
+      "syn_ack_count": 0,
+      "ack_count": 0,
+      "fin_count": 0,
+      "rst_count": 0,
+      "completed_handshake": false,
+      "classification": "incomplete TCP connection"
+    },
+    {
+      "flow_id": "10.0.0.99:45007 -> 10.0.0.1:1007 [TCP]",
+      "source_ip": "10.0.0.99",
+      "destination_ip": "10.0.0.1",
+      "source_port": 45007,
+      "destination_port": 1007,
+      "protocol": "TCP",
+      "packet_count": 1,
+      "byte_count": 54,
+      "first_seen": 2.35,
+      "last_seen": 2.35,
+      "duration_seconds": 0.0,
+      "packets_per_second": 1000.0,
+      "bytes_per_second": 54000.0,
+      "syn_count": 1,
+      "syn_ack_count": 0,
+      "ack_count": 0,
+      "fin_count": 0,
+      "rst_count": 0,
+      "completed_handshake": false,
+      "classification": "incomplete TCP connection"
+    },
+    {
+      "flow_id": "10.0.0.99:45008 -> 10.0.0.1:1008 [TCP]",
+      "source_ip": "10.0.0.99",
+      "destination_ip": "10.0.0.1",
+      "source_port": 45008,
+      "destination_port": 1008,
+      "protocol": "TCP",
+      "packet_count": 1,
+      "byte_count": 54,
+      "first_seen": 2.399999,
+      "last_seen": 2.399999,
+      "duration_seconds": 0.0,
+      "packets_per_second": 1000.0,
+      "bytes_per_second": 54000.0,
+      "syn_count": 1,
+      "syn_ack_count": 0,
+      "ack_count": 0,
+      "fin_count": 0,
+      "rst_count": 0,
+      "completed_handshake": false,
+      "classification": "incomplete TCP connection"
+    },
+    {
+      "flow_id": "10.0.0.99:45009 -> 10.0.0.1:1009 [TCP]",
+      "source_ip": "10.0.0.99",
+      "destination_ip": "10.0.0.1",
+      "source_port": 45009,
+      "destination_port": 1009,
+      "protocol": "TCP",
+      "packet_count": 1,
+      "byte_count": 54,
+      "first_seen": 2.45,
+      "last_seen": 2.45,
+      "duration_seconds": 0.0,
+      "packets_per_second": 1000.0,
+      "bytes_per_second": 54000.0,
+      "syn_count": 1,
+      "syn_ack_count": 0,
+      "ack_count": 0,
+      "fin_count": 0,
+      "rst_count": 0,
+      "completed_handshake": false,
+      "classification": "incomplete TCP connection"
+    },
+    {
+      "flow_id": "10.0.0.99:45010 -> 10.0.0.1:1010 [TCP]",
+      "source_ip": "10.0.0.99",
+      "destination_ip": "10.0.0.1",
+      "source_port": 45010,
+      "destination_port": 1010,
+      "protocol": "TCP",
+      "packet_count": 1,
+      "byte_count": 54,
+      "first_seen": 2.5,
+      "last_seen": 2.5,
+      "duration_seconds": 0.0,
+      "packets_per_second": 1000.0,
+      "bytes_per_second": 54000.0,
+      "syn_count": 1,
+      "syn_ack_count": 0,
+      "ack_count": 0,
+      "fin_count": 0,
+      "rst_count": 0,
+      "completed_handshake": false,
+      "classification": "incomplete TCP connection"
+    },
+    {
+      "flow_id": "10.0.0.99:45011 -> 10.0.0.1:1011 [TCP]",
+      "source_ip": "10.0.0.99",
+      "destination_ip": "10.0.0.1",
+      "source_port": 45011,
+      "destination_port": 1011,
+      "protocol": "TCP",
+      "packet_count": 1,
+      "byte_count": 54,
+      "first_seen": 2.549999,
+      "last_seen": 2.549999,
+      "duration_seconds": 0.0,
+      "packets_per_second": 1000.0,
+      "bytes_per_second": 54000.0,
+      "syn_count": 1,
+      "syn_ack_count": 0,
+      "ack_count": 0,
+      "fin_count": 0,
+      "rst_count": 0,
+      "completed_handshake": false,
+      "classification": "incomplete TCP connection"
+    },
+    {
+      "flow_id": "10.0.0.99:45012 -> 10.0.0.1:1012 [TCP]",
+      "source_ip": "10.0.0.99",
+      "destination_ip": "10.0.0.1",
+      "source_port": 45012,
+      "destination_port": 1012,
+      "protocol": "TCP",
+      "packet_count": 1,
+      "byte_count": 54,
+      "first_seen": 2.6,
+      "last_seen": 2.6,
+      "duration_seconds": 0.0,
+      "packets_per_second": 1000.0,
+      "bytes_per_second": 54000.0,
+      "syn_count": 1,
+      "syn_ack_count": 0,
+      "ack_count": 0,
+      "fin_count": 0,
+      "rst_count": 0,
+      "completed_handshake": false,
+      "classification": "incomplete TCP connection"
+    },
+    {
+      "flow_id": "10.0.0.99:45013 -> 10.0.0.1:1013 [TCP]",
+      "source_ip": "10.0.0.99",
+      "destination_ip": "10.0.0.1",
+      "source_port": 45013,
+      "destination_port": 1013,
+      "protocol": "TCP",
+      "packet_count": 1,
+      "byte_count": 54,
+      "first_seen": 2.649999,
+      "last_seen": 2.649999,
+      "duration_seconds": 0.0,
+      "packets_per_second": 1000.0,
+      "bytes_per_second": 54000.0,
+      "syn_count": 1,
+      "syn_ack_count": 0,
+      "ack_count": 0,
+      "fin_count": 0,
+      "rst_count": 0,
+      "completed_handshake": false,
+      "classification": "incomplete TCP connection"
+    },
+    {
+      "flow_id": "10.0.0.99:45014 -> 10.0.0.1:1014 [TCP]",
+      "source_ip": "10.0.0.99",
+      "destination_ip": "10.0.0.1",
+      "source_port": 45014,
+      "destination_port": 1014,
+      "protocol": "TCP",
+      "packet_count": 1,
+      "byte_count": 54,
+      "first_seen": 2.7,
+      "last_seen": 2.7,
+      "duration_seconds": 0.0,
+      "packets_per_second": 1000.0,
+      "bytes_per_second": 54000.0,
+      "syn_count": 1,
+      "syn_ack_count": 0,
+      "ack_count": 0,
+      "fin_count": 0,
+      "rst_count": 0,
+      "completed_handshake": false,
+      "classification": "incomplete TCP connection"
+    },
+    {
+      "flow_id": "192.168.20.15:55555 -> 192.168.20.5:443 [TCP]",
+      "source_ip": "192.168.20.15",
+      "destination_ip": "192.168.20.5",
+      "source_port": 55555,
+      "destination_port": 443,
+      "protocol": "TCP",
+      "packet_count": 1,
+      "byte_count": 135,
+      "first_seen": 5.0,
+      "last_seen": 5.0,
+      "duration_seconds": 0.0,
+      "packets_per_second": 1000.0,
+      "bytes_per_second": 135000.0,
+      "syn_count": 0,
+      "syn_ack_count": 0,
+      "ack_count": 1,
+      "fin_count": 0,
+      "rst_count": 0,
+      "completed_handshake": false,
+      "classification": "normal TCP session"
+    }
+  ],
+  "dns": {
+    "total_queries": 7,
+    "records": [
+      {
+        "timestamp": 1.0,
+        "packet_number": 1,
+        "source_ip": "192.168.1.50",
+        "destination_ip": "1.1.1.1",
+        "query": "corp.internal",
+        "query_type": "A",
+        "response_code": "NOERROR",
+        "answers": [],
+        "is_response": false,
+        "transaction_id": 4660
+      },
+      {
+        "timestamp": 1.05,
+        "packet_number": 2,
+        "source_ip": "1.1.1.1",
+        "destination_ip": "192.168.1.50",
+        "query": "corp.internal",
+        "query_type": "A",
+        "response_code": "NOERROR",
+        "answers": [
+          "192.168.1.10"
+        ],
+        "is_response": true,
+        "transaction_id": 4660
+      },
+      {
+        "timestamp": 3.0,
+        "packet_number": 22,
+        "source_ip": "192.168.10.45",
+        "destination_ip": "8.8.8.8",
+        "query": "v7x9k3m2p8q1w4z6.exfil-stage.tunnel-sec.com",
+        "query_type": "A",
+        "response_code": "NOERROR",
+        "answers": [],
+        "is_response": false,
+        "transaction_id": 8192
+      },
+      {
+        "timestamp": 3.1,
+        "packet_number": 23,
+        "source_ip": "192.168.10.45",
+        "destination_ip": "8.8.8.8",
+        "query": "a9f4c2e8b1d7f3a5.exfil-stage.tunnel-sec.com",
+        "query_type": "A",
+        "response_code": "NOERROR",
+        "answers": [],
+        "is_response": false,
+        "transaction_id": 8193
+      },
+      {
+        "timestamp": 3.2,
+        "packet_number": 24,
+        "source_ip": "192.168.10.45",
+        "destination_ip": "8.8.8.8",
+        "query": "99bb44aa11cc22dd.exfil-stage.tunnel-sec.com",
+        "query_type": "A",
+        "response_code": "NOERROR",
+        "answers": [],
+        "is_response": false,
+        "transaction_id": 8194
+      },
+      {
+        "timestamp": 3.299999,
+        "packet_number": 25,
+        "source_ip": "192.168.10.45",
+        "destination_ip": "8.8.8.8",
+        "query": "d8e1f5b2c7a3e9f4.exfil-stage.tunnel-sec.com",
+        "query_type": "A",
+        "response_code": "NOERROR",
+        "answers": [],
+        "is_response": false,
+        "transaction_id": 8195
+      },
+      {
+        "timestamp": 3.399999,
+        "packet_number": 26,
+        "source_ip": "192.168.10.45",
+        "destination_ip": "8.8.8.8",
+        "query": "3a8f2c9e7b1d5f4a.exfil-stage.tunnel-sec.com",
+        "query_type": "A",
+        "response_code": "NOERROR",
+        "answers": [],
+        "is_response": false,
+        "transaction_id": 8196
+      }
+    ]
+  },
+  "http": {
+    "total_transactions": 3,
+    "records": [
+      {
+        "timestamp": 4.0,
+        "packet_number": 27,
+        "source_ip": "172.16.5.20",
+        "destination_ip": "172.16.5.80",
+        "source_port": 49152,
+        "destination_port": 80,
+        "method": "GET",
+        "host": "intranet.local",
+        "uri": "/",
+        "user_agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+        "status_code": null,
+        "content_type": null
+      },
+      {
+        "timestamp": 4.099999,
+        "packet_number": 28,
+        "source_ip": "172.16.5.20",
+        "destination_ip": "172.16.5.80",
+        "source_port": 49152,
+        "destination_port": 80,
+        "method": "GET",
+        "host": "intranet.local",
+        "uri": "/admin/login.php?id=1'",
+        "user_agent": "sqlmap/1.6#stable",
+        "status_code": null,
+        "content_type": null
+      },
+      {
+        "timestamp": 4.2,
+        "packet_number": 29,
+        "source_ip": "172.16.5.20",
+        "destination_ip": "172.16.5.80",
+        "source_port": 49152,
+        "destination_port": 80,
+        "method": "GET",
+        "host": "intranet.local",
+        "uri": "/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "user_agent": "nikto/2.1.6",
+        "status_code": null,
+        "content_type": null
+      }
+    ]
+  },
+  "tls": {
+    "total_records": 2,
+    "records": [
+      {
+        "timestamp": 1.229999,
+        "packet_number": 6,
+        "source_ip": "192.168.1.50",
+        "destination_ip": "192.168.1.10",
+        "source_port": 49152,
+        "destination_port": 443,
+        "version": "TLS 1.2",
+        "server_name": "secure.corp.internal",
+        "cipher": "1 suites offered (first: 0xc02f)",
+        "handshake_type": "ClientHello"
+      },
+      {
+        "timestamp": 5.0,
+        "packet_number": 30,
+        "source_ip": "192.168.20.15",
+        "destination_ip": "192.168.20.5",
+        "source_port": 55555,
+        "destination_port": 443,
+        "version": "TLS 1.0",
+        "server_name": "legacy-service.local",
+        "cipher": "1 suites offered (first: 0xc02f)",
+        "handshake_type": "ClientHello"
+      }
+    ]
+  },
+  "iocs": {
+    "ips": [
+      {
+        "type": "IPv4",
+        "value": "10.0.0.99",
+        "source": "IP Header (Private/Internal)",
+        "first_seen": 2.0,
+        "last_seen": 2.7,
+        "packet_count": 15,
+        "context": {
+          "sample_packets": [
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16
+          ],
+          "contexts": []
+        }
+      },
+      {
+        "type": "IPv4",
+        "value": "10.0.0.1",
+        "source": "IP Header (Private/Internal)",
+        "first_seen": 2.0,
+        "last_seen": 2.7,
+        "packet_count": 15,
+        "context": {
+          "sample_packets": [
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16
+          ],
+          "contexts": []
+        }
+      },
+      {
+        "type": "IPv4",
+        "value": "192.168.1.50",
+        "source": "IP Header (Private/Internal)",
+        "first_seen": 1.0,
+        "last_seen": 1.23,
+        "packet_count": 6,
+        "context": {
+          "sample_packets": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "contexts": []
+        }
+      },
+      {
+        "type": "IPv4",
+        "value": "192.168.1.10",
+        "source": "DNS Answer",
+        "first_seen": 1.05,
+        "last_seen": 1.23,
+        "packet_count": 5,
+        "context": {
+          "sample_packets": [
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "contexts": []
+        }
+      },
+      {
+        "type": "IPv4",
+        "value": "192.168.10.45",
+        "source": "IP Header (Private/Internal)",
+        "first_seen": 3.0,
+        "last_seen": 3.4,
+        "packet_count": 5,
+        "context": {
+          "sample_packets": [
+            22,
+            23,
+            24,
+            25,
+            26
+          ],
+          "contexts": []
+        }
+      },
+      {
+        "type": "IPv4",
+        "value": "8.8.8.8",
+        "source": "IP Header (Public/External)",
+        "first_seen": 3.0,
+        "last_seen": 3.4,
+        "packet_count": 5,
+        "context": {
+          "sample_packets": [
+            22,
+            23,
+            24,
+            25,
+            26
+          ],
+          "contexts": []
+        }
+      },
+      {
+        "type": "IPv4",
+        "value": "172.16.5.20",
+        "source": "IP Header (Private/Internal)",
+        "first_seen": 4.0,
+        "last_seen": 4.2,
+        "packet_count": 3,
+        "context": {
+          "sample_packets": [
+            27,
+            28,
+            29
+          ],
+          "contexts": []
+        }
+      },
+      {
+        "type": "IPv4",
+        "value": "172.16.5.80",
+        "source": "IP Header (Private/Internal)",
+        "first_seen": 4.0,
+        "last_seen": 4.2,
+        "packet_count": 3,
+        "context": {
+          "sample_packets": [
+            27,
+            28,
+            29
+          ],
+          "contexts": []
+        }
+      },
+      {
+        "type": "IPv4",
+        "value": "1.1.1.1",
+        "source": "IP Header (Public/External)",
+        "first_seen": 1.0,
+        "last_seen": 1.05,
+        "packet_count": 2,
+        "context": {
+          "sample_packets": [
+            1,
+            2
+          ],
+          "contexts": []
+        }
+      },
+      {
+        "type": "IPv4",
+        "value": "192.168.20.15",
+        "source": "IP Header (Private/Internal)",
+        "first_seen": 5.0,
+        "last_seen": 5.0,
+        "packet_count": 1,
+        "context": {
+          "sample_packets": [
+            30
+          ],
+          "contexts": []
+        }
+      },
+      {
+        "type": "IPv4",
+        "value": "192.168.20.5",
+        "source": "IP Header (Private/Internal)",
+        "first_seen": 5.0,
+        "last_seen": 5.0,
+        "packet_count": 1,
+        "context": {
+          "sample_packets": [
+            30
+          ],
+          "contexts": []
+        }
+      }
+    ],
+    "domains": [
+      {
+        "type": "domain",
+        "value": "intranet.local",
+        "source": "HTTP Host Header",
+        "first_seen": 4.0,
+        "last_seen": 4.2,
+        "packet_count": 3,
+        "context": {
+          "sample_packets": [
+            27,
+            28,
+            29
+          ],
+          "contexts": []
+        }
+      },
+      {
+        "type": "domain",
+        "value": "corp.internal",
+        "source": "DNS Query",
+        "first_seen": 1.0,
+        "last_seen": 1.05,
+        "packet_count": 2,
+        "context": {
+          "sample_packets": [
+            1,
+            2
+          ],
+          "contexts": [
+            "Type A"
+          ]
+        }
+      },
+      {
+        "type": "domain",
+        "value": "secure.corp.internal",
+        "source": "TLS ClientHello SNI",
+        "first_seen": 1.23,
+        "last_seen": 1.23,
+        "packet_count": 1,
+        "context": {
+          "sample_packets": [
+            6
+          ],
+          "contexts": []
+        }
+      },
+      {
+        "type": "domain",
+        "value": "v7x9k3m2p8q1w4z6.exfil-stage.tunnel-sec.com",
+        "source": "DNS Query",
+        "first_seen": 3.0,
+        "last_seen": 3.0,
+        "packet_count": 1,
+        "context": {
+          "sample_packets": [
+            22
+          ],
+          "contexts": [
+            "Type A"
+          ]
+        }
+      },
+      {
+        "type": "domain",
+        "value": "a9f4c2e8b1d7f3a5.exfil-stage.tunnel-sec.com",
+        "source": "DNS Query",
+        "first_seen": 3.1,
+        "last_seen": 3.1,
+        "packet_count": 1,
+        "context": {
+          "sample_packets": [
+            23
+          ],
+          "contexts": [
+            "Type A"
+          ]
+        }
+      },
+      {
+        "type": "domain",
+        "value": "99bb44aa11cc22dd.exfil-stage.tunnel-sec.com",
+        "source": "DNS Query",
+        "first_seen": 3.2,
+        "last_seen": 3.2,
+        "packet_count": 1,
+        "context": {
+          "sample_packets": [
+            24
+          ],
+          "contexts": [
+            "Type A"
+          ]
+        }
+      },
+      {
+        "type": "domain",
+        "value": "d8e1f5b2c7a3e9f4.exfil-stage.tunnel-sec.com",
+        "source": "DNS Query",
+        "first_seen": 3.3,
+        "last_seen": 3.3,
+        "packet_count": 1,
+        "context": {
+          "sample_packets": [
+            25
+          ],
+          "contexts": [
+            "Type A"
+          ]
+        }
+      },
+      {
+        "type": "domain",
+        "value": "3a8f2c9e7b1d5f4a.exfil-stage.tunnel-sec.com",
+        "source": "DNS Query",
+        "first_seen": 3.4,
+        "last_seen": 3.4,
+        "packet_count": 1,
+        "context": {
+          "sample_packets": [
+            26
+          ],
+          "contexts": [
+            "Type A"
+          ]
+        }
+      },
+      {
+        "type": "domain",
+        "value": "legacy-service.local",
+        "source": "TLS ClientHello SNI",
+        "first_seen": 5.0,
+        "last_seen": 5.0,
+        "packet_count": 1,
+        "context": {
+          "sample_packets": [
+            30
+          ],
+          "contexts": []
+        }
+      }
+    ],
+    "urls": [
+      {
+        "type": "url",
+        "value": "http://intranet.local/",
+        "source": "HTTP Request",
+        "first_seen": 4.0,
+        "last_seen": 4.0,
+        "packet_count": 1,
+        "context": {
+          "sample_packets": [
+            27
+          ],
+          "contexts": [
+            "GET"
+          ]
+        }
+      },
+      {
+        "type": "url",
+        "value": "http://intranet.local/admin/login.php?id=1'",
+        "source": "HTTP Request",
+        "first_seen": 4.1,
+        "last_seen": 4.1,
+        "packet_count": 1,
+        "context": {
+          "sample_packets": [
+            28
+          ],
+          "contexts": [
+            "GET"
+          ]
+        }
+      },
+      {
+        "type": "url",
+        "value": "http://intranet.local/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "source": "HTTP Request",
+        "first_seen": 4.2,
+        "last_seen": 4.2,
+        "packet_count": 1,
+        "context": {
+          "sample_packets": [
+            29
+          ],
+          "contexts": [
+            "GET"
+          ]
+        }
+      }
+    ],
+    "hostnames": [],
+    "emails": [],
+    "hashes": []
+  },
+  "findings": [
+    {
+      "finding_id": "RULE-009-scanner-ua",
+      "rule_id": "RULE-009",
+      "timestamp": 0.0,
+      "severity": "HIGH",
+      "confidence": 0.9,
+      "title": "Automated security scanner User-Agent signature observed",
+      "category": "HTTP Security Observation",
+      "description": "Detected 2 HTTP requests containing User-Agent strings associated with automated security testing or vulnerability scanning tools.",
+      "source_ip": null,
+      "destination_ip": null,
+      "source_port": null,
+      "destination_port": null,
+      "protocol": "HTTP",
+      "evidence": {
+        "occurrence_count": 2,
+        "signatures_observed": [
+          "sqlmap",
+          "nikto"
+        ],
+        "sample_user_agents": [
+          "sqlmap/1.6#stable",
+          "nikto/2.1.6"
+        ]
+      },
+      "packet_numbers": [
+        28,
+        29
+      ],
+      "recommended_next_step": "Inspect server access logs for corresponding HTTP responses (e.g. 200 vs 403/404).",
+      "limitations": "User-Agent headers can be readily spoofed by arbitrary client applications.",
+      "id": "RULE-009-scanner-ua",
+      "detection_rule": "RULE-009"
+    },
+    {
+      "finding_id": "RULE-001-10-0-0-99",
+      "rule_id": "RULE-001",
+      "timestamp": 2.0,
+      "severity": "HIGH",
+      "confidence": 0.88,
+      "title": "Potential network scanning activity observed",
+      "category": "Reconnaissance",
+      "description": "Host 10.0.0.99 initiated 15 TCP SYN packets targeting 15 unique ports across 1 destination hosts with only 0 established handshakes (0.0% completion). This pattern exhibits characteristics of a vertical port scan.",
+      "source_ip": "10.0.0.99",
+      "destination_ip": null,
+      "source_port": null,
+      "destination_port": null,
+      "protocol": "TCP",
+      "evidence": {
+        "scan_classification": "vertical port scan",
+        "syn_packets_transmitted": 15,
+        "unique_destination_ports_targeted": 15,
+        "unique_destination_hosts_targeted": 1,
+        "completed_handshakes": 0,
+        "handshake_completion_ratio": 0.0,
+        "sample_targeted_ports": [
+          1000,
+          1001,
+          1002,
+          1003,
+          1004,
+          1005,
+          1006,
+          1007,
+          1008,
+          1009,
+          1010,
+          1011,
+          1012,
+          1013,
+          1014
+        ],
+        "sample_targeted_hosts": [
+          "10.0.0.1"
+        ]
+      },
+      "packet_numbers": [
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "recommended_next_step": "Correlate host 10.0.0.99 with internal asset inventory or perimeter firewall logs. Determine if this is an authorized vulnerability scanner or an unapproved host probing internal services.",
+      "limitations": "Offline PCAP analysis cannot distinguish authorized vulnerability scans from adversary reconnaissance without external authorization context.",
+      "id": "RULE-001-10-0-0-99",
+      "detection_rule": "RULE-001"
+    },
+    {
+      "finding_id": "RULE-005-192-168-10-45",
+      "rule_id": "RULE-005",
+      "timestamp": 0.0,
+      "severity": "HIGH",
+      "confidence": 0.84,
+      "title": "Potential DNS tunneling indicators observed",
+      "category": "DNS Anomaly",
+      "description": "Observed 4 DNS queries associated with 192.168.10.45 displaying structural indicators commonly found in DNS tunneling or DGA patterns: elevated Shannon entropy in labels and/or abnormal character length.",
+      "source_ip": "192.168.10.45",
+      "destination_ip": null,
+      "source_port": null,
+      "destination_port": null,
+      "protocol": "DNS",
+      "evidence": {
+        "suspicious_query_count": 4,
+        "sample_queries": [
+          {
+            "domain": "v7x9k3m2p8q1w4z6.exfil-stage.tunnel-sec.com",
+            "length": 43,
+            "subdomain_entropy": 4.0,
+            "source_ip": "192.168.10.45",
+            "reason": "High entropy label"
+          },
+          {
+            "domain": "a9f4c2e8b1d7f3a5.exfil-stage.tunnel-sec.com",
+            "length": 43,
+            "subdomain_entropy": 3.75,
+            "source_ip": "192.168.10.45",
+            "reason": "High entropy label"
+          },
+          {
+            "domain": "d8e1f5b2c7a3e9f4.exfil-stage.tunnel-sec.com",
+            "length": 43,
+            "subdomain_entropy": 3.75,
+            "source_ip": "192.168.10.45",
+            "reason": "High entropy label"
+          },
+          {
+            "domain": "3a8f2c9e7b1d5f4a.exfil-stage.tunnel-sec.com",
+            "length": 43,
+            "subdomain_entropy": 3.75,
+            "source_ip": "192.168.10.45",
+            "reason": "High entropy label"
+          }
+        ],
+        "entropy_threshold": 3.75,
+        "length_threshold": 45
+      },
+      "packet_numbers": [
+        22,
+        23,
+        25,
+        26
+      ],
+      "recommended_next_step": "Capture full authoritative DNS responses and inspect TXT or NULL records. Cross-check queried domains with WHOIS registration dates and threat intelligence feeds.",
+      "limitations": "Legitimate CDN distribution, anti-virus cloud lookups, and tracking pixels can generate high-entropy subdomains without malicious intent.",
+      "id": "RULE-005-192-168-10-45",
+      "detection_rule": "RULE-005"
+    },
+    {
+      "finding_id": "RULE-010-legacy-tls-1.0",
+      "rule_id": "RULE-010",
+      "timestamp": 0.0,
+      "severity": "MEDIUM",
+      "confidence": 0.92,
+      "title": "Legacy TLS 1.0 protocol negotiation observed",
+      "category": "TLS Security Observation",
+      "description": "Identified 1 TLS records negotiating deprecated protocol TLS 1.0. Legacy TLS versions suffer from known cryptographic vulnerabilities (e.g. POODLE, BEAST) and are prohibited under modern security compliance baselines (PCI-DSS, NIST SP 800-52r2).",
+      "source_ip": null,
+      "destination_ip": null,
+      "source_port": null,
+      "destination_port": null,
+      "protocol": "TLS",
+      "evidence": {
+        "protocol_version": "TLS 1.0",
+        "packet_count": 1,
+        "observed_sources": [
+          "192.168.20.15"
+        ],
+        "observed_destinations": [
+          "192.168.20.5"
+        ]
+      },
+      "packet_numbers": [
+        30
+      ],
+      "recommended_next_step": "Enforce TLS 1.2 or TLS 1.3 minimum versions on server endpoints negotiating TLS 1.0.",
+      "limitations": "Legacy client software or legacy embedded devices may fail to connect if older protocols are disabled.",
+      "id": "RULE-010-legacy-tls-1.0",
+      "detection_rule": "RULE-010"
+    },
+    {
+      "finding_id": "RULE-008-http",
+      "rule_id": "RULE-008",
+      "timestamp": 0.0,
+      "severity": "LOW",
+      "confidence": 0.95,
+      "title": "Unencrypted HTTP communication observed",
+      "category": "Cleartext Communication",
+      "description": "Identified 3 packets utilizing unencrypted HTTP. Cleartext protocols expose headers, session tokens, and payloads to passive eavesdropping.",
+      "source_ip": null,
+      "destination_ip": null,
+      "source_port": null,
+      "destination_port": null,
+      "protocol": "HTTP",
+      "evidence": {
+        "protocol": "HTTP",
+        "packet_count": 3,
+        "observed_hosts": [
+          "intranet.local"
+        ],
+        "active_endpoint_pairs": [
+          "172.16.5.20 -> 172.16.5.80"
+        ]
+      },
+      "packet_numbers": [
+        27,
+        28,
+        29
+      ],
+      "recommended_next_step": "Migrate unencrypted HTTP communication to modern encrypted alternatives (e.g., HTTPS, SFTP, SSH) to protect data in transit.",
+      "limitations": "Does not assess whether application-level encryption was implemented on top of the cleartext stream.",
+      "id": "RULE-008-http",
+      "detection_rule": "RULE-008"
+    },
+    {
+      "finding_id": "RULE-006-10-0-0-99",
+      "rule_id": "RULE-006",
+      "timestamp": 0.0,
+      "severity": "LOW",
+      "confidence": 0.7,
+      "title": "Repeated failed TCP connection attempts observed",
+      "category": "Connection Anomaly",
+      "description": "Host 10.0.0.99 initiated 15 TCP connection attempts that failed to complete the standard 3-way handshake, suggesting unreachable services or filtering.",
+      "source_ip": "10.0.0.99",
+      "destination_ip": null,
+      "source_port": null,
+      "destination_port": null,
+      "protocol": "TCP",
+      "evidence": {
+        "failed_syn_count": 15,
+        "targeted_destinations_sample": [
+          "10.0.0.1:1000",
+          "10.0.0.1:1001",
+          "10.0.0.1:1002",
+          "10.0.0.1:1003",
+          "10.0.0.1:1004",
+          "10.0.0.1:1005",
+          "10.0.0.1:1006",
+          "10.0.0.1:1007",
+          "10.0.0.1:1008",
+          "10.0.0.1:1009"
+        ]
+      },
+      "packet_numbers": [],
+      "recommended_next_step": "Check firewall logs and service availability for targets of 10.0.0.99. Determine if this is misconfigured polling software or systematic port checking.",
+      "limitations": "Transient network packet loss or asymmetric routing can cause missed SYN-ACKs.",
+      "id": "RULE-006-10-0-0-99",
+      "detection_rule": "RULE-006"
+    },
+    {
+      "finding_id": "RULE-009-long-uri",
+      "rule_id": "RULE-009",
+      "timestamp": 0.0,
+      "severity": "LOW",
+      "confidence": 0.7,
+      "title": "Unusually long HTTP URI path observed",
+      "category": "HTTP Security Observation",
+      "description": "Observed 1 HTTP requests with URIs exceeding threshold (256 characters), commonly seen in parameter fuzzing or exploit payloads.",
+      "source_ip": null,
+      "destination_ip": null,
+      "source_port": null,
+      "destination_port": null,
+      "protocol": "HTTP",
+      "evidence": {
+        "long_uri_count": 1,
+        "samples": [
+          {
+            "length": 301,
+            "uri_sample": "/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...",
+            "source": "172.16.5.20",
+            "packet": 29
+          }
+        ]
+      },
+      "packet_numbers": [
+        29
+      ],
+      "recommended_next_step": "Review the URI parameters for SQL injection, path traversal, or command injection strings.",
+      "limitations": "Certain REST APIs and OAuth redirect URIs legitimately construct long URL query parameters.",
+      "id": "RULE-009-long-uri",
+      "detection_rule": "RULE-009"
+    }
+  ],
+  "errors": []
+}

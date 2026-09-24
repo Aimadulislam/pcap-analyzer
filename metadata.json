@@ -1,0 +1,6 @@
+{
+  "name": "Automated Python PCAP Analyzer & Threat Parser",
+  "description": "Production-grade defensive network forensics and PCAP packet threat parsing engine with flow analysis and heuristic anomaly detection.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

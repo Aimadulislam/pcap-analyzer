@@ -1,0 +1,20 @@
+{
+  "profile_name": "default",
+  "description": "Standard SOC baseline profile for general network forensic investigations",
+  "detection": {
+    "profile_name": "default",
+    "syn_scan_unique_port_threshold": 20,
+    "syn_scan_unique_host_threshold": 15,
+    "syn_scan_min_packets": 25,
+    "syn_scan_completion_ratio_max": 0.20,
+    "dns_query_volume_threshold": 100,
+    "dns_query_rate_threshold": 20.0,
+    "dns_suspicious_length_threshold": 50,
+    "dns_high_entropy_threshold": 3.85,
+    "dns_unique_domains_threshold": 40,
+    "dns_tunneling_min_label_length": 24,
+    "http_uri_max_length": 256,
+    "icmp_volume_threshold": 80,
+    "failed_connection_threshold": 25
+  }
+}

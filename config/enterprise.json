@@ -1,0 +1,20 @@
+{
+  "profile_name": "enterprise",
+  "description": "Tuned for busy corporate enterprise segments with higher baseline traffic volume",
+  "detection": {
+    "profile_name": "enterprise",
+    "syn_scan_unique_port_threshold": 40,
+    "syn_scan_unique_host_threshold": 30,
+    "syn_scan_min_packets": 50,
+    "syn_scan_completion_ratio_max": 0.15,
+    "dns_query_volume_threshold": 500,
+    "dns_query_rate_threshold": 50.0,
+    "dns_suspicious_length_threshold": 65,
+    "dns_high_entropy_threshold": 4.10,
+    "dns_unique_domains_threshold": 150,
+    "dns_tunneling_min_label_length": 28,
+    "http_uri_max_length": 350,
+    "icmp_volume_threshold": 250,
+    "failed_connection_threshold": 60
+  }
+}

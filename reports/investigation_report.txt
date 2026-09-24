@@ -1,0 +1,260 @@
+==============================================================================
+      PCAP THREAT ANALYSIS & NETWORK FORENSICS REPORT
+      Automated Python PCAP Analyzer & Threat Parser (Stage 2)
+==============================================================================
+
+==============================================================================
+ 1. Analysis Overview (Executive Summary)
+==============================================================================
+Target Capture:     mixed_forensics.pcap
+Analysis Profile:   home_lab [built-in (home_lab)]
+Total Packets:      30
+Capture Duration:   00:04.000
+Total Findings:     7
+Threat Posture:     CRITICAL: 0 | HIGH: 3 | MEDIUM: 1 | LOW: 3 | INFO: 0
+
+==============================================================================
+ 2. Capture Metadata & Integrity Manifest
+==============================================================================
+File Path:          /app/applet/tests/fixtures/mixed_forensics.pcap
+File Size:          3.26 KB (3,338 bytes)
+SHA-256 Hash:       df85f5e20a241c3d30de7a5436b75d8ca179b9d739b6b31ca31d06b7e4f08515
+Capture Format:     PCAP (Standard Libpcap)
+Analyzer Engine:    Native v2.0.0
+Analysis Timestamp: 2026-09-23T13:07:34.339201+00:00
+First Packet Time:  1970-01-01 00:00:01 UTC
+Last Packet Time:   1970-01-01 00:00:05 UTC
+
+==============================================================================
+ 3. Traffic Statistics & Volume
+==============================================================================
+Total Data Volume:  2.77 KB (2,834 bytes)
+Average Packet:     94.5 bytes
+Unique Endpoints:   7 Source IPs | 7 Destination IPs
+Active Flows:       22 distinct conversations
+TCP Handshakes:     1 Completed | 15 Incomplete | 0 Resets
+
+==============================================================================
+ 4. Protocol Distribution
+==============================================================================
+Protocol        Packets      Percentage   Bytes          
+------------------------------------------------------------
+TCP             18            60.00%      972 B          
+DNS             7             23.33%      677 B          
+HTTP            3             10.00%      915 B          
+TLS             2              6.67%      270 B          
+
+==============================================================================
+ 5. Top Talkers
+==============================================================================
+Top Transmitting Sources:
+  Source IP              Packets      Traffic Volume  Share     
+  --------------------------------------------------------------
+  10.0.0.99              15           810 B           50.00%
+  192.168.10.45          5            515 B           16.67%
+  192.168.1.50           4            316 B           13.33%
+  172.16.5.20            3            915 B           10.00%
+  1.1.1.1                1            89 B             3.33%
+  192.168.1.10           1            54 B             3.33%
+
+Top Destination Endpoints:
+  Destination IP         Packets      Traffic Volume  Share     
+  --------------------------------------------------------------
+  10.0.0.1               15           810 B           50.00%
+  8.8.8.8                5            515 B           16.67%
+  192.168.1.10           3            243 B           10.00%
+  172.16.5.80            3            915 B           10.00%
+  192.168.1.50           2            143 B            6.67%
+  1.1.1.1                1            73 B             3.33%
+
+==============================================================================
+ 6. Top Conversations (Flow Matrix)
+==============================================================================
+  Flow Identifier                            Pkts    Rate       Classification      
+  ----------------------------------------------------------------------------------
+  192.168.10.45:54321 -> 8.8.8.8:53 [UDP]    5       12.5 p/s   UDP communication   
+  192.168.1.50:49152 -> 192.168.1.10:443...  3       100.0 p/s  normal TCP session  
+  172.16.5.20:49152 -> 172.16.5.80:80 [TCP]  3       15.0 p/s   normal TCP session  
+  192.168.1.50:54321 -> 1.1.1.1:53 [UDP]     1       1000.0 p/s UDP communication   
+  1.1.1.1:53 -> 192.168.1.50:54321 [UDP]     1       1000.0 p/s UDP communication   
+  192.168.1.10:443 -> 192.168.1.50:49152...  1       1000.0 p/s normal TCP session  
+  10.0.0.99:45000 -> 10.0.0.1:1000 [TCP]     1       1000.0 p/s incomplete TCP connection
+  10.0.0.99:45001 -> 10.0.0.1:1001 [TCP]     1       1000.0 p/s incomplete TCP connection
+
+==============================================================================
+ 7. DNS Analysis
+==============================================================================
+Total DNS Transactions: 7
+  Pkt #    Source IP        Type   Queried Domain                            
+  --------------------------------------------------------------------------
+  1        192.168.1.50     A      corp.internal                             
+  2        1.1.1.1          A      corp.internal                             
+  22       192.168.10.45    A      v7x9k3m2p8q1w4z6.exfil-stage.tunnel-se..  
+  23       192.168.10.45    A      a9f4c2e8b1d7f3a5.exfil-stage.tunnel-se..  
+  24       192.168.10.45    A      99bb44aa11cc22dd.exfil-stage.tunnel-se..  
+  25       192.168.10.45    A      d8e1f5b2c7a3e9f4.exfil-stage.tunnel-se..  
+  26       192.168.10.45    A      3a8f2c9e7b1d5f4a.exfil-stage.tunnel-se..  
+
+==============================================================================
+ 8. HTTP Analysis
+==============================================================================
+Total HTTP Transactions: 3
+  Method   Host                         URI                                   
+  ----------------------------------------------------------------------------
+  GET      intranet.local               /                                     
+  GET      intranet.local               /admin/login.php?id=1'                
+  GET      intranet.local               /AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA..  
+
+==============================================================================
+ 9. TLS Analysis
+==============================================================================
+Total TLS Records Observed: 2
+  Handshake      Version    SNI Server Name Indication                  
+  ------------------------------------------------------------------------
+  ClientHello    TLS 1.2    secure.corp.internal                        
+  ClientHello    TLS 1.0    legacy-service.local                        
+
+==============================================================================
+ Extracted Observable Indicators (IOCs)
+==============================================================================
+Extracted Artifacts: 11 IPs | 9 Domains | 3 URLs | 0 Hostnames | 0 Emails | 0 Hashes
+Sample Observed Domains:
+  - intranet.local (seen 3x across HTTP Host Header)
+  - corp.internal (seen 2x across DNS Query)
+  - secure.corp.internal (seen 1x across TLS ClientHello SNI)
+  - v7x9k3m2p8q1w4z6.exfil-stage.tunnel-sec.com (seen 1x across DNS Query)
+  - a9f4c2e8b1d7f3a5.exfil-stage.tunnel-sec.com (seen 1x across DNS Query)
+  - 99bb44aa11cc22dd.exfil-stage.tunnel-sec.com (seen 1x across DNS Query)
+Sample Observed URLs:
+  - http://intranet.local/
+  - http://intranet.local/admin/login.php?id=1'
+  - http://intranet.local/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+
+==============================================================================
+ 10. Security Findings & Threat Detections
+==============================================================================
+[HIGH] FINDING #01: Automated security scanner User-Agent signature observed
+  Finding ID:       RULE-009-scanner-ua
+  Rule ID:          RULE-009
+  Category:         HTTP Security Observation
+  Confidence Score: 0.90
+  Packet Ref(s):    28, 29
+  Description:      Detected 2 HTTP requests containing User-Agent strings associated with automated security testing or vulnerability scanning tools.
+  Telemetry Evidence:
+    - Occurrence count: 2
+    - Signatures observed: ['sqlmap', 'nikto']
+    - Sample user agents: ['sqlmap/1.6#stable', 'nikto/2.1.6']
+  Investigative Step: Inspect server access logs for corresponding HTTP responses (e.g. 200 vs 403/404).
+  Forensic Boundary:  User-Agent headers can be readily spoofed by arbitrary client applications.
+
+[HIGH] FINDING #02: Potential network scanning activity observed
+  Finding ID:       RULE-001-10-0-0-99
+  Rule ID:          RULE-001
+  Category:         Reconnaissance
+  Confidence Score: 0.88
+  Packet Ref(s):    7, 8, 9, 10, 11, 12 (+9 more)
+  Source Endpoint:  10.0.0.99
+  Description:      Host 10.0.0.99 initiated 15 TCP SYN packets targeting 15 unique ports across 1 destination hosts with only 0 established handshakes (0.0% completion). This pattern exhibits characteristics of a vertical port scan.
+  Telemetry Evidence:
+    - Scan classification: vertical port scan
+    - Syn packets transmitted: 15
+    - Unique destination ports targeted: 15
+    - Unique destination hosts targeted: 1
+    - Completed handshakes: 0
+    - Handshake completion ratio: 0.0
+    - Sample targeted ports: [1000, 1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008, 1009, 1010, 1011, 1012, 1013, 1014]
+    - Sample targeted hosts: ['10.0.0.1']
+  Investigative Step: Correlate host 10.0.0.99 with internal asset inventory or perimeter firewall logs. Determine if this is an authorized vulnerability scanner or an unapproved host probing internal services.
+  Forensic Boundary:  Offline PCAP analysis cannot distinguish authorized vulnerability scans from adversary reconnaissance without external authorization context.
+
+[HIGH] FINDING #03: Potential DNS tunneling indicators observed
+  Finding ID:       RULE-005-192-168-10-45
+  Rule ID:          RULE-005
+  Category:         DNS Anomaly
+  Confidence Score: 0.84
+  Packet Ref(s):    22, 23, 25, 26
+  Source Endpoint:  192.168.10.45
+  Description:      Observed 4 DNS queries associated with 192.168.10.45 displaying structural indicators commonly found in DNS tunneling or DGA patterns: elevated Shannon entropy in labels and/or abnormal character length.
+  Telemetry Evidence:
+    - Suspicious query count: 4
+    - Sample queries: [{'domain': 'v7x9k3m2p8q1w4z6.exfil-stage.tunnel-sec.com', 'length': 43, 'subdomain_entropy': 4.0, 'source_ip': '192.168.10.45', 'reason': 'High entropy label'}, {'domain': 'a9f4c2e8b1d7f3a5.exfil-stage.tunnel-sec.com', 'length': 43, 'subdomain_entropy': 3.75, 'source_ip': '192.168.10.45', 'reason': 'High entropy label'}, {'domain': 'd8e1f5b2c7a3e9f4.exfil-stage.tunnel-sec.com', 'length': 43, 'subdomain_entropy': 3.75, 'source_ip': '192.168.10.45', 'reason': 'High entropy label'}, {'domain': '3a8f2c9e7b1d5f4a.exfil-stage.tunnel-sec.com', 'length': 43, 'subdomain_entropy': 3.75, 'source_ip': '192.168.10.45', 'reason': 'High entropy label'}]
+    - Entropy threshold: 3.75
+    - Length threshold: 45
+  Investigative Step: Capture full authoritative DNS responses and inspect TXT or NULL records. Cross-check queried domains with WHOIS registration dates and threat intelligence feeds.
+  Forensic Boundary:  Legitimate CDN distribution, anti-virus cloud lookups, and tracking pixels can generate high-entropy subdomains without malicious intent.
+
+[MEDIUM] FINDING #04: Legacy TLS 1.0 protocol negotiation observed
+  Finding ID:       RULE-010-legacy-tls-1.0
+  Rule ID:          RULE-010
+  Category:         TLS Security Observation
+  Confidence Score: 0.92
+  Packet Ref(s):    30
+  Description:      Identified 1 TLS records negotiating deprecated protocol TLS 1.0. Legacy TLS versions suffer from known cryptographic vulnerabilities (e.g. POODLE, BEAST) and are prohibited under modern security compliance baselines (PCI-DSS, NIST SP 800-52r2).
+  Telemetry Evidence:
+    - Protocol version: TLS 1.0
+    - Packet count: 1
+    - Observed sources: ['192.168.20.15']
+    - Observed destinations: ['192.168.20.5']
+  Investigative Step: Enforce TLS 1.2 or TLS 1.3 minimum versions on server endpoints negotiating TLS 1.0.
+  Forensic Boundary:  Legacy client software or legacy embedded devices may fail to connect if older protocols are disabled.
+
+[LOW] FINDING #05: Unencrypted HTTP communication observed
+  Finding ID:       RULE-008-http
+  Rule ID:          RULE-008
+  Category:         Cleartext Communication
+  Confidence Score: 0.95
+  Packet Ref(s):    27, 28, 29
+  Description:      Identified 3 packets utilizing unencrypted HTTP. Cleartext protocols expose headers, session tokens, and payloads to passive eavesdropping.
+  Telemetry Evidence:
+    - Protocol: HTTP
+    - Packet count: 3
+    - Observed hosts: ['intranet.local']
+    - Active endpoint pairs: ['172.16.5.20 -> 172.16.5.80']
+  Investigative Step: Migrate unencrypted HTTP communication to modern encrypted alternatives (e.g., HTTPS, SFTP, SSH) to protect data in transit.
+  Forensic Boundary:  Does not assess whether application-level encryption was implemented on top of the cleartext stream.
+
+[LOW] FINDING #06: Repeated failed TCP connection attempts observed
+  Finding ID:       RULE-006-10-0-0-99
+  Rule ID:          RULE-006
+  Category:         Connection Anomaly
+  Confidence Score: 0.70
+  Packet Ref(s):    N/A
+  Source Endpoint:  10.0.0.99
+  Description:      Host 10.0.0.99 initiated 15 TCP connection attempts that failed to complete the standard 3-way handshake, suggesting unreachable services or filtering.
+  Telemetry Evidence:
+    - Failed syn count: 15
+    - Targeted destinations sample: ['10.0.0.1:1000', '10.0.0.1:1001', '10.0.0.1:1002', '10.0.0.1:1003', '10.0.0.1:1004', '10.0.0.1:1005', '10.0.0.1:1006', '10.0.0.1:1007', '10.0.0.1:1008', '10.0.0.1:1009']
+  Investigative Step: Check firewall logs and service availability for targets of 10.0.0.99. Determine if this is misconfigured polling software or systematic port checking.
+  Forensic Boundary:  Transient network packet loss or asymmetric routing can cause missed SYN-ACKs.
+
+[LOW] FINDING #07: Unusually long HTTP URI path observed
+  Finding ID:       RULE-009-long-uri
+  Rule ID:          RULE-009
+  Category:         HTTP Security Observation
+  Confidence Score: 0.70
+  Packet Ref(s):    29
+  Description:      Observed 1 HTTP requests with URIs exceeding threshold (256 characters), commonly seen in parameter fuzzing or exploit payloads.
+  Telemetry Evidence:
+    - Long uri count: 1
+    - Samples: [{'length': 301, 'uri_sample': '/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA...', 'source': '172.16.5.20', 'packet': 29}]
+  Investigative Step: Review the URI parameters for SQL injection, path traversal, or command injection strings.
+  Forensic Boundary:  Certain REST APIs and OAuth redirect URIs legitimately construct long URL query parameters.
+
+
+==============================================================================
+ 11. Parsing Errors & Stream Anomalies
+==============================================================================
+  Zero parsing errors encountered. All packets parsed cleanly.
+
+==============================================================================
+ 12. Analyst Notes & SOC Recommendations
+==============================================================================
+  * Heuristic Assessment: Detections are generated using deterministic statistical
+    and layer-boundary rules. An alert indicates suspicious activity patterns,
+    not certified malicious compromise. Corroborate with host endpoint EDR logs.
+  * Environment Baselines: Results reflect thresholds configured in the active
+    profile (home_lab). Tuning thresholds in config/*.json is recommended
+    for unique network environments.
+==============================================================================
+                    END OF PCAP INVESTIGATION REPORT
+==============================================================================

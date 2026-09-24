@@ -1,0 +1,293 @@
+{
+  "metadata": {
+    "file_path": "/app/applet/examples/cleartext_credentials.pcap",
+    "file_name": "cleartext_credentials.pcap",
+    "file_size_bytes": 668,
+    "file_format": "PCAP (Standard Libpcap)",
+    "packet_count": 7,
+    "first_timestamp": 1700002000.0,
+    "last_timestamp": 1700002001.019999,
+    "duration_seconds": 1.0199990272521973,
+    "parser_engine": "Native"
+  },
+  "summary": {
+    "total_packets": 7,
+    "total_bytes": 532,
+    "capture_duration": 1.0199990272521973,
+    "unique_source_ips": 3,
+    "unique_destination_ips": 3,
+    "unique_conversations": 4,
+    "tcp_packet_count": 7,
+    "udp_packet_count": 0,
+    "icmp_packet_count": 0,
+    "dns_packet_count": 0,
+    "http_packet_count": 1,
+    "tls_packet_count": 0,
+    "protocol_distribution": {
+      "TCP": 6,
+      "HTTP": 1
+    },
+    "protocol_bytes": {
+      "TCP": 324,
+      "HTTP": 208
+    },
+    "top_source_ips": [
+      {
+        "ip": "192.168.1.42",
+        "packet_count": 5,
+        "byte_count": 424,
+        "percentage": 71.43
+      },
+      {
+        "ip": "198.51.100.80",
+        "packet_count": 1,
+        "byte_count": 54,
+        "percentage": 14.29
+      },
+      {
+        "ip": "203.0.113.99",
+        "packet_count": 1,
+        "byte_count": 54,
+        "percentage": 14.29
+      }
+    ],
+    "top_destination_ips": [
+      {
+        "ip": "198.51.100.80",
+        "packet_count": 3,
+        "byte_count": 316,
+        "percentage": 42.86
+      },
+      {
+        "ip": "192.168.1.42",
+        "packet_count": 2,
+        "byte_count": 108,
+        "percentage": 28.57
+      },
+      {
+        "ip": "203.0.113.99",
+        "packet_count": 2,
+        "byte_count": 108,
+        "percentage": 28.57
+      }
+    ],
+    "top_destination_ports": [
+      {
+        "port": 80,
+        "packet_count": 3,
+        "percentage": 42.86
+      },
+      {
+        "port": 4444,
+        "packet_count": 2,
+        "percentage": 28.57
+      },
+      {
+        "port": 49200,
+        "packet_count": 1,
+        "percentage": 14.29
+      },
+      {
+        "port": 49250,
+        "packet_count": 1,
+        "percentage": 14.29
+      }
+    ],
+    "tcp_flags_distribution": {
+      "SYN": 4,
+      "ACK": 5
+    }
+  },
+  "protocols": {
+    "TCP": 6,
+    "HTTP": 1
+  },
+  "top_sources": [
+    {
+      "ip": "192.168.1.42",
+      "packet_count": 5,
+      "byte_count": 424,
+      "percentage": 71.43
+    },
+    {
+      "ip": "198.51.100.80",
+      "packet_count": 1,
+      "byte_count": 54,
+      "percentage": 14.29
+    },
+    {
+      "ip": "203.0.113.99",
+      "packet_count": 1,
+      "byte_count": 54,
+      "percentage": 14.29
+    }
+  ],
+  "top_destinations": [
+    {
+      "ip": "198.51.100.80",
+      "packet_count": 3,
+      "byte_count": 316,
+      "percentage": 42.86
+    },
+    {
+      "ip": "192.168.1.42",
+      "packet_count": 2,
+      "byte_count": 108,
+      "percentage": 28.57
+    },
+    {
+      "ip": "203.0.113.99",
+      "packet_count": 2,
+      "byte_count": 108,
+      "percentage": 28.57
+    }
+  ],
+  "flows": [
+    {
+      "flow_id": "192.168.1.42:49200 -> 198.51.100.80:80 [TCP]",
+      "source_ip": "192.168.1.42",
+      "destination_ip": "198.51.100.80",
+      "source_port": 49200,
+      "destination_port": 80,
+      "protocol": "TCP",
+      "packet_count": 3,
+      "byte_count": 316,
+      "first_seen": 1700002000.0,
+      "last_seen": 1700002000.029999,
+      "duration_seconds": 0.0299990177154541,
+      "syn_count": 1,
+      "syn_ack_count": 0,
+      "ack_count": 2,
+      "fin_count": 0,
+      "rst_count": 0,
+      "completed_handshake": true
+    },
+    {
+      "flow_id": "192.168.1.42:49250 -> 203.0.113.99:4444 [TCP]",
+      "source_ip": "192.168.1.42",
+      "destination_ip": "203.0.113.99",
+      "source_port": 49250,
+      "destination_port": 4444,
+      "protocol": "TCP",
+      "packet_count": 2,
+      "byte_count": 108,
+      "first_seen": 1700002001.0,
+      "last_seen": 1700002001.019999,
+      "duration_seconds": 0.019999027252197266,
+      "syn_count": 1,
+      "syn_ack_count": 0,
+      "ack_count": 1,
+      "fin_count": 0,
+      "rst_count": 0,
+      "completed_handshake": true
+    },
+    {
+      "flow_id": "198.51.100.80:80 -> 192.168.1.42:49200 [TCP]",
+      "source_ip": "198.51.100.80",
+      "destination_ip": "192.168.1.42",
+      "source_port": 80,
+      "destination_port": 49200,
+      "protocol": "TCP",
+      "packet_count": 1,
+      "byte_count": 54,
+      "first_seen": 1700002000.009999,
+      "last_seen": 1700002000.009999,
+      "duration_seconds": 0.0,
+      "syn_count": 0,
+      "syn_ack_count": 1,
+      "ack_count": 0,
+      "fin_count": 0,
+      "rst_count": 0,
+      "completed_handshake": false
+    },
+    {
+      "flow_id": "203.0.113.99:4444 -> 192.168.1.42:49250 [TCP]",
+      "source_ip": "203.0.113.99",
+      "destination_ip": "192.168.1.42",
+      "source_port": 4444,
+      "destination_port": 49250,
+      "protocol": "TCP",
+      "packet_count": 1,
+      "byte_count": 54,
+      "first_seen": 1700002001.009999,
+      "last_seen": 1700002001.009999,
+      "duration_seconds": 0.0,
+      "syn_count": 0,
+      "syn_ack_count": 1,
+      "ack_count": 0,
+      "fin_count": 0,
+      "rst_count": 0,
+      "completed_handshake": false
+    }
+  ],
+  "dns": [],
+  "http": [
+    {
+      "packet_number": 4,
+      "timestamp": 1700002000.029999,
+      "source_ip": "192.168.1.42",
+      "destination_ip": "198.51.100.80",
+      "method": "GET",
+      "host": "corp-intranet.local",
+      "uri": "/login.php?user=admin",
+      "status_code": null,
+      "user_agent": "Mozilla/5.0 (Defensive-Audit-Lab/1.0)"
+    }
+  ],
+  "tls": [],
+  "findings": [
+    {
+      "id": "RULE-003-port-4444",
+      "timestamp": 0.0,
+      "severity": "LOW",
+      "category": "Security Observation",
+      "title": "Activity observed on uncommon port 4444 (Metasploit-Default)",
+      "description": "Identified 2 packets directed toward destination port 4444, a non-standard port frequently monitored in SOC baselines for Metasploit-Default activity.",
+      "evidence": {
+        "destination_port": 4444,
+        "service_reference": "Metasploit-Default",
+        "packet_count": 2,
+        "total_bytes": 108,
+        "source_hosts": [
+          "192.168.1.42"
+        ],
+        "destination_hosts": [
+          "203.0.113.99"
+        ]
+      },
+      "detection_rule": "RULE-003",
+      "confidence": 0.65,
+      "source_ip": null,
+      "destination_ip": null,
+      "source_port": null,
+      "destination_port": 4444,
+      "protocol": "TCP"
+    },
+    {
+      "id": "RULE-008-http",
+      "timestamp": 0.0,
+      "severity": "LOW",
+      "category": "Cleartext Communication",
+      "title": "Unencrypted HTTP communication observed",
+      "description": "Identified 3 packets utilizing unencrypted HTTP. Cleartext protocols expose headers, cookies, and payloads to passive packet interception and adversary tampering.",
+      "evidence": {
+        "protocol": "HTTP",
+        "packet_count": 3,
+        "observed_hosts": [
+          "corp-intranet.local"
+        ],
+        "active_endpoint_pairs": [
+          "192.168.1.42 -> 198.51.100.80"
+        ]
+      },
+      "detection_rule": "RULE-008",
+      "confidence": 0.95,
+      "source_ip": null,
+      "destination_ip": null,
+      "source_port": null,
+      "destination_port": null,
+      "protocol": "HTTP"
+    }
+  ],
+  "errors": []
+}

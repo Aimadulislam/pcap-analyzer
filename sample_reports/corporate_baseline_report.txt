@@ -1,0 +1,122 @@
+==============================================================================
+      PCAP THREAT ANALYSIS & NETWORK FORENSICS REPORT
+      Automated Defensive Packet Inspection & Threat Parser
+==============================================================================
+
+==============================================================================
+ 1. Analysis Overview
+==============================================================================
+Target Capture:     corporate_baseline.pcap
+Analysis Status:    Completed successfully
+Total Packets:      10
+Capture Duration:   00:04.009
+Detection Engine:   Rule-based Heuristic Analyzer (Deterministic)
+Total Findings:     0
+Severity Breakdown: CRITICAL: 0 | HIGH: 0 | MEDIUM: 0 | LOW: 0 | INFO: 0
+
+==============================================================================
+ 2. Capture Metadata
+==============================================================================
+File Path:          /app/applet/examples/corporate_baseline.pcap
+File Size:          904 B (904 bytes)
+Capture Format:     PCAP (Standard Libpcap)
+Dissection Engine:  Native
+Start Timestamp:    2023-11-14 23:03:20 UTC
+End Timestamp:      2023-11-14 23:03:24 UTC
+
+==============================================================================
+ 3. Traffic Statistics
+==============================================================================
+Total Data Volume:  720 B (720 bytes)
+Average Packet:     72.0 bytes
+Unique Endpoints:   3 Source IPs | 4 Destination IPs
+Active Flows:       8 distinct conversation channels
+
+==============================================================================
+ 4. Protocol Distribution
+==============================================================================
+Protocol        Packets      Percentage   Bytes          
+------------------------------------------------------------
+DNS             4             40.00%      283 B          
+TCP             3             30.00%      162 B          
+ICMP            2             20.00%      148 B          
+TLS             1             10.00%      127 B          
+
+==============================================================================
+ 5. Top Talkers
+==============================================================================
+Top Transmitting Sources:
+  Source IP              Packets      Traffic Volume  Share     
+  --------------------------------------------------------------
+  10.10.10.15            8            592 B           80.00%
+  140.82.121.4           1            54 B            10.00%
+  10.10.10.1             1            74 B            10.00%
+
+Top Destination Endpoints:
+  Destination IP         Packets      Traffic Volume  Share     
+  --------------------------------------------------------------
+  1.1.1.1                4            283 B           40.00%
+  140.82.121.4           3            235 B           30.00%
+  10.10.10.15            2            128 B           20.00%
+  10.10.10.1             1            74 B            10.00%
+
+==============================================================================
+ 6. Top Conversations (Flow Matrix)
+==============================================================================
+  Flow Identifier                                Pkts     Bytes        Handshake 
+  --------------------------------------------------------------------------
+  10.10.10.15:50100 -> 140.82.121.4:443 [TCP]    3        235 B        ESTABLISHED
+  10.10.10.15:53000 -> 1.1.1.1:53 [UDP]          1        70 B         SYN-ONLY/FAIL
+  10.10.10.15:53001 -> 1.1.1.1:53 [UDP]          1        74 B         SYN-ONLY/FAIL
+  10.10.10.15:53002 -> 1.1.1.1:53 [UDP]          1        69 B         SYN-ONLY/FAIL
+  10.10.10.15:53003 -> 1.1.1.1:53 [UDP]          1        70 B         SYN-ONLY/FAIL
+  140.82.121.4:443 -> 10.10.10.15:50100 [TCP]    1        54 B         SYN-ONLY/FAIL
+  10.10.10.15 -> 10.10.10.1 [ICMP]               1        74 B         SYN-ONLY/FAIL
+  10.10.10.1 -> 10.10.10.15 [ICMP]               1        74 B         SYN-ONLY/FAIL
+
+==============================================================================
+ 7. DNS Analysis
+==============================================================================
+DNS Resolution Requests Observed: 4
+  Packet #   Source IP          Record Queried Domain                      
+  ------------------------------------------------------------------------
+  1          10.10.10.15        A      github.com                          
+  2          10.10.10.15        A      api.github.com                      
+  3          10.10.10.15        A      slack.com                           
+  4          10.10.10.15        A      google.com                          
+
+==============================================================================
+ 8. HTTP Analysis (Cleartext Web)
+==============================================================================
+HTTP Transaction Records Observed: 0
+  No cleartext HTTP request/response payloads detected.
+
+==============================================================================
+ 9. TLS Analysis (Encrypted Traffic)
+==============================================================================
+TLS Sessions Identified: 1
+  Handshake      Version    SNI Server Name Indication                  
+  ------------------------------------------------------------------------
+  ClientHello    TLS 1.2    (Encrypted / No SNI)                        
+
+==============================================================================
+ 10. Security Findings & Detections
+==============================================================================
+  No threat signatures or anomalous behavior triggered detection rules.
+
+==============================================================================
+ 11. Parsing Errors & Stream Anomalies
+==============================================================================
+  Zero parsing errors encountered. All packets parsed cleanly.
+
+==============================================================================
+ 12. Analyst Notes & Recommendations
+==============================================================================
+  * Heuristic Assessment: Detections are generated using deterministic statistical
+    and layer-boundary rules. An alert indicates suspicious activity patterns,
+    not certified malicious compromise. Corroborate with endpoint telemetry.
+  * Immediate Next Steps:
+    [*] BASELINE: Verify if high-volume query hosts are legitimate internal resolvers.
+==============================================================================
+                    END OF PCAP INVESTIGATION REPORT
+==============================================================================

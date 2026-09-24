@@ -1,0 +1,20 @@
+{
+  "profile_name": "high_volume",
+  "description": "Aggressive threshold filtering for high-throughput datacenter and backbone captures",
+  "detection": {
+    "profile_name": "high_volume",
+    "syn_scan_unique_port_threshold": 80,
+    "syn_scan_unique_host_threshold": 60,
+    "syn_scan_min_packets": 100,
+    "syn_scan_completion_ratio_max": 0.10,
+    "dns_query_volume_threshold": 2000,
+    "dns_query_rate_threshold": 150.0,
+    "dns_suspicious_length_threshold": 75,
+    "dns_high_entropy_threshold": 4.25,
+    "dns_unique_domains_threshold": 500,
+    "dns_tunneling_min_label_length": 32,
+    "http_uri_max_length": 512,
+    "icmp_volume_threshold": 1000,
+    "failed_connection_threshold": 150
+  }
+}

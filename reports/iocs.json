@@ -1,0 +1,394 @@
+{
+  "ips": [
+    {
+      "type": "IPv4",
+      "value": "10.0.0.99",
+      "source": "IP Header (Private/Internal)",
+      "first_seen": 2.0,
+      "last_seen": 2.7,
+      "packet_count": 15,
+      "context": {
+        "sample_packets": [
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "contexts": []
+      }
+    },
+    {
+      "type": "IPv4",
+      "value": "10.0.0.1",
+      "source": "IP Header (Private/Internal)",
+      "first_seen": 2.0,
+      "last_seen": 2.7,
+      "packet_count": 15,
+      "context": {
+        "sample_packets": [
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ],
+        "contexts": []
+      }
+    },
+    {
+      "type": "IPv4",
+      "value": "192.168.1.50",
+      "source": "IP Header (Private/Internal)",
+      "first_seen": 1.0,
+      "last_seen": 1.23,
+      "packet_count": 6,
+      "context": {
+        "sample_packets": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "contexts": []
+      }
+    },
+    {
+      "type": "IPv4",
+      "value": "192.168.1.10",
+      "source": "DNS Answer",
+      "first_seen": 1.05,
+      "last_seen": 1.23,
+      "packet_count": 5,
+      "context": {
+        "sample_packets": [
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "contexts": []
+      }
+    },
+    {
+      "type": "IPv4",
+      "value": "192.168.10.45",
+      "source": "IP Header (Private/Internal)",
+      "first_seen": 3.0,
+      "last_seen": 3.4,
+      "packet_count": 5,
+      "context": {
+        "sample_packets": [
+          22,
+          23,
+          24,
+          25,
+          26
+        ],
+        "contexts": []
+      }
+    },
+    {
+      "type": "IPv4",
+      "value": "8.8.8.8",
+      "source": "IP Header (Public/External)",
+      "first_seen": 3.0,
+      "last_seen": 3.4,
+      "packet_count": 5,
+      "context": {
+        "sample_packets": [
+          22,
+          23,
+          24,
+          25,
+          26
+        ],
+        "contexts": []
+      }
+    },
+    {
+      "type": "IPv4",
+      "value": "172.16.5.20",
+      "source": "IP Header (Private/Internal)",
+      "first_seen": 4.0,
+      "last_seen": 4.2,
+      "packet_count": 3,
+      "context": {
+        "sample_packets": [
+          27,
+          28,
+          29
+        ],
+        "contexts": []
+      }
+    },
+    {
+      "type": "IPv4",
+      "value": "172.16.5.80",
+      "source": "IP Header (Private/Internal)",
+      "first_seen": 4.0,
+      "last_seen": 4.2,
+      "packet_count": 3,
+      "context": {
+        "sample_packets": [
+          27,
+          28,
+          29
+        ],
+        "contexts": []
+      }
+    },
+    {
+      "type": "IPv4",
+      "value": "1.1.1.1",
+      "source": "IP Header (Public/External)",
+      "first_seen": 1.0,
+      "last_seen": 1.05,
+      "packet_count": 2,
+      "context": {
+        "sample_packets": [
+          1,
+          2
+        ],
+        "contexts": []
+      }
+    },
+    {
+      "type": "IPv4",
+      "value": "192.168.20.15",
+      "source": "IP Header (Private/Internal)",
+      "first_seen": 5.0,
+      "last_seen": 5.0,
+      "packet_count": 1,
+      "context": {
+        "sample_packets": [
+          30
+        ],
+        "contexts": []
+      }
+    },
+    {
+      "type": "IPv4",
+      "value": "192.168.20.5",
+      "source": "IP Header (Private/Internal)",
+      "first_seen": 5.0,
+      "last_seen": 5.0,
+      "packet_count": 1,
+      "context": {
+        "sample_packets": [
+          30
+        ],
+        "contexts": []
+      }
+    }
+  ],
+  "domains": [
+    {
+      "type": "domain",
+      "value": "intranet.local",
+      "source": "HTTP Host Header",
+      "first_seen": 4.0,
+      "last_seen": 4.2,
+      "packet_count": 3,
+      "context": {
+        "sample_packets": [
+          27,
+          28,
+          29
+        ],
+        "contexts": []
+      }
+    },
+    {
+      "type": "domain",
+      "value": "corp.internal",
+      "source": "DNS Query",
+      "first_seen": 1.0,
+      "last_seen": 1.05,
+      "packet_count": 2,
+      "context": {
+        "sample_packets": [
+          1,
+          2
+        ],
+        "contexts": [
+          "Type A"
+        ]
+      }
+    },
+    {
+      "type": "domain",
+      "value": "secure.corp.internal",
+      "source": "TLS ClientHello SNI",
+      "first_seen": 1.23,
+      "last_seen": 1.23,
+      "packet_count": 1,
+      "context": {
+        "sample_packets": [
+          6
+        ],
+        "contexts": []
+      }
+    },
+    {
+      "type": "domain",
+      "value": "v7x9k3m2p8q1w4z6.exfil-stage.tunnel-sec.com",
+      "source": "DNS Query",
+      "first_seen": 3.0,
+      "last_seen": 3.0,
+      "packet_count": 1,
+      "context": {
+        "sample_packets": [
+          22
+        ],
+        "contexts": [
+          "Type A"
+        ]
+      }
+    },
+    {
+      "type": "domain",
+      "value": "a9f4c2e8b1d7f3a5.exfil-stage.tunnel-sec.com",
+      "source": "DNS Query",
+      "first_seen": 3.1,
+      "last_seen": 3.1,
+      "packet_count": 1,
+      "context": {
+        "sample_packets": [
+          23
+        ],
+        "contexts": [
+          "Type A"
+        ]
+      }
+    },
+    {
+      "type": "domain",
+      "value": "99bb44aa11cc22dd.exfil-stage.tunnel-sec.com",
+      "source": "DNS Query",
+      "first_seen": 3.2,
+      "last_seen": 3.2,
+      "packet_count": 1,
+      "context": {
+        "sample_packets": [
+          24
+        ],
+        "contexts": [
+          "Type A"
+        ]
+      }
+    },
+    {
+      "type": "domain",
+      "value": "d8e1f5b2c7a3e9f4.exfil-stage.tunnel-sec.com",
+      "source": "DNS Query",
+      "first_seen": 3.3,
+      "last_seen": 3.3,
+      "packet_count": 1,
+      "context": {
+        "sample_packets": [
+          25
+        ],
+        "contexts": [
+          "Type A"
+        ]
+      }
+    },
+    {
+      "type": "domain",
+      "value": "3a8f2c9e7b1d5f4a.exfil-stage.tunnel-sec.com",
+      "source": "DNS Query",
+      "first_seen": 3.4,
+      "last_seen": 3.4,
+      "packet_count": 1,
+      "context": {
+        "sample_packets": [
+          26
+        ],
+        "contexts": [
+          "Type A"
+        ]
+      }
+    },
+    {
+      "type": "domain",
+      "value": "legacy-service.local",
+      "source": "TLS ClientHello SNI",
+      "first_seen": 5.0,
+      "last_seen": 5.0,
+      "packet_count": 1,
+      "context": {
+        "sample_packets": [
+          30
+        ],
+        "contexts": []
+      }
+    }
+  ],
+  "urls": [
+    {
+      "type": "url",
+      "value": "http://intranet.local/",
+      "source": "HTTP Request",
+      "first_seen": 4.0,
+      "last_seen": 4.0,
+      "packet_count": 1,
+      "context": {
+        "sample_packets": [
+          27
+        ],
+        "contexts": [
+          "GET"
+        ]
+      }
+    },
+    {
+      "type": "url",
+      "value": "http://intranet.local/admin/login.php?id=1'",
+      "source": "HTTP Request",
+      "first_seen": 4.1,
+      "last_seen": 4.1,
+      "packet_count": 1,
+      "context": {
+        "sample_packets": [
+          28
+        ],
+        "contexts": [
+          "GET"
+        ]
+      }
+    },
+    {
+      "type": "url",
+      "value": "http://intranet.local/AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "source": "HTTP Request",
+      "first_seen": 4.2,
+      "last_seen": 4.2,
+      "packet_count": 1,
+      "context": {
+        "sample_packets": [
+          29
+        ],
+        "contexts": [
+          "GET"
+        ]
+      }
+    }
+  ],
+  "hostnames": [],
+  "emails": [],
+  "hashes": []
+}

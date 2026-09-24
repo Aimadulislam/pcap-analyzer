@@ -1,0 +1,20 @@
+{
+  "profile_name": "home_lab",
+  "description": "Sensitive profile for low-traffic homelabs, student labs, and developer testbeds",
+  "detection": {
+    "profile_name": "home_lab",
+    "syn_scan_unique_port_threshold": 6,
+    "syn_scan_unique_host_threshold": 4,
+    "syn_scan_min_packets": 8,
+    "syn_scan_completion_ratio_max": 0.35,
+    "dns_query_volume_threshold": 30,
+    "dns_query_rate_threshold": 10.0,
+    "dns_suspicious_length_threshold": 45,
+    "dns_high_entropy_threshold": 3.75,
+    "dns_unique_domains_threshold": 15,
+    "dns_tunneling_min_label_length": 20,
+    "http_uri_max_length": 200,
+    "icmp_volume_threshold": 25,
+    "failed_connection_threshold": 8
+  }
+}

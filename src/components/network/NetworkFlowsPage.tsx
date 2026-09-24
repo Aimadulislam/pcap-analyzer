@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { FlowRecord } from "../../types/analyzer";
 import { formatBytes, formatDuration } from "../../utils/formatters";
+import { FlowDetailModal } from "./FlowDetailModal";
 
 interface NetworkFlowsPageProps {
   flows: FlowRecord[];
@@ -23,6 +24,7 @@ export const NetworkFlowsPage: React.FC<NetworkFlowsPageProps> = ({ flows = [] }
   const [handshakeFilter, setHandshakeFilter] = useState("ALL");
   const [sortBy, setSortBy] = useState<"packets" | "bytes" | "duration">("packets");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
+  const [selectedFlow, setSelectedFlow] = useState<FlowRecord | null>(null);
 
   const filteredFlows = useMemo(() => {
     return flows
@@ -247,7 +249,12 @@ export const NetworkFlowsPage: React.FC<NetworkFlowsPageProps> = ({ flows = [] }
                 filteredFlows.map((flow) => {
                   const isTcp = flow.protocol.toUpperCase() === "TCP";
                   return (
-                    <tr key={flow.flow_id} className="hover:bg-slate-800/30">
+                    <tr
+                      key={flow.flow_id}
+                      onClick={() => setSelectedFlow(flow)}
+                      className="hover:bg-slate-800/50 cursor-pointer transition-colors"
+                      title="Click to view deep 5-tuple metrics, handshake states, and Wireshark filter"
+                    >
                       {/* Source */}
                       <td className="py-2.5 px-4">
                         <span className="text-cyan-400 font-medium select-all">{flow.source_ip}</span>
@@ -328,6 +335,14 @@ export const NetworkFlowsPage: React.FC<NetworkFlowsPageProps> = ({ flows = [] }
           </span>
         </div>
       </div>
+
+      {/* Deep Flow Inspection Modal */}
+      {selectedFlow && (
+        <FlowDetailModal
+          flow={selectedFlow}
+          onClose={() => setSelectedFlow(null)}
+        />
+      )}
     </div>
   );
 };

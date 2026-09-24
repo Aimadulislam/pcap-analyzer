@@ -12,18 +12,22 @@ import {
   Terminal,
   ArrowRight,
   ExternalLink,
+  Layers,
 } from "lucide-react";
 import { AlertFinding, SeverityLevel } from "../../types/analyzer";
 import { getSeverityBadgeClass } from "../../utils/formatters";
+import { FindingEvidenceModal } from "./FindingEvidenceModal";
 
 interface FindingsPageProps {
   findings: AlertFinding[];
+  onViewFlows?: (ip: string) => void;
 }
 
-export const FindingsPage: React.FC<FindingsPageProps> = ({ findings }) => {
+export const FindingsPage: React.FC<FindingsPageProps> = ({ findings, onViewFlows }) => {
   const [severityFilter, setSeverityFilter] = useState<string>("ALL");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [expandedFindings, setExpandedFindings] = useState<Record<string, boolean>>({});
+  const [activeModalFinding, setActiveModalFinding] = useState<AlertFinding | null>(null);
 
   const toggleExpand = (id: string) => {
     setExpandedFindings((prev) => ({ ...prev, [id]: !prev[id] }));
@@ -270,6 +274,31 @@ export const FindingsPage: React.FC<FindingsPageProps> = ({ findings }) => {
                       </div>
                     )}
 
+                    {/* Forensic Actions Bar */}
+                    <div className="pt-2 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2">
+                      <div className="text-[11px] text-slate-500 font-mono">
+                        Rule: {ruleId} · Confidence: {(finding.confidence * 100).toFixed(0)}%
+                      </div>
+
+                      <div className="flex items-center space-x-2">
+                        {onViewFlows && finding.source_ip && (
+                          <button
+                            onClick={() => onViewFlows(finding.source_ip!)}
+                            className="px-2.5 py-1 rounded bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 hover:text-slate-100 text-[11px] cursor-pointer"
+                          >
+                            Filter Flows
+                          </button>
+                        )}
+                        <button
+                          onClick={() => setActiveModalFinding(finding)}
+                          className="flex items-center space-x-1.5 px-3 py-1 rounded bg-cyan-950/80 hover:bg-cyan-900/80 border border-cyan-800/70 text-cyan-300 text-[11px] font-medium transition cursor-pointer"
+                        >
+                          <Layers className="w-3 h-3 text-cyan-400" />
+                          <span>Inspect Evidence &amp; ATT&amp;CK</span>
+                        </button>
+                      </div>
+                    </div>
+
                     {/* Limitations */}
                     {finding.limitations && (
                       <div className="text-[11px] text-slate-500 italic">
@@ -282,6 +311,15 @@ export const FindingsPage: React.FC<FindingsPageProps> = ({ findings }) => {
             );
           })}
         </div>
+      )}
+
+      {/* Forensic Evidence Drawer & ATT&CK Modal */}
+      {activeModalFinding && (
+        <FindingEvidenceModal
+          finding={activeModalFinding}
+          onClose={() => setActiveModalFinding(null)}
+          onViewFlows={onViewFlows}
+        />
       )}
     </div>
   );

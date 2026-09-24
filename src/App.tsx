@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { TopNav } from "./components/layout/TopNav";
 import { Sidebar, NavTab } from "./components/layout/Sidebar";
+import { LandingPage } from "./components/landing/LandingPage";
+import { DocumentationPage } from "./components/docs/DocumentationPage";
 import { OverviewDashboard } from "./components/overview/OverviewDashboard";
 import { PcapAnalysisPage } from "./components/pcap/PcapAnalysisPage";
 import { FindingsPage } from "./components/findings/FindingsPage";
@@ -27,7 +29,8 @@ import { DEMO_FIXTURES } from "./data/demoFixtures";
 import { RefreshCw } from "lucide-react";
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<NavTab>("overview");
+  const [activeTab, setActiveTab] = useState<NavTab>("landing");
+  const [docsSection, setDocsSection] = useState<string>("rules");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   // Engine & Profile state
@@ -60,7 +63,7 @@ export default function App() {
     }
 
     try {
-      // Load initial scenario (SYN port scan)
+      // Pre-load default forensic sample (SYN port scan)
       const res = await analyzeSamplePcap("syn_port_scan", "default", "auto");
       setAnalysis(res.result);
       setAnalysisStatus("completed");
@@ -134,6 +137,8 @@ export default function App() {
         backendStatus={backendStatus}
         analysisStatus={analysisStatus}
         isDemoData={isDemoData}
+        activeTab={activeTab}
+        onSelectTab={setActiveTab}
         onOpenSettings={() => setActiveTab("settings")}
         onRefreshBackend={handleRefreshBackend}
         onNavigateToUpload={() => setActiveTab("pcap")}
@@ -153,79 +158,107 @@ export default function App() {
 
         {/* Analyst Workspace Viewport */}
         <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8">
-          {analysisStatus === "analyzing" && !analysis ? (
-            <div className="flex flex-col items-center justify-center py-28 space-y-3">
-              <RefreshCw className="w-8 h-8 text-cyan-400 animate-spin" />
-              <p className="text-slate-400 text-xs font-mono">
-                Executing Python PCAP frame dissection &amp; heuristic rule evaluation...
-              </p>
-            </div>
-          ) : !analysis ? (
-            <div className="text-center py-20 text-slate-500 text-sm">
-              No capture loaded. Select a scenario or upload a .pcap file to begin.
-            </div>
-          ) : (
-            <>
-              {activeTab === "overview" && (
-                <OverviewDashboard
-                  analysis={analysis}
-                  onNavigateToTab={setActiveTab}
-                />
-              )}
+          {/* Landing Page is always accessible without waiting for capture analysis */}
+          {activeTab === "landing" && (
+            <LandingPage
+              backendStatus={backendStatus}
+              onOpenAnalyzer={() => setActiveTab("overview")}
+              onOpenDocumentation={(sec) => {
+                if (sec) setDocsSection(sec);
+                setActiveTab("docs");
+              }}
+              onSelectSample={(id) => handleAnalyzeSample(id, profile, engine)}
+              onRefreshBackend={handleRefreshBackend}
+            />
+          )}
 
-              {activeTab === "pcap" && (
-                <PcapAnalysisPage
-                  onAnalyzeSample={handleAnalyzeSample}
-                  onAnalyzeUpload={handleAnalyzeUpload}
-                  currentProfile={profile}
-                  onChangeProfile={setProfile}
-                  currentEngine={engine}
-                  onChangeEngine={setEngine}
-                  isAnalyzing={analysisStatus === "analyzing"}
-                />
-              )}
+          {/* Documentation is always accessible */}
+          {activeTab === "docs" && (
+            <DocumentationPage
+              initialSection={docsSection}
+              onNavigateToConsole={() => setActiveTab("overview")}
+            />
+          )}
 
-              {activeTab === "findings" && (
-                <FindingsPage findings={analysis.findings || []} />
-              )}
+          {/* Console modules */}
+          {activeTab !== "landing" && activeTab !== "docs" && (
+            analysisStatus === "analyzing" && !analysis ? (
+              <div className="flex flex-col items-center justify-center py-28 space-y-3">
+                <RefreshCw className="w-8 h-8 text-cyan-400 animate-spin" />
+                <p className="text-slate-400 text-xs font-mono">
+                  Executing Python PCAP frame dissection &amp; heuristic rule evaluation...
+                </p>
+              </div>
+            ) : !analysis ? (
+              <div className="text-center py-20 text-slate-500 text-sm">
+                No capture loaded. Select a scenario or upload a .pcap file to begin.
+              </div>
+            ) : (
+              <>
+                {activeTab === "overview" && (
+                  <OverviewDashboard
+                    analysis={analysis}
+                    onNavigateToTab={setActiveTab}
+                  />
+                )}
 
-              {activeTab === "network" && (
-                <NetworkFlowsPage flows={analysis.flows || []} />
-              )}
+                {activeTab === "pcap" && (
+                  <PcapAnalysisPage
+                    onAnalyzeSample={handleAnalyzeSample}
+                    onAnalyzeUpload={handleAnalyzeUpload}
+                    currentProfile={profile}
+                    onChangeProfile={setProfile}
+                    currentEngine={engine}
+                    onChangeEngine={setEngine}
+                    isAnalyzing={analysisStatus === "analyzing"}
+                  />
+                )}
 
-              {activeTab === "dns" && (
-                <DnsPage dnsData={analysis.dns} />
-              )}
+                {activeTab === "findings" && (
+                  <FindingsPage
+                    findings={analysis.findings || []}
+                    onViewFlows={() => setActiveTab("network")}
+                  />
+                )}
 
-              {activeTab === "http" && (
-                <HttpPage httpData={analysis.http} />
-              )}
+                {activeTab === "network" && (
+                  <NetworkFlowsPage flows={analysis.flows || []} />
+                )}
 
-              {activeTab === "tls" && (
-                <TlsPage tlsData={analysis.tls} />
-              )}
+                {activeTab === "dns" && (
+                  <DnsPage dnsData={analysis.dns} />
+                )}
 
-              {activeTab === "iocs" && (
-                <IocsPage iocs={analysis.iocs} />
-              )}
+                {activeTab === "http" && (
+                  <HttpPage httpData={analysis.http} />
+                )}
 
-              {activeTab === "reports" && (
-                <ReportsPage analysis={analysis} />
-              )}
+                {activeTab === "tls" && (
+                  <TlsPage tlsData={analysis.tls} />
+                )}
 
-              {activeTab === "settings" && (
-                <SettingsPage
-                  backendStatus={backendStatus}
-                  currentProfile={profile}
-                  onChangeProfile={setProfile}
-                  currentEngine={engine}
-                  onChangeEngine={setEngine}
-                  isDemoMode={isDemoData}
-                  onToggleDemoMode={handleToggleDemoMode}
-                  onRefreshBackend={handleRefreshBackend}
-                />
-              )}
-            </>
+                {activeTab === "iocs" && (
+                  <IocsPage iocs={analysis.iocs} />
+                )}
+
+                {activeTab === "reports" && (
+                  <ReportsPage analysis={analysis} />
+                )}
+
+                {activeTab === "settings" && (
+                  <SettingsPage
+                    backendStatus={backendStatus}
+                    currentProfile={profile}
+                    onChangeProfile={setProfile}
+                    currentEngine={engine}
+                    onChangeEngine={setEngine}
+                    isDemoMode={isDemoData}
+                    onToggleDemoMode={handleToggleDemoMode}
+                    onRefreshBackend={handleRefreshBackend}
+                  />
+                )}
+              </>
+            )
           )}
         </main>
       </div>

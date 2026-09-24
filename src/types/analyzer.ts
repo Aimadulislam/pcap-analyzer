@@ -227,11 +227,24 @@ export interface SamplePcapInfo {
   severityLevel: SeverityLevel;
 }
 
+export interface TestSuiteStatus {
+  verified: boolean;
+  passed: boolean;
+  status: "Passing" | "Failing" | "Not verified" | "Error";
+  totalTests: number;
+  duration?: string;
+  summary: string;
+  timestamp?: string;
+}
+
 export interface BackendStatus {
   connected: boolean;
   mode: "live" | "demo";
   pythonVersion?: string;
   analyzerVersion?: string;
+  detectionEngineOperational?: boolean;
+  rulesCount?: number;
   availableProfiles: AnalysisProfile[];
   availableEngines: DissectionEngine[];
+  testSuite?: TestSuiteStatus;
 }

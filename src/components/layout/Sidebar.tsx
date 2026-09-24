@@ -12,9 +12,12 @@ import {
   Sliders,
   Menu,
   X,
+  Compass,
+  BookOpen,
 } from "lucide-react";
 
 export type NavTab =
+  | "landing"
   | "overview"
   | "pcap"
   | "findings"
@@ -24,6 +27,7 @@ export type NavTab =
   | "tls"
   | "iocs"
   | "reports"
+  | "docs"
   | "settings";
 
 interface SidebarProps {
@@ -44,6 +48,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
   onToggleMobile,
 }) => {
   const navItems = [
+    {
+      id: "landing" as NavTab,
+      label: "Project Landing",
+      icon: Compass,
+      badge: null,
+    },
     {
       id: "overview" as NavTab,
       label: "Overview",
@@ -98,6 +108,12 @@ export const Sidebar: React.FC<SidebarProps> = ({
       id: "reports" as NavTab,
       label: "Reports",
       icon: FileText,
+      badge: null,
+    },
+    {
+      id: "docs" as NavTab,
+      label: "Documentation",
+      icon: BookOpen,
       badge: null,
     },
     {

@@ -18,6 +18,8 @@ export async function checkBackendStatus(): Promise<BackendStatus> {
         mode: data.connected ? "live" : "demo",
         pythonVersion: data.pythonVersion,
         analyzerVersion: data.analyzerVersion || "2.0.0",
+        detectionEngineOperational: Boolean(data.detectionEngineOperational),
+        rulesCount: data.rulesCount || 11,
         availableProfiles: data.availableProfiles || ["default", "home_lab", "enterprise", "high_volume"],
         availableEngines: data.availableEngines || ["native", "scapy", "auto"],
       };
@@ -29,8 +31,28 @@ export async function checkBackendStatus(): Promise<BackendStatus> {
   return {
     connected: false,
     mode: "demo",
+    detectionEngineOperational: false,
+    rulesCount: 11,
     availableProfiles: ["default", "home_lab", "enterprise", "high_volume"],
     availableEngines: ["native"],
+  };
+}
+
+export async function fetchTestStatus() {
+  try {
+    const res = await fetch("/api/test-status", { signal: AbortSignal.timeout(20000) });
+    if (res.ok) {
+      return await res.json();
+    }
+  } catch (e) {
+    // Could not verify
+  }
+  return {
+    verified: false,
+    passed: false,
+    status: "Not verified",
+    totalTests: 31,
+    summary: "Backend test runner not reachable",
   };
 }
 

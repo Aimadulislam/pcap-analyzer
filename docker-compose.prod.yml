@@ -1,0 +1,68 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pcap-analyzer-backend-prod
+    environment:
+      - APP_ENV=production
+      - DEBUG=false
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+      - MAX_UPLOAD_SIZE_MB=50
+      - MAX_CONCURRENT_ANALYSES=4
+      - ANALYSIS_TIMEOUT_SECONDS=90
+      - DEFAULT_PROFILE=enterprise
+      - CORS_ORIGINS=https://forensics.internal.corp,http://localhost:3000
+      - LOG_LEVEL=INFO
+      - RETENTION_DAYS=7
+    volumes:
+      - analyzer_data:/app/data
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 2048M
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    security_opt:
+      - no-new-privileges:true
+    read_only: false
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - analyzer_network
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    container_name: pcap-analyzer-frontend-prod
+    ports:
+      - "3000:8080"
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+    security_opt:
+      - no-new-privileges:true
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - analyzer_network
+
+volumes:
+  analyzer_data:
+    driver: local
+
+networks:
+  analyzer_network:
+    driver: bridge

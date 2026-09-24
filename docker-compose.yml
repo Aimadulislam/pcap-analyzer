@@ -1,0 +1,42 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pcap-analyzer-backend-dev
+    environment:
+      - APP_ENV=development
+      - DEBUG=true
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+      - MAX_UPLOAD_SIZE_MB=50
+      - MAX_CONCURRENT_ANALYSES=2
+      - ANALYSIS_TIMEOUT_SECONDS=60
+      - DEFAULT_PROFILE=default
+      - CORS_ORIGINS=http://localhost:5173,http://localhost:3000
+      - LOG_LEVEL=DEBUG
+      - RETENTION_DAYS=7
+    volumes:
+      - ./data:/app/data
+      - ./src:/app/src
+      - ./config:/app/config
+      - ./examples:/app/examples
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    container_name: pcap-analyzer-frontend-dev
+    ports:
+      - "3000:8080"
+    depends_on:
+      - backend
+    restart: unless-stopped

@@ -214,3 +214,9 @@ class AnalysisConfig:
                 "include_payload_dumps": self.include_payload_dumps,
                 "profile_source": self.profile_source,
             }, f, indent=2)
+
+
+def load_detection_profile(profile_name: str = "default") -> DetectionConfig:
+    """Load DetectionConfig initialized from an environment profile name or JSON file."""
+    return AnalysisConfig.from_profile(profile_name).detection
+

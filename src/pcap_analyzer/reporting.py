@@ -258,3 +258,9 @@ class TextReporter:
         report_text = TextReporter.generate(result)
         with path.open("w", encoding="utf-8") as f:
             f.write(report_text)
+
+
+def generate_text_report(result: AnalysisResult) -> str:
+    """Generate comprehensive 12-section plaintext technical investigation report."""
+    return TextReporter.generate(result)
+

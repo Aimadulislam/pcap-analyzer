@@ -10,14 +10,15 @@ import { DEMO_FIXTURES, SAMPLE_PCAP_LIST } from "../data/demoFixtures";
 
 export async function checkBackendStatus(): Promise<BackendStatus> {
   try {
-    const res = await fetch("/api/status", { signal: AbortSignal.timeout(3000) });
+    const res = await fetch("/api/v1/status", { signal: AbortSignal.timeout(3000) })
+      .catch(() => fetch("/api/status", { signal: AbortSignal.timeout(3000) }));
     if (res.ok) {
       const data = await res.json();
       return {
         connected: Boolean(data.connected),
         mode: data.connected ? "live" : "demo",
         pythonVersion: data.pythonVersion,
-        analyzerVersion: data.analyzerVersion || "2.0.0",
+        analyzerVersion: data.analyzerVersion || "0.1.0",
         detectionEngineOperational: Boolean(data.detectionEngineOperational),
         rulesCount: data.rulesCount || 11,
         availableProfiles: data.availableProfiles || ["default", "home_lab", "enterprise", "high_volume"],
@@ -31,6 +32,7 @@ export async function checkBackendStatus(): Promise<BackendStatus> {
   return {
     connected: false,
     mode: "demo",
+    analyzerVersion: "0.1.0",
     detectionEngineOperational: false,
     rulesCount: 11,
     availableProfiles: ["default", "home_lab", "enterprise", "high_volume"],
@@ -40,7 +42,8 @@ export async function checkBackendStatus(): Promise<BackendStatus> {
 
 export async function fetchTestStatus() {
   try {
-    const res = await fetch("/api/test-status", { signal: AbortSignal.timeout(20000) });
+    const res = await fetch("/api/v1/test-status", { signal: AbortSignal.timeout(20000) })
+      .catch(() => fetch("/api/test-status", { signal: AbortSignal.timeout(20000) }));
     if (res.ok) {
       return await res.json();
     }
@@ -62,12 +65,19 @@ export async function analyzeSamplePcap(
   engine: DissectionEngine = "auto"
 ): Promise<{ result: AnalysisResult; reportText?: string }> {
   try {
-    const res = await fetch("/api/analyze-sample", {
+    const res = await fetch("/api/v1/analyze-sample", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ sampleId, profile, engine }),
       signal: AbortSignal.timeout(35000),
-    });
+    }).catch(() =>
+      fetch("/api/analyze-sample", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sampleId, profile, engine }),
+        signal: AbortSignal.timeout(35000),
+      })
+    );
 
     if (res.ok) {
       const data = await res.json();
@@ -114,7 +124,7 @@ export async function analyzeUploadedPcap(
     reader.readAsDataURL(file);
   });
 
-  const res = await fetch("/api/analyze-upload", {
+  const res = await fetch("/api/v1/analyze-upload", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -124,16 +134,33 @@ export async function analyzeUploadedPcap(
       engine,
     }),
     signal: AbortSignal.timeout(65000),
-  });
+  }).catch(() =>
+    fetch("/api/analyze-upload", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        fileName: file.name,
+        fileData: base64Data,
+        profile,
+        engine,
+      }),
+      signal: AbortSignal.timeout(65000),
+    })
+  );
 
   if (!res.ok) {
     const errorJson = await res.json().catch(() => ({}));
-    throw new Error(errorJson.details || errorJson.error || `Analysis failed with HTTP ${res.status}`);
+    const message =
+      errorJson.error?.message ||
+      errorJson.details ||
+      errorJson.error ||
+      `Analysis failed with HTTP ${res.status}`;
+    throw new Error(message);
   }
 
   const data = await res.json();
   if (!data.success || !data.result) {
-    throw new Error(data.error || "Analysis engine did not return valid results.");
+    throw new Error(data.error?.message || data.error || "Analysis engine did not return valid results.");
   }
 
   return {

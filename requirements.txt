@@ -4,4 +4,4 @@ pyshark>=0.6
 
 # Typing and Data Validation
 pydantic>=2.0.0; python_version >= "3.10"
-dataclasses-json>=0.6.0; python_version >= "3.10"
+dataclasses-json>=0.6.7; python_version >= "3.10"

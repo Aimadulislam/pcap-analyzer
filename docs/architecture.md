@@ -1,100 +1,90 @@
 # System Architecture
 
-## Overview
+## Conceptual Pipeline
 
-The **Automated Python PCAP Analyzer & Threat Parser** is architected as a modular, layered defensive network forensics pipeline. It decouples low-level binary packet dissection from high-level flow state tracking, statistical aggregation, and heuristic threat detection.
+The **Automated Python PCAP Analyzer & Threat Parser** is architected around a clean, decoupled dataflow model that transforms raw capture binaries into actionable security intelligence and formal investigation reports:
 
 ```
-                              +---------------------------+
-                              |      Target Capture       |
-                              |      (.pcap / .pcapng)    |
-                              +-------------+-------------+
-                                            |
-                                            v
-+---------------------------------------------------------------------------------------+
-|                              LAYER 1: PACKET DISSECTION                                |
-|                                                                                       |
-|   +-----------------------+   +-----------------------+   +-----------------------+   |
-|   |   NativePcapReader    |   |    ScapyPcapReader    |   |   PySharkPcapReader   |   |
-|   |  (Zero dependencies,  |   |   (Scapy dissection,  |   | (Deep Wireshark/tshark|   |
-|   |  RFC struct parsing)  |   |    when installed)    |   |  tree dissection)     |   |
-|   +-----------+-----------+   +-----------+-----------+   +-----------+-----------+   |
-+---------------|---------------------------|---------------------------|---------------+
-                +---------------------------+---------------------------+
-                                            |
-                                            v (Stream of PacketRecord objects)
-+---------------------------------------------------------------------------------------+
-|                         LAYER 2: STATE & STATISTICS ENGINE                            |
-|                                                                                       |
-|  * Protocol Distribution Accounting (Layer 2, 3, 4, 7)                                |
-|  * Flow / Conversation Tracking (IP:Port <-> IP:Port [Proto])                         |
-|  * TCP State Machine Tracking (SYN, SYN-ACK, ACK, FIN, RST, Handshake Verification)  |
-|  * Payload Extractions (DNS Queries, HTTP Headers, TLS SNI / Versions)                |
-+-------------------------------------------+-------------------------------------------+
-                                            |
-                                            v (TrafficStatistics & FlowRecords)
-+---------------------------------------------------------------------------------------+
-|                         LAYER 3: THREAT DETECTION ENGINE                              |
-|                                                                                       |
-|  [RULE-001] TCP SYN Port Scanning Heuristic (Vertical & Horizontal Sweeps)           |
-|  [RULE-002] Connection Flooding / Single Source Rate Surges                          |
-|  [RULE-003] Unusual Destination Port Activity (Backdoors, RATs, C2)                   |
-|  [RULE-004] DNS Query Volume Anomaly                                                  |
-|  [RULE-005] Suspicious DNS Characteristics (Shannon Entropy & Tunneling Heuristics)   |
-|  [RULE-006] Repeated Failed TCP Connection Handshakes                                 |
-|  [RULE-007] ICMP Volume / Ping Sweep Anomaly                                          |
-|  [RULE-008] Cleartext Protocol Observation (HTTP, FTP, Telnet Security Risk)          |
-+-------------------------------------------+-------------------------------------------+
-                                            |
-                                            v (List of AlertFinding objects with evidence)
-+---------------------------------------------------------------------------------------+
-|                         LAYER 4: OUTPUT & REPORTING ENGINE                            |
-|                                                                                       |
-|  * JsonReporter: Machine-readable JSON output for SIEMs and pipeline automation       |
-|  * TextReporter: 12-section formal SOC investigation report                           |
-|  * CLI Presenter: Terminal summary table with colorized status and confidence scores  |
-+---------------------------------------------------------------------------------------+
+                    PCAP / PCAPNG
+                          │
+                          ▼
+                  ┌───────────────┐
+                  │ Packet Parser │
+                  └───────┬───────┘
+                          │
+          ┌───────────────┼────────────────┐
+          ▼               ▼                ▼
+       Protocols        Flows          Metadata
+          │               │                │
+    ┌─────┼─────┐         │          ┌─────┴─────┐
+    ▼     ▼     ▼         ▼          ▼           ▼
+   DNS   HTTP   TLS    TCP/UDP      IOCs       Integrity
+    │     │     │         │
+    └─────┴─────┴─────────┴──────────┐
+                                     ▼
+                           Detection Engine
+                                     │
+                     ┌───────────────┼───────────────┐
+                     ▼               ▼               ▼
+                  Findings        Evidence       Severity
+                     │               │               │
+                     └───────────────┼───────────────┘
+                                     ▼
+                         JSON + Security Report
 ```
 
 ---
 
-## Component Breakdown
+## Architectural Stages
 
-### 1. Packet Ingestion & Parsing Layer (`pcap_analyzer.parser`)
+### 1. Ingestion & Dissection: Packet Parser (`pcap_analyzer.parser`)
 
-The parser layer provides an abstract interface (`BasePcapReader`) with three distinct implementations:
+The ingestion stage ingests raw packet captures in standard libpcap or modern PCAPNG formats. The parser layer provides an abstract interface (`BasePcapReader`) with three distinct implementations:
 
-- **`NativePcapReader`**: Written in pure Python using `struct`, `socket`, and `datetime`. It natively handles big-endian and little-endian libpcap formats (`0xA1B2C3D4`, `0xD4C3B2A1`, `0xA1B23C4D`, `0x4D3CB2A1`) as well as PCAPNG Section Header Blocks and Enhanced Packet Blocks. It operates with **zero external dependencies**, allowing execution in minimal environments or air-gapped systems.
-- **`ScapyPcapReader`**: Uses Scapy's `rdpcap` and `PcapReader` for full Python-based packet manipulation when Scapy is installed.
-- **`PySharkPcapReader`**: Wraps Wireshark's `tshark` binary via PyShark for edge cases requiring deep proprietary or specialized protocol dissectors.
-- **Resilient Error Containment**: Individual malformed or truncated packets are recorded in `parsing_errors` without aborting the capture parsing stream.
+- **`NativePcapReader`**: Pure Python implementation using `struct`, `socket`, and `datetime`. It natively unpacks libpcap headers (magic numbers `0xA1B2C3D4`, `0xD4C3B2A1`, `0xA1B23C4D`, `0x4D3CB2A1`) and PCAPNG Section Header / Enhanced Packet Blocks with **zero external dependencies**.
+- **`ScapyPcapReader`**: Leverages Scapy's dissection engine when installed in the environment.
+- **`PySharkPcapReader`**: Interfaces with Wireshark/tshark dissectors for specialized or proprietary protocols.
+- **Resilient Stream**: Per-packet parsing errors are logged in `parsing_errors` without terminating the capture analysis stream.
 
-### 2. Protocol Dissection Subsystem (`pcap_analyzer.protocols`)
+The parser produces a continuous stream of structured `PacketRecord` objects.
 
-Handles binary extraction across network layers:
-- **Layer 2 (Data Link)**: Ethernet II, 802.1Q VLAN tag unwrapping, ARP.
-- **Layer 3 (Network)**: IPv4 header options, IPv6 next-header chains, ICMP echo/unreachable typing.
-- **Layer 4 (Transport)**: TCP sequence numbers, acknowledgment numbers, flags bitmap (SYN, ACK, FIN, RST, PSH, URG), UDP datagram framing.
-- **Layer 7 (Application)**:
-  - **DNS**: Transaction ID, flags, QNAME decompression pointer traversal (`0xC0`), QTYPE (A, AAAA, CNAME, TXT, MX), answer records.
-  - **HTTP**: Request method extraction (GET, POST, PUT, DELETE, HEAD), URI path, `Host` header, `User-Agent`, response status codes.
-  - **TLS**: Record layer content types (Handshake, Application Data), version negotiation (TLS 1.0 - 1.3), ClientHello handshake dissection, and Server Name Indication (SNI extension `0x0000`) extraction.
+---
 
-### 3. Statistics & Flow Engine (`pcap_analyzer.statistics`)
+### 2. Tripartite Processing Subsystems
 
-Tracks bidirectional and unidirectional conversations:
-- Maintains endpoints, byte counts, and packet counters.
-- Reconstructs TCP handshake states (`SYN` -> `SYN-ACK` -> `ACK`) to determine whether a connection successfully reached an `ESTABLISHED` state or was abandoned/reset.
-- Computes bandwidth metrics, duration, average packet sizes, and top endpoint talkers.
+The parsed packet stream branches into three specialized analytical subsystems:
 
-### 4. Heuristic Threat Detection Engine (`pcap_analyzer.detections`)
+#### A. Protocols (`DNS`, `HTTP`, `TLS`)
+- **`DNSAnalyzer` (`pcap_analyzer.dns_analyzer`)**: Dissects DNS queries and responses, transactions IDs, record types (A, AAAA, CNAME, TXT, MX, NS, PTR), response codes (NOERROR, NXDOMAIN, SERVFAIL), returned IP answers, and computes per-label Shannon entropy.
+- **`HTTPAnalyzer` (`pcap_analyzer.http_analyzer`)**: Dissects cleartext HTTP transactions, extracting request methods (GET, POST, PUT, DELETE, HEAD, OPTIONS), Host headers, URI paths, User-Agent strings, response status codes, and MIME content types.
+- **`TLSAnalyzer` (`pcap_analyzer.tls_analyzer`)**: Inspects unencrypted TLS record layer metadata, ClientHello handshakes, TLS versions (SSL 3.0, TLS 1.0, 1.1, 1.2, 1.3), Server Name Indication (SNI) extensions, and cipher suite references without attempting decryption.
 
-Implements a pluggable, rule-based architecture (`BaseDetectionRule`).
-- Rules are evaluated against parsed packets, conversation flows, and aggregate statistics.
-- Every triggered rule generates an `AlertFinding` object populated with **concrete numerical evidence** (e.g. unique destination ports, completion ratio, sample queries).
-- Thresholds are defined in `AnalysisConfig` (`pcap_analyzer.config`) rather than hardcoded in rule logic.
+#### B. Flows (`TCP / UDP`)
+- **`StatisticsEngine` (`pcap_analyzer.statistics`)**: Reconstructs bidirectional conversations (`src_ip:port <-> dst_ip:port [proto]`).
+- Tracks TCP 3-way handshake state machine (`SYN` → `SYN-ACK` → `ACK`), reset flags (`RST`), teardown (`FIN`), and calculates metrics including Packets Per Second (PPS), Bytes Per Second (BPS), and duration.
+- Classifies flows into observable states: normal TCP session, incomplete TCP connection, repeated connection attempts, UDP communication, and ICMP communication.
 
-### 5. Reporting Layer (`pcap_analyzer.reporting`)
+#### C. Metadata (`IOCs`, `Integrity`)
+- **`IOCExtractor` (`pcap_analyzer.iocs`)**: Identifies, extracts, and deduplicates observable network indicators (IPv4, IPv6, domain names, hostnames, URLs, email addresses, checksums). Tracks first-seen/last-seen timestamps and packet references.
+- **Forensic Integrity Manifest**: Computes cryptographic SHA-256 digests of the capture binary to establish strict chain-of-custody, capture duration, and packet boundary bounds.
 
-- **JSON Reporter**: Exports an immutable JSON document structure for ingestion into SIEMs, Splunk, Elastic, or automated test pipelines.
-- **Text Reporter**: Renders a standardized, 12-section technical investigation report adhering to standard incident response documentation guidelines.
+---
+
+### 3. Detection Engine (`pcap_analyzer.detections`)
+
+The Detection Engine ingests the structured protocol intelligence (DNS, HTTP, TLS) and conversation flows (TCP/UDP) alongside baseline statistics. It evaluates a modular suite of deterministic, evidence-based heuristic rules (`RULE-001` through `RULE-011`).
+
+Every triggered detection generates a tripartite output:
+1. **Findings**: Structured title, category, rule ID, affected source and destination endpoints, and plain-language descriptions.
+2. **Evidence**: Concrete numerical observables, sample queries/URLs/ports, entropy scores, and exact packet number references.
+3. **Severity & Confidence**: Calibrated severity classification (`CRITICAL`, `HIGH`, `MEDIUM`, `LOW`, `INFO`) paired with a fractional confidence score ($0.0 - 1.0$), recommended next steps, and forensic limitations.
+
+---
+
+### 4. Presentation & Artifact Export (`pcap_analyzer.reporting`)
+
+The compiled analysis result is emitted through multiple reporting channels:
+- **SIEM-Ready JSON (`JsonReporter`)**: Comprehensive, machine-readable JSON schema for automated ingestion into Splunk, Elastic SIEM, and SOC data lakes.
+- **12-Section Formal Investigation Report (`TextReporter`)**: Structured forensic incident response document containing executive summaries, forensic integrity hashes, protocol distributions, top talkers, security findings with full evidence, and IOC manifests.
+- **IOC Artifacts (`--iocs`)**: Standalone JSON/CSV file containing all extracted, deduplicated network indicators.
+- **Interactive CLI**: Colorized terminal summary displaying high-priority alerts, protocol distributions, and analysis metrics.

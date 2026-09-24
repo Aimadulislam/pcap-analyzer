@@ -1,8 +1,33 @@
 """Master PCAP Analyzer coordinator module.
 
-Coordinates file validation, cryptographic hashing, packet streaming, statistical aggregation,
-conversation flow tracking, protocol-specific analysis (DNS, HTTP, TLS), IOC extraction,
-rule-based threat evaluation, and multi-format report generation.
+Implements the conceptual network forensics pipeline:
+
+                    PCAP / PCAPNG
+                          │
+                          ▼
+                  ┌───────────────┐
+                  │ Packet Parser │
+                  └───────┬───────┘
+                          │
+          ┌───────────────┼────────────────┐
+          ▼               ▼                ▼
+       Protocols        Flows          Metadata
+          │               │                │
+    ┌─────┼─────┐         │          ┌─────┴─────┐
+    ▼     ▼     ▼         ▼          ▼           ▼
+   DNS   HTTP   TLS    TCP/UDP      IOCs       Integrity
+    │     │     │         │
+    └─────┴─────┴─────────┴──────────┐
+                                     ▼
+                           Detection Engine
+                                     │
+                     ┌───────────────┼───────────────┐
+                     ▼               ▼               ▼
+                  Findings        Evidence       Severity
+                     │               │               │
+                     └───────────────┼───────────────┘
+                                     ▼
+                         JSON + Security Report
 """
 
 from __future__ import annotations
@@ -121,7 +146,16 @@ class PCAPAnalyzer:
         )
 
         # Step 5: Run heuristic threat detection engine
-        findings = self._detection_engine.run(packet_list, flows, summary_stats)
+        # Consumes Protocols (DNS, HTTP, TLS), Flows (TCP/UDP), and Baseline Statistics
+        # to generate structured Findings, Evidence, and calibrated Severity ratings.
+        findings = self._detection_engine.run(
+            packets=packet_list,
+            flows=flows,
+            stats=summary_stats,
+            dns=self._dns_analyzer.records,
+            http=self._http_analyzer.records,
+            tls=self._tls_analyzer.records,
+        )
         logger.info("Evaluation complete: %d security findings identified", len(findings))
 
         # Step 6: Extract structured indicators of compromise

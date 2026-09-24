@@ -16,10 +16,13 @@ from typing import Any, Dict, List, Optional, Set
 from .config import DetectionConfig
 from .models import (
     AlertFinding,
+    DNSRecord,
     FindingCategory,
     FlowRecord,
+    HTTPRecord,
     PacketRecord,
     Severity,
+    TLSRecord,
     TrafficStatistics,
 )
 from .utils import calculate_shannon_entropy, get_port_service_name
@@ -43,6 +46,9 @@ class BaseDetectionRule(ABC):
         packets: List[PacketRecord],
         flows: List[FlowRecord],
         stats: TrafficStatistics,
+        dns: Optional[List[DNSRecord]] = None,
+        http: Optional[List[HTTPRecord]] = None,
+        tls: Optional[List[TLSRecord]] = None,
     ) -> List[AlertFinding]:
         """Evaluate network capture artifacts and return generated findings."""
         pass
@@ -65,6 +71,10 @@ class Rule001TcpSynScan(BaseDetectionRule):
         packets: List[PacketRecord],
         flows: List[FlowRecord],
         stats: TrafficStatistics,
+        dns: Optional[List[DNSRecord]] = None,
+        http: Optional[List[HTTPRecord]] = None,
+        tls: Optional[List[TLSRecord]] = None,
+        **kwargs: Any,
     ) -> List[AlertFinding]:
         findings: List[AlertFinding] = []
 
@@ -181,6 +191,10 @@ class Rule002ConnectionFlood(BaseDetectionRule):
         packets: List[PacketRecord],
         flows: List[FlowRecord],
         stats: TrafficStatistics,
+        dns: Optional[List[DNSRecord]] = None,
+        http: Optional[List[HTTPRecord]] = None,
+        tls: Optional[List[TLSRecord]] = None,
+        **kwargs: Any,
     ) -> List[AlertFinding]:
         findings: List[AlertFinding] = []
         if stats.capture_duration <= 0.05 or stats.total_packets == 0:
@@ -254,6 +268,10 @@ class Rule003UnusualDestinationPort(BaseDetectionRule):
         packets: List[PacketRecord],
         flows: List[FlowRecord],
         stats: TrafficStatistics,
+        dns: Optional[List[DNSRecord]] = None,
+        http: Optional[List[HTTPRecord]] = None,
+        tls: Optional[List[TLSRecord]] = None,
+        **kwargs: Any,
     ) -> List[AlertFinding]:
         findings: List[AlertFinding] = []
         unusual_set = set(self.config.unusual_ports)
@@ -336,6 +354,10 @@ class Rule004DnsQueryAnomaly(BaseDetectionRule):
         packets: List[PacketRecord],
         flows: List[FlowRecord],
         stats: TrafficStatistics,
+        dns: Optional[List[DNSRecord]] = None,
+        http: Optional[List[HTTPRecord]] = None,
+        tls: Optional[List[TLSRecord]] = None,
+        **kwargs: Any,
     ) -> List[AlertFinding]:
         findings: List[AlertFinding] = []
         dns_queries_by_source: Dict[str, List[str]] = defaultdict(list)
@@ -407,6 +429,10 @@ class Rule005SuspiciousDnsCharacteristics(BaseDetectionRule):
         packets: List[PacketRecord],
         flows: List[FlowRecord],
         stats: TrafficStatistics,
+        dns: Optional[List[DNSRecord]] = None,
+        http: Optional[List[HTTPRecord]] = None,
+        tls: Optional[List[TLSRecord]] = None,
+        **kwargs: Any,
     ) -> List[AlertFinding]:
         findings: List[AlertFinding] = []
         suspicious_queries: List[Dict[str, Any]] = []
@@ -506,6 +532,10 @@ class Rule006RepeatedFailedTcpConnections(BaseDetectionRule):
         packets: List[PacketRecord],
         flows: List[FlowRecord],
         stats: TrafficStatistics,
+        dns: Optional[List[DNSRecord]] = None,
+        http: Optional[List[HTTPRecord]] = None,
+        tls: Optional[List[TLSRecord]] = None,
+        **kwargs: Any,
     ) -> List[AlertFinding]:
         findings: List[AlertFinding] = []
 
@@ -569,6 +599,10 @@ class Rule007IcmpVolumeAnomaly(BaseDetectionRule):
         packets: List[PacketRecord],
         flows: List[FlowRecord],
         stats: TrafficStatistics,
+        dns: Optional[List[DNSRecord]] = None,
+        http: Optional[List[HTTPRecord]] = None,
+        tls: Optional[List[TLSRecord]] = None,
+        **kwargs: Any,
     ) -> List[AlertFinding]:
         findings: List[AlertFinding] = []
         icmp_by_source: Dict[str, int] = defaultdict(int)
@@ -636,6 +670,10 @@ class Rule008CleartextProtocolObservation(BaseDetectionRule):
         packets: List[PacketRecord],
         flows: List[FlowRecord],
         stats: TrafficStatistics,
+        dns: Optional[List[DNSRecord]] = None,
+        http: Optional[List[HTTPRecord]] = None,
+        tls: Optional[List[TLSRecord]] = None,
+        **kwargs: Any,
     ) -> List[AlertFinding]:
         findings: List[AlertFinding] = []
 
@@ -716,6 +754,10 @@ class Rule009HttpSecurityObservation(BaseDetectionRule):
         packets: List[PacketRecord],
         flows: List[FlowRecord],
         stats: TrafficStatistics,
+        dns: Optional[List[DNSRecord]] = None,
+        http: Optional[List[HTTPRecord]] = None,
+        tls: Optional[List[TLSRecord]] = None,
+        **kwargs: Any,
     ) -> List[AlertFinding]:
         findings: List[AlertFinding] = []
 
@@ -847,6 +889,10 @@ class Rule010TlsSecurityObservation(BaseDetectionRule):
         packets: List[PacketRecord],
         flows: List[FlowRecord],
         stats: TrafficStatistics,
+        dns: Optional[List[DNSRecord]] = None,
+        http: Optional[List[HTTPRecord]] = None,
+        tls: Optional[List[TLSRecord]] = None,
+        **kwargs: Any,
     ) -> List[AlertFinding]:
         findings: List[AlertFinding] = []
 
@@ -929,6 +975,10 @@ class Rule011DnsUniqueDomainCount(BaseDetectionRule):
         packets: List[PacketRecord],
         flows: List[FlowRecord],
         stats: TrafficStatistics,
+        dns: Optional[List[DNSRecord]] = None,
+        http: Optional[List[HTTPRecord]] = None,
+        tls: Optional[List[TLSRecord]] = None,
+        **kwargs: Any,
     ) -> List[AlertFinding]:
         findings: List[AlertFinding] = []
         unique_by_source: Dict[str, Set[str]] = defaultdict(set)
@@ -997,13 +1047,26 @@ class DetectionEngine:
         packets: List[PacketRecord],
         flows: List[FlowRecord],
         stats: TrafficStatistics,
+        dns: Optional[List[DNSRecord]] = None,
+        http: Optional[List[HTTPRecord]] = None,
+        tls: Optional[List[TLSRecord]] = None,
     ) -> List[AlertFinding]:
-        """Execute all configured detection rules sequentially and rank findings."""
+        """Execute all configured detection rules sequentially and rank findings.
+
+        Implements the conceptual Detection Engine dataflow:
+        Consumes Protocols (DNS, HTTP, TLS), Flows (TCP/UDP), and Baseline Statistics
+        to generate structured Findings, Evidence, and calibrated Severity ratings.
+        """
         all_findings: List[AlertFinding] = []
 
         for rule in self.rules:
             try:
-                rule_findings = rule.evaluate(packets, flows, stats)
+                try:
+                    rule_findings = rule.evaluate(
+                        packets, flows, stats, dns=dns, http=http, tls=tls
+                    )
+                except TypeError:
+                    rule_findings = rule.evaluate(packets, flows, stats)
                 all_findings.extend(rule_findings)
             except Exception as exc:
                 logger.error("Error executing rule %s: %s", rule.rule_id, exc)

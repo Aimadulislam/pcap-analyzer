@@ -87,47 +87,48 @@ Stage 2 elevates the analyzer into a comprehensive SOC forensics tool:
 
 ## Architecture & Design
 
-The analyzer follows a modular, 5-layer decoupled architecture:
+The analyzer follows a modular, decoupled dataflow architecture:
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                 PCAP / PCAPNG Binary File                   │
-│             (Forensic SHA-256 Hash Verification)            │
-└──────────────────────────────┬──────────────────────────────┘
-                               │
-                               ▼
-┌─────────────────────────────────────────────────────────────┐
-│  Layer 1: Dissection Engine (Native / Scapy / PyShark)      │
-│  - Pure Python Struct Unpacking                             │
-│  - Decodes L2 (Ethernet), L3 (IPv4/6, ICMP), L4 (TCP/UDP)   │
-└──────────────────────────────┬──────────────────────────────┘
-                               │ (Stream of PacketRecord objects)
-                               ▼
-┌─────────────────────────────────────────────────────────────┐
-│  Layer 2: Protocol & Flow Intelligence Analyzers            │
-│  - DNSAnalyzer: Queries, RCODEs, Entropy, Top Domains       │
-│  - HTTPAnalyzer: Methods, Hosts, Scanner User-Agents        │
-│  - TLSAnalyzer: Handshakes, SNI Hosts, Deprecated Ciphers   │
-│  - StatisticsEngine: Handshake State Machine, PPS/BPS       │
-│  - IOCExtractor: Endpoints, Domains, URLs, Hashes           │
-└──────────────────────────────┬──────────────────────────────┘
-                               │
-                               ▼
-┌─────────────────────────────────────────────────────────────┐
-│  Layer 3: Threat Detection Engine (RULE-001 - RULE-011)     │
-│  - Environment-Aware Profiles (default, home_lab, etc.)     │
-│  - Packet Correlation & Confidence Scoring                  │
-│  - Analyst Recommendations & Forensic Boundaries            │
-└──────────────────────────────┬──────────────────────────────┘
-                               │ (List of AlertFinding objects)
-                               ▼
-┌─────────────────────────────────────────────────────────────┐
-│  Layer 4: Reporting & Export Engine                         │
-│  - Structured JSON (SIEM / Elastic / Splunk)                │
-│  - 12-Section Forensic Investigation Text Report            │
-│  - Standalone IOC Artifact Export                           │
-└─────────────────────────────────────────────────────────────┘
+                    PCAP / PCAPNG
+                          │
+                          ▼
+                  ┌───────────────┐
+                  │ Packet Parser │
+                  └───────┬───────┘
+                          │
+          ┌───────────────┼────────────────┐
+          ▼               ▼                ▼
+       Protocols        Flows          Metadata
+          │               │                │
+    ┌─────┼─────┐         │          ┌─────┴─────┐
+    ▼     ▼     ▼         ▼          ▼           ▼
+   DNS   HTTP   TLS    TCP/UDP      IOCs       Integrity
+    │     │     │         │
+    └─────┴─────┴─────────┴──────────┐
+                                     ▼
+                           Detection Engine
+                                     │
+                     ┌───────────────┼───────────────┐
+                     ▼               ▼               ▼
+                  Findings        Evidence       Severity
+                     │               │               │
+                     └───────────────┼───────────────┘
+                                     ▼
+                         JSON + Security Report
 ```
+
+### Dataflow Breakdown
+
+1. **PCAP / PCAPNG Ingestion**: Multi-format packet reader (`NativePcapReader`, `ScapyPcapReader`, `PySharkPcapReader`) streams raw packets.
+2. **Packet Parser**: Decodes Layer 2 through Layer 7 frames into structured `PacketRecord` instances.
+3. **Tripartite Analytical Branches**:
+   - **Protocols (`DNS`, `HTTP`, `TLS`)**: Dedicated protocol analyzers parse application-layer transactions, record types, methods, URI paths, User-Agents, and TLS handshakes/ciphers.
+   - **Flows (`TCP/UDP`)**: Flow engine reconstructs conversations, evaluates 3-way handshake completion, computes packet velocities (PPS/BPS), and classifies flow states.
+   - **Metadata (`IOCs`, `Integrity`)**: Extracts and deduplicates observable network indicators (IPs, domains, URLs, hashes) and computes forensic SHA-256 capture hashes.
+4. **Detection Engine**: Consumes protocol records and conversation flows to evaluate modular, evidence-based threat rules (`RULE-001` - `RULE-011`).
+5. **Tripartite Finding Model**: Produces structured **Findings** accompanied by concrete numerical **Evidence** and calibrated **Severity** ratings.
+6. **JSON + Security Report**: Exports SIEM-compatible JSON, formal 12-section incident investigation text reports, and standalone IOC manifests.
 
 ---
 

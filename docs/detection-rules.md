@@ -18,6 +18,9 @@ The threat detection engine uses deterministic, evidence-based heuristics to ide
 | `RULE-006` | Repeated failed TCP connections | Connection Anomaly | **MEDIUM** | `failed_flows >= 25` |
 | `RULE-007` | ICMP volume anomaly | Traffic Anomaly | **MEDIUM** | `icmp_count >= 80` or `rate >= 15/sec` |
 | `RULE-008` | Cleartext protocol observation | Cleartext Communication | **LOW** | Unencrypted HTTP, FTP, Telnet, POP3, IMAP |
+| `RULE-009` | HTTP security observation | HTTP Anomaly | **HIGH / LOW** | Scanner User-Agents (sqlmap, nikto, nessus, nmap), URI length >= 256, unusual verbs |
+| `RULE-010` | TLS security observation | TLS Observation | **MEDIUM** | Deprecated versions (SSL 3.0, TLS 1.0, TLS 1.1), non-standard TLS ports |
+| `RULE-011` | High unique domain query count | DNS Anomaly | **LOW** | Unique queried domains >= 30 |
 
 ---
 
@@ -143,3 +146,49 @@ The threat detection engine uses deterministic, evidence-based heuristics to ide
   - `protocol`: Name of the unencrypted protocol.
   - `packet_count`: Total cleartext packets observed.
   - `observed_hosts`: Extracted HTTP hostnames or endpoints.
+
+---
+
+### RULE 009: HTTP Security Observation
+
+- **Category**: HTTP Anomaly
+- **Purpose**: Identify automated web vulnerability scanners, parameter fuzzing / oversized URI paths, and non-standard HTTP methods.
+- **Evaluation Logic**:
+  1. Compares `User-Agent` strings against signature keywords (e.g. `sqlmap`, `nikto`, `nessus`, `nmap`, `masscan`, `wpscan`).
+  2. Flags URI paths exceeding configured threshold length (`>= 256` chars).
+  3. Audits HTTP methods outside standard verbs (GET, POST, PUT, DELETE, HEAD, OPTIONS).
+- **Generated Evidence**:
+  - `occurrence_count`: Total matched requests.
+  - `signatures_observed`: Matched tool indicators.
+  - `sample_user_agents`: User-Agent header strings.
+  - `long_uri_count` & sample URI fragments.
+
+---
+
+### RULE 010: TLS Security Observation
+
+- **Category**: TLS Observation
+- **Purpose**: Detect cryptographically deprecated TLS versions (SSL 3.0, TLS 1.0, TLS 1.1) and TLS negotiations on non-standard ports.
+- **Evaluation Logic**:
+  1. Inspects ClientHello / ServerHello negotiated version fields.
+  2. Flags deprecated versions prohibited under modern compliance baselines (PCI-DSS, NIST SP 800-52r2).
+  3. Flags TLS traffic on uncommon destination ports.
+- **Generated Evidence**:
+  - `protocol_version`: Negotiated version (e.g. `TLS 1.0`).
+  - `packet_count`: Number of packets negotiating deprecated protocol.
+  - `observed_sources` & `observed_destinations`: Affected endpoints.
+
+---
+
+### RULE 011: High Unique Domain Query Count
+
+- **Category**: DNS Anomaly
+- **Purpose**: Flag single hosts generating resolution queries across an unusually large number of distinct domains.
+- **Evaluation Logic**:
+  1. Collects unique requested domain names per client IP.
+  2. Triggers when distinct domain count meets or exceeds threshold (`>= 30`).
+- **Generated Evidence**:
+  - `unique_domains_count`: Count of unique queried domains.
+  - `threshold`: Configured threshold value.
+  - `sample_domains`: Sample list of queried domains.
+

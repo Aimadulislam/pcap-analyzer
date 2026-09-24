@@ -329,5 +329,72 @@ class TestStage2CLIEnhancements(unittest.TestCase):
             self.assertIn("ips", ioc_data)
 
 
+class TestConceptualArchitectureDataflow(unittest.TestCase):
+    """Test verification of the tripartite conceptual architecture pipeline:
+    PCAP/PCAPNG -> Packet Parser -> [Protocols (DNS, HTTP, TLS), Flows (TCP/UDP), Metadata (IOCs, Integrity)]
+    -> Detection Engine -> [Findings, Evidence, Severity] -> JSON + Security Report
+    """
+
+    def test_conceptual_pipeline_integration(self):
+        pcap_path = "tests/fixtures/mixed_forensics.pcap"
+        analyzer = PCAPAnalyzer(pcap_path)
+        res = analyzer.analyze()
+
+        # 1. Packet Parser & Forensic Integrity Metadata
+        self.assertIsNotNone(res.metadata.sha256_hash)
+        self.assertEqual(len(res.metadata.sha256_hash), 64)
+        self.assertGreater(res.metadata.packet_count, 0)
+
+        # 2. Protocols Subsystems: DNS, HTTP, TLS
+        self.assertIsInstance(res.dns, list)
+        self.assertIsInstance(res.http, list)
+        self.assertIsInstance(res.tls, list)
+        self.assertGreater(len(res.dns), 0)
+        self.assertGreater(len(res.http), 0)
+        self.assertGreater(len(res.tls), 0)
+
+        # 3. Flows Subsystem: TCP/UDP
+        self.assertGreater(len(res.flows), 0)
+        for f in res.flows:
+            self.assertIn(f.protocol, ("TCP", "UDP", "ICMP", "OTHER"))
+            self.assertGreater(f.packet_count, 0)
+
+        # 4. Metadata Subsystem: Extracted & Deduplicated IOCs
+        self.assertIn("ips", res.iocs)
+        self.assertIn("domains", res.iocs)
+        self.assertIn("urls", res.iocs)
+
+        # 5. Detection Engine: Findings, Evidence, Severity
+        self.assertGreater(len(res.findings), 0)
+        for finding in res.findings:
+            # Finding attributes
+            self.assertTrue(bool(finding.finding_id))
+            self.assertTrue(bool(finding.rule_id))
+            self.assertTrue(bool(finding.title))
+            self.assertTrue(bool(finding.description))
+
+            # Evidence attributes
+            self.assertIsNotNone(finding.evidence)
+            self.assertTrue(isinstance(finding.evidence, (dict, list)))
+            self.assertIsInstance(finding.packet_numbers, list)
+
+            # Severity attributes
+            self.assertIn(finding.severity, (Severity.CRITICAL, Severity.HIGH, Severity.MEDIUM, Severity.LOW, Severity.INFO))
+            self.assertGreaterEqual(finding.confidence, 0.0)
+            self.assertLessEqual(finding.confidence, 1.0)
+
+        # 6. JSON + Security Report Generation
+        json_report = analyzer.export_json()
+        self.assertTrue(bool(json_report))
+        parsed_json = json.loads(json_report)
+        self.assertIn("metadata", parsed_json)
+        self.assertIn("findings", parsed_json)
+
+        text_report = analyzer.export_report()
+        self.assertTrue(bool(text_report))
+        self.assertIn("END OF PCAP INVESTIGATION REPORT", text_report)
+        self.assertIn("Security Findings & Threat Detections", text_report)
+
+
 if __name__ == "__main__":
     unittest.main()

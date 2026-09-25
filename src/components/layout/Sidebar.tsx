@@ -18,6 +18,7 @@ import {
 
 export type NavTab =
   | "landing"
+  | "case-study"
   | "overview"
   | "pcap"
   | "findings"
@@ -50,9 +51,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const navItems = [
     {
       id: "landing" as NavTab,
-      label: "Project Landing",
+      label: "Project Hero",
       icon: Compass,
       badge: null,
+    },
+    {
+      id: "case-study" as NavTab,
+      label: "Portfolio Case Study",
+      icon: BookOpen,
+      badge: "Stage 6",
+      badgeColor: "text-cyan-400 bg-cyan-950/80 border border-cyan-800/80",
     },
     {
       id: "overview" as NavTab,

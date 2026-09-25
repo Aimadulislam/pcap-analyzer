@@ -1,0 +1,55 @@
+{
+  "ips": [
+    {
+      "type": "IPv4",
+      "value": "192.168.4.88",
+      "source": "IP Header (Private/Internal)",
+      "first_seen": 1700000000.0,
+      "last_seen": 1700000001.76,
+      "packet_count": 50,
+      "context": {
+        "sample_packets": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "contexts": []
+      }
+    },
+    {
+      "type": "IPv4",
+      "value": "10.10.20.5",
+      "source": "IP Header (Private/Internal)",
+      "first_seen": 1700000000.0,
+      "last_seen": 1700000001.76,
+      "packet_count": 50,
+      "context": {
+        "sample_packets": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10
+        ],
+        "contexts": []
+      }
+    }
+  ],
+  "domains": [],
+  "urls": [],
+  "hostnames": [],
+  "emails": [],
+  "hashes": []
+}

@@ -251,7 +251,8 @@ app.get("/api/v1/samples", handleSamples);
 // Analyze Sample PCAP
 // -------------------------------------------------------------
 const handleAnalyzeSample = async (req: Request, res: Response) => {
-  const { sampleId, profile = "default", engine = "auto" } = req.body;
+  const sampleId = req.body.sampleId || req.body.sample_id;
+  const { profile = "default", engine = "auto" } = req.body;
   const sample = SAMPLE_PCAPS[sampleId];
 
   if (!sample) {
@@ -363,7 +364,9 @@ const handleAnalyzeSample = async (req: Request, res: Response) => {
   }
 };
 app.post("/api/analyze-sample", handleAnalyzeSample);
+app.post("/api/analyze/sample", handleAnalyzeSample);
 app.post("/api/v1/analyze-sample", handleAnalyzeSample);
+app.post("/api/v1/analyze/sample", handleAnalyzeSample);
 
 // -------------------------------------------------------------
 // Analyze Uploaded PCAP/PCAPNG File

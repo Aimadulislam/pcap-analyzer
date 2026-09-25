@@ -1,30 +1,104 @@
-# Automated Python PCAP Analyzer & Threat Parser (Stage 2)
+# Automated Python PCAP Analyzer & Threat Parser
 
+[![CI/CD Pipeline](https://github.com/defensive-sec/pcap-threat-analyzer/actions/workflows/ci.yml/badge.svg)](.github/workflows/ci.yml)
+[![Version](https://img.shields.io/badge/version-0.1.0-blue.svg)](CHANGELOG.md)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-blue.svg)](https://www.python.org/)
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
 [![Security Focus: Defensive](https://img.shields.io/badge/Focus-Defensive%20Security%20%26%20SOC-green.svg)](#security-scope)
-[![Code Style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Docker Ready](https://img.shields.io/badge/Docker-Non--Root%20Multi--Stage-2496ED.svg)](Dockerfile)
 
-A production-grade, offline network packet analysis, forensic intelligence, and threat-detection engine developed in Python. Designed for SOC analysts, digital forensics investigators, and threat hunters, it ingests `.pcap` and `.pcapng` capture files, dissects multi-layer protocols, tracks conversation flows, evaluates deterministic security heuristics, extracts observable Indicators of Compromise (IOCs), and compiles structured SIEM-ready JSON alongside formal 12-section technical investigation reports.
+A production-grade, offline network packet analysis, forensic intelligence, and threat-detection engine developed in Python and React/TypeScript. Designed for SOC analysts, digital forensics investigators, and threat hunters, it ingests `.pcap` and `.pcapng` capture files, dissects multi-layer protocols, tracks conversation flows, evaluates deterministic security heuristics, extracts observable Indicators of Compromise (IOCs), and compiles structured SIEM-ready JSON alongside formal 12-section technical investigation reports.
 
 ---
 
 ## Table of Contents
 
 - [Overview](#overview)
+- [Quick Start: Docker (Recommended)](#quick-start-docker-recommended)
+- [Quick Start: Non-Docker Local Setup](#quick-start-non-docker-local-setup)
+- [Public Demo vs Local Forensic Execution](#public-demo-vs-local-forensic-execution)
 - [Key Features](#key-features)
-- [Stage 2 Enhancements](#stage-2-enhancements)
+- [DevSecOps & Production Hardening](#devsecops--production-hardening)
 - [Architecture & Design](#architecture--design)
 - [Environment-Aware Profiles](#environment-aware-profiles)
-- [Security Scope](#security-scope)
-- [Installation](#installation)
 - [Command-Line Usage](#command-line-usage)
 - [Detection Rules & Heuristics](#detection-rules--heuristics)
-- [Sample Output & Forensic Reports](#sample-output--forensic-reports)
 - [Repository Structure](#repository-structure)
 - [Testing & Synthetic Fixtures](#testing--synthetic-fixtures)
-- [Forensic Limitations & Operational Boundaries](#forensic-limitations--operational-boundaries)
+- [Documentation Index](#documentation-index)
 - [Disclaimer & License](#disclaimer--license)
+
+---
+
+## Quick Start: Docker (Recommended)
+
+The entire full-stack platform (FastAPI backend + unprivileged Nginx static frontend) can be deployed with Docker Compose:
+
+```bash
+# 1. Clone the repository
+git clone <YOUR_REPOSITORY_URL>
+cd pcap-threat-analyzer
+
+# 2. Configure environment variables
+cp .env.example .env
+
+# 3. Launch the container stack
+docker compose up --build
+```
+
+Access the services:
+- **Analyst Workspace UI**: `http://localhost:3000`
+- **Backend API & Health**: `http://localhost:8000/health`
+- **Interactive OpenAPI Docs**: `http://localhost:8000/docs` (in development mode)
+
+---
+
+## Quick Start: Non-Docker Local Setup
+
+### Backend (Python 3.10+)
+
+```bash
+# 1. Create and activate virtual environment
+python3 -m venv venv
+source venv/bin/activate
+
+# 2. Install dependencies
+pip install -r requirements.txt -r requirements-dev.txt
+
+# 3. Run full test suite (44 unit tests)
+PYTHONPATH=src python3 -m unittest discover tests
+
+# 4. Analyze a capture via CLI
+PYTHONPATH=src python3 -m src.pcap_analyzer.cli examples/syn_port_scan.pcap \
+  --profile enterprise \
+  -o reports/analysis.json \
+  -r reports/investigation_report.txt \
+  --iocs reports/iocs.json
+```
+
+### Frontend (Node 20+)
+
+```bash
+# 1. Install dependencies
+npm ci
+
+# 2. Start developer server (port 3000)
+npm run dev
+
+# 3. Compile production bundle
+npm run build
+```
+
+---
+
+## Public Demo vs Local Forensic Execution
+
+| Environment | Purpose | Upload Policy | Data Privacy Boundary |
+| :--- | :--- | :--- | :--- |
+| **Public Portfolio Demo** | Demonstration & evaluation | **Disabled by default / Synthetic Only** | Uses pre-packaged synthetic captures (`syn_port_scan`, `dns_tunneling`, `cleartext`, `corporate_baseline`). Zero confidential packet data is uploaded or stored. |
+| **Local Forensic Deployment** | Active incident triage | **Enabled (Protected)** | Runs on analyst workstation or internal LAN behind strict authentication. Capture files stay in isolated local sandbox `data/analyses/<id>/`. |
+
+> **Operational Warning**: Never expose an unauthenticated public PCAP analysis service to the open internet. Real PCAP captures often contain cleartext credentials, API tokens, internal hostnames, and sensitive operational traffic.
 
 ---
 
@@ -399,13 +473,28 @@ Run the test suite using Python's standard `unittest`:
 PYTHONPATH=src python3 -m unittest discover -s tests -p "test_*.py" -v
 ```
 
-All 30 unit and integration tests validate:
+All 44 unit and integration tests validate:
 - Binary packet parsing accuracy across Ethernet, IPv4, TCP, UDP, ICMP, DNS, HTTP, and TLS.
 - Handshake state machine accuracy across established, incomplete, and reset flows.
 - Shannon entropy calculations and threshold-based DNS tunneling detection.
 - IOC deduplication, timestamp aggregation, and JSON schema conformity.
 - Profile loading and threshold override logic.
+- Input validation, path traversal defense, and ephemeral data retention.
 - End-to-end execution against reproducible synthetic PCAPs.
+
+---
+
+## Documentation Index
+
+Comprehensive engineering, DevSecOps, and deployment specifications:
+
+- **[Portfolio Case Study](docs/portfolio-case-study.md)**: High-density portfolio documentation, architecture breakdown, and interview guide.
+- **[Security Hardening & Threat Model](docs/security-hardening.md)**: Input sanitization, path traversal defenses, sandboxed storage, and security headers.
+- **[DevSecOps & Automated Quality Pipeline](docs/devsecops.md)**: CI workflows, Ruff linter, mypy static typing, coverage, and Gitleaks secret scanning.
+- **[Deployment & Architecture Strategies](docs/deployment.md)**: Multi-stage Docker, production reverse proxies, and portfolio demo boundaries.
+- **[Production Release Checklist](docs/release-checklist.md)**: Step-by-step verification checklist prior to tagging a production release.
+- **[Security Policy & Reporting](SECURITY.md)**: Vulnerability disclosure and defensive operational boundaries.
+- **[Changelog & Release Notes](CHANGELOG.md)**: Version history conforming to Keep a Changelog.
 
 ---
 

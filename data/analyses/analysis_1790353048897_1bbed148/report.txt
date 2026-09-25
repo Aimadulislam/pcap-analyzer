@@ -1,0 +1,180 @@
+==============================================================================
+      PCAP THREAT ANALYSIS & NETWORK FORENSICS REPORT
+      Automated Python PCAP Analyzer & Threat Parser (Stage 2)
+==============================================================================
+
+==============================================================================
+ 1. Analysis Overview (Executive Summary)
+==============================================================================
+Target Capture:     syn_port_scan.pcap
+Analysis Profile:   default [built-in (default)]
+Total Packets:      50
+Capture Duration:   00:01.759
+Total Findings:     4
+Threat Posture:     CRITICAL: 0 | HIGH: 1 | MEDIUM: 0 | LOW: 3 | INFO: 0
+
+==============================================================================
+ 2. Capture Metadata & Integrity Manifest
+==============================================================================
+File Path:          /app/applet/examples/syn_port_scan.pcap
+File Size:          3.44 KB (3,524 bytes)
+SHA-256 Hash:       25e0b6ea17b3da0c6c32e93511b3b84b137e386f9c807ae813a202148681eb58
+Capture Format:     PCAP (Standard Libpcap)
+Analyzer Engine:    Native v2.0.0
+Analysis Timestamp: 2026-09-25T16:17:28.994622+00:00
+First Packet Time:  2023-11-14 22:13:20 UTC
+Last Packet Time:   2023-11-14 22:13:21 UTC
+
+==============================================================================
+ 3. Traffic Statistics & Volume
+==============================================================================
+Total Data Volume:  2.64 KB (2,700 bytes)
+Average Packet:     54.0 bytes
+Unique Endpoints:   2 Source IPs | 2 Destination IPs
+Active Flows:       49 distinct conversations
+TCP Handshakes:     1 Completed | 44 Incomplete | 3 Resets
+
+==============================================================================
+ 4. Protocol Distribution
+==============================================================================
+Protocol        Packets      Percentage   Bytes          
+------------------------------------------------------------
+TCP             50           100.00%      2.64 KB        
+
+==============================================================================
+ 5. Top Talkers
+==============================================================================
+Top Transmitting Sources:
+  Source IP              Packets      Traffic Volume  Share     
+  --------------------------------------------------------------
+  192.168.4.88           46           2.43 KB         92.00%
+  10.10.20.5             4            216 B            8.00%
+
+Top Destination Endpoints:
+  Destination IP         Packets      Traffic Volume  Share     
+  --------------------------------------------------------------
+  10.10.20.5             46           2.43 KB         92.00%
+  192.168.4.88           4            216 B            8.00%
+
+==============================================================================
+ 6. Top Conversations (Flow Matrix)
+==============================================================================
+  Flow Identifier                            Pkts    Rate       Classification      
+  ----------------------------------------------------------------------------------
+  192.168.4.88:45002 -> 10.10.20.5:22 [TCP]  2       100.0 p/s  normal TCP session  
+  192.168.4.88:45000 -> 10.10.20.5:20 [TCP]  1       1000.0 p/s incomplete TCP connection
+  192.168.4.88:45001 -> 10.10.20.5:21 [TCP]  1       1000.0 p/s incomplete TCP connection
+  10.10.20.5:21 -> 192.168.4.88:45001 [TCP]  1       1000.0 p/s normal TCP session  
+  10.10.20.5:22 -> 192.168.4.88:45002 [TCP]  1       1000.0 p/s normal TCP session  
+  192.168.4.88:45003 -> 10.10.20.5:23 [TCP]  1       1000.0 p/s incomplete TCP connection
+  10.10.20.5:23 -> 192.168.4.88:45003 [TCP]  1       1000.0 p/s normal TCP session  
+  192.168.4.88:45004 -> 10.10.20.5:24 [TCP]  1       1000.0 p/s incomplete TCP connection
+
+==============================================================================
+ 7. DNS Analysis
+==============================================================================
+Total DNS Transactions: 0
+  No DNS queries identified in this capture.
+
+==============================================================================
+ 8. HTTP Analysis
+==============================================================================
+Total HTTP Transactions: 0
+  No cleartext HTTP request/response payloads detected.
+
+==============================================================================
+ 9. TLS Analysis
+==============================================================================
+Total TLS Records Observed: 0
+  No TLS ClientHello/Record handshakes observed.
+
+==============================================================================
+ Extracted Observable Indicators (IOCs)
+==============================================================================
+Extracted Artifacts: 2 IPs | 0 Domains | 0 URLs | 0 Hostnames | 0 Emails | 0 Hashes
+
+==============================================================================
+ 10. Security Findings & Threat Detections
+==============================================================================
+[HIGH] FINDING #01: Potential network scanning activity observed
+  Finding ID:       RULE-001-192-168-4-88
+  Rule ID:          RULE-001
+  Category:         Reconnaissance
+  Confidence Score: 0.88
+  Packet Ref(s):    1, 2, 4, 7, 9, 10 (+9 more)
+  Source Endpoint:  192.168.4.88
+  Description:      Host 192.168.4.88 initiated 45 TCP SYN packets targeting 45 unique ports across 1 destination hosts with only 1 established handshakes (2.2% completion). This pattern exhibits characteristics of a vertical port scan.
+  Telemetry Evidence:
+    - Scan classification: vertical port scan
+    - Syn packets transmitted: 45
+    - Unique destination ports targeted: 45
+    - Unique destination hosts targeted: 1
+    - Completed handshakes: 1
+    - Handshake completion ratio: 0.0222
+    - Sample targeted ports: [20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34]
+    - Sample targeted hosts: ['10.10.20.5']
+  Investigative Step: Correlate host 192.168.4.88 with internal asset inventory or perimeter firewall logs. Determine if this is an authorized vulnerability scanner or an unapproved host probing internal services.
+  Forensic Boundary:  Offline PCAP analysis cannot distinguish authorized vulnerability scans from adversary reconnaissance without external authorization context.
+
+[LOW] FINDING #02: Unencrypted FTP communication observed
+  Finding ID:       RULE-008-ftp
+  Rule ID:          RULE-008
+  Category:         Cleartext Communication
+  Confidence Score: 0.95
+  Packet Ref(s):    2
+  Description:      Identified 1 packets utilizing unencrypted FTP. Cleartext protocols expose headers, session tokens, and payloads to passive eavesdropping.
+  Telemetry Evidence:
+    - Protocol: FTP
+    - Packet count: 1
+    - Observed hosts: []
+    - Active endpoint pairs: ['192.168.4.88 -> 10.10.20.5']
+  Investigative Step: Migrate unencrypted FTP communication to modern encrypted alternatives (e.g., HTTPS, SFTP, SSH) to protect data in transit.
+  Forensic Boundary:  Does not assess whether application-level encryption was implemented on top of the cleartext stream.
+
+[LOW] FINDING #03: Unencrypted TELNET communication observed
+  Finding ID:       RULE-008-telnet
+  Rule ID:          RULE-008
+  Category:         Cleartext Communication
+  Confidence Score: 0.95
+  Packet Ref(s):    7
+  Description:      Identified 1 packets utilizing unencrypted TELNET. Cleartext protocols expose headers, session tokens, and payloads to passive eavesdropping.
+  Telemetry Evidence:
+    - Protocol: TELNET
+    - Packet count: 1
+    - Observed hosts: []
+    - Active endpoint pairs: ['192.168.4.88 -> 10.10.20.5']
+  Investigative Step: Migrate unencrypted TELNET communication to modern encrypted alternatives (e.g., HTTPS, SFTP, SSH) to protect data in transit.
+  Forensic Boundary:  Does not assess whether application-level encryption was implemented on top of the cleartext stream.
+
+[LOW] FINDING #04: Repeated failed TCP connection attempts observed
+  Finding ID:       RULE-006-192-168-4-88
+  Rule ID:          RULE-006
+  Category:         Connection Anomaly
+  Confidence Score: 0.70
+  Packet Ref(s):    N/A
+  Source Endpoint:  192.168.4.88
+  Description:      Host 192.168.4.88 initiated 44 TCP connection attempts that failed to complete the standard 3-way handshake, suggesting unreachable services or filtering.
+  Telemetry Evidence:
+    - Failed syn count: 44
+    - Targeted destinations sample: ['10.10.20.5:20', '10.10.20.5:21', '10.10.20.5:23', '10.10.20.5:24', '10.10.20.5:25', '10.10.20.5:26', '10.10.20.5:27', '10.10.20.5:28', '10.10.20.5:29', '10.10.20.5:30']
+  Investigative Step: Check firewall logs and service availability for targets of 192.168.4.88. Determine if this is misconfigured polling software or systematic port checking.
+  Forensic Boundary:  Transient network packet loss or asymmetric routing can cause missed SYN-ACKs.
+
+
+==============================================================================
+ 11. Parsing Errors & Stream Anomalies
+==============================================================================
+  Zero parsing errors encountered. All packets parsed cleanly.
+
+==============================================================================
+ 12. Analyst Notes & SOC Recommendations
+==============================================================================
+  * Heuristic Assessment: Detections are generated using deterministic statistical
+    and layer-boundary rules. An alert indicates suspicious activity patterns,
+    not certified malicious compromise. Corroborate with host endpoint EDR logs.
+  * Environment Baselines: Results reflect thresholds configured in the active
+    profile (default). Tuning thresholds in config/*.json is recommended
+    for unique network environments.
+==============================================================================
+                    END OF PCAP INVESTIGATION REPORT
+==============================================================================

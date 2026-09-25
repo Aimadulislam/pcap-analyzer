@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { TopNav } from "./components/layout/TopNav";
 import { Sidebar, NavTab } from "./components/layout/Sidebar";
 import { LandingPage } from "./components/landing/LandingPage";
+import { PortfolioCaseStudyPage } from "./components/portfolio/PortfolioCaseStudyPage";
 import { DocumentationPage } from "./components/docs/DocumentationPage";
 import { OverviewDashboard } from "./components/overview/OverviewDashboard";
 import { PcapAnalysisPage } from "./components/pcap/PcapAnalysisPage";
@@ -163,12 +164,27 @@ export default function App() {
             <LandingPage
               backendStatus={backendStatus}
               onOpenAnalyzer={() => setActiveTab("overview")}
+              onOpenCaseStudy={() => setActiveTab("case-study")}
               onOpenDocumentation={(sec) => {
                 if (sec) setDocsSection(sec);
                 setActiveTab("docs");
               }}
               onSelectSample={(id) => handleAnalyzeSample(id, profile, engine)}
               onRefreshBackend={handleRefreshBackend}
+            />
+          )}
+
+          {/* Portfolio Case Study Presentation */}
+          {activeTab === "case-study" && (
+            <PortfolioCaseStudyPage
+              backendStatus={backendStatus}
+              onOpenWorkspace={() => setActiveTab("overview")}
+              onOpenDocumentation={(sec) => {
+                if (sec) setDocsSection(sec);
+                setActiveTab("docs");
+              }}
+              onSelectSample={(id) => handleAnalyzeSample(id, profile, engine)}
+              onNavigateToTab={setActiveTab}
             />
           )}
 
@@ -181,7 +197,7 @@ export default function App() {
           )}
 
           {/* Console modules */}
-          {activeTab !== "landing" && activeTab !== "docs" && (
+          {activeTab !== "landing" && activeTab !== "case-study" && activeTab !== "docs" && (
             analysisStatus === "analyzing" && !analysis ? (
               <div className="flex flex-col items-center justify-center py-28 space-y-3">
                 <RefreshCw className="w-8 h-8 text-cyan-400 animate-spin" />

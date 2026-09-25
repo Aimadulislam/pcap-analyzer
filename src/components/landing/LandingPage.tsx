@@ -36,6 +36,7 @@ interface LandingPageProps {
   onOpenDocumentation: (section?: string) => void;
   onSelectSample: (sampleId: string) => void;
   onRefreshBackend: () => void;
+  onOpenCaseStudy?: () => void;
 }
 
 // Configurable placeholder GitHub URL
@@ -47,6 +48,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
   onOpenDocumentation,
   onSelectSample,
   onRefreshBackend,
+  onOpenCaseStudy,
 }) => {
   const [testStatus, setTestStatus] = useState<TestSuiteStatus | null>(null);
   const [verifyingTests, setVerifyingTests] = useState<boolean>(false);
@@ -291,12 +293,22 @@ export const LandingPage: React.FC<LandingPageProps> = ({
                 <span>Open Analyzer</span>
               </button>
 
+              {onOpenCaseStudy && (
+                <button
+                  onClick={onOpenCaseStudy}
+                  className="flex items-center space-x-2 px-4 py-2.5 rounded bg-cyan-950/70 hover:bg-cyan-900/80 text-cyan-300 border border-cyan-800/80 text-xs font-medium transition cursor-pointer"
+                >
+                  <BookOpen className="w-3.5 h-3.5 text-cyan-400" />
+                  <span>Case Study</span>
+                </button>
+              )}
+
               <button
                 onClick={() => onOpenDocumentation()}
                 className="flex items-center space-x-2 px-4 py-2.5 rounded bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700/80 text-xs font-medium transition cursor-pointer"
               >
-                <BookOpen className="w-3.5 h-3.5 text-cyan-400" />
-                <span>View Documentation</span>
+                <Terminal className="w-3.5 h-3.5 text-slate-400" />
+                <span>Technical Docs</span>
               </button>
 
               <a

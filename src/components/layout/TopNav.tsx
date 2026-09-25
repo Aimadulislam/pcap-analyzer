@@ -38,8 +38,9 @@ export const TopNav: React.FC<TopNavProps> = ({
   testSuitePassing = true,
 }) => {
   const isLanding = activeTab === "landing";
+  const isCaseStudy = activeTab === "case-study";
   const isDocs = activeTab === "docs";
-  const isConsole = !isLanding && !isDocs;
+  const isConsole = !isLanding && !isCaseStudy && !isDocs;
 
   return (
     <header className="h-14 border-b border-slate-800 bg-[#0B0F19]/95 backdrop-blur px-4 md:px-6 flex items-center justify-between z-30 sticky top-0">
@@ -64,8 +65,8 @@ export const TopNav: React.FC<TopNavProps> = ({
         </div>
       </div>
 
-      {/* Center Zone: Mode Switcher (Landing vs Analyst Console vs Documentation) */}
-      <div className="hidden md:flex items-center space-x-1 p-1 bg-slate-950/80 rounded-lg border border-slate-800/90 text-xs">
+      {/* Center Zone: Mode Switcher (Landing vs Case Study vs Analyst Console vs Documentation) */}
+      <div className="hidden lg:flex items-center space-x-1 p-1 bg-slate-950/80 rounded-lg border border-slate-800/90 text-xs">
         <button
           onClick={() => onSelectTab("landing")}
           className={`flex items-center space-x-1.5 px-3 py-1 rounded transition cursor-pointer font-medium ${
@@ -75,7 +76,19 @@ export const TopNav: React.FC<TopNavProps> = ({
           }`}
         >
           <Compass className="w-3.5 h-3.5" />
-          <span>Project Landing</span>
+          <span>Project Hero</span>
+        </button>
+
+        <button
+          onClick={() => onSelectTab("case-study")}
+          className={`flex items-center space-x-1.5 px-3 py-1 rounded transition cursor-pointer font-medium ${
+            isCaseStudy
+              ? "bg-cyan-600 text-white shadow-sm"
+              : "text-slate-400 hover:text-slate-200"
+          }`}
+        >
+          <BookOpen className="w-3.5 h-3.5" />
+          <span>Case Study</span>
         </button>
 
         <button
@@ -98,8 +111,8 @@ export const TopNav: React.FC<TopNavProps> = ({
               : "text-slate-400 hover:text-slate-200"
           }`}
         >
-          <BookOpen className="w-3.5 h-3.5" />
-          <span>Documentation</span>
+          <Activity className="w-3.5 h-3.5" />
+          <span>Technical Docs</span>
         </button>
       </div>
 

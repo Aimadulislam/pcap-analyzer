@@ -54,7 +54,7 @@ export async function fetchTestStatus() {
     verified: false,
     passed: false,
     status: "Not verified",
-    totalTests: 31,
+    totalTests: 50,
     summary: "Backend test runner not reachable",
   };
 }

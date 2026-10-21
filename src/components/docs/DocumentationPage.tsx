@@ -697,7 +697,7 @@ python3 -m src.pcap_analyzer.cli examples/syn_port_scan.pcap \\
                   method: "GET",
                   path: "/api/test-status",
                   desc: "Executes real python3 -m unittest runner and returns pass/fail metrics.",
-                  response: '{"verified": true, "passed": true, "totalTests": 31, "duration": "0.07s", "summary": "31 passed (0 failures, 0 errors)"}',
+                  response: '{"verified": true, "passed": true, "totalTests": 50, "duration": "0.08s", "summary": "50 passed (0 failures, 0 errors)"}',
                 },
                 {
                   method: "GET",
@@ -763,8 +763,8 @@ python3 -m src.pcap_analyzer.cli examples/syn_port_scan.pcap \\
 
             <div className="bg-slate-950 p-4 rounded border border-slate-800 space-y-3 text-xs">
               <div className="flex items-center justify-between border-b border-slate-900 pb-2">
-                <span className="font-semibold text-slate-200">31 Automated Unit Tests (Passing)</span>
-                <span className="text-emerald-400 font-mono text-[11px]">Execution Time: ~0.07s</span>
+                <span className="font-semibold text-slate-200">50 Automated Unit Tests (Passing)</span>
+                <span className="text-emerald-400 font-mono text-[11px]">Execution Time: ~0.08s</span>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-[11px] text-slate-400">
@@ -783,6 +783,14 @@ python3 -m src.pcap_analyzer.cli examples/syn_port_scan.pcap \\
                 <div className="space-y-1">
                   <div className="text-slate-300 font-medium">test_reporting.py</div>
                   <div>Validates the completeness of all 12 forensic report sections.</div>
+                </div>
+                <div className="space-y-1">
+                  <div className="text-slate-300 font-medium">test_stage5.py</div>
+                  <div>Tests path traversal rejection, sandbox security, and data retention.</div>
+                </div>
+                <div className="space-y-1">
+                  <div className="text-slate-300 font-medium">test_stage7.py</div>
+                  <div>Audits empty capture resilience, malformed frame recovery, and brute-force rules.</div>
                 </div>
               </div>
             </div>

@@ -334,6 +334,26 @@ def generate_all_test_fixtures(fixtures_dir: str = "tests/fixtures") -> None:
     mixed_pkts.sort(key=lambda x: x[0])
     write_pcap_file(str(fdir / "mixed_forensics.pcap"), mixed_pkts)
 
+    # 7. Repeated Connection Attempts / Brute-force Pattern (SSH port 22 repeated failed SYNs)
+    brute_pkts: List[Tuple[float, bytes]] = []
+    b_attacker = "192.168.1.180"
+    b_target = "192.168.1.22"
+    for i in range(12):
+        t = 6.0 + (i * 0.2)
+        brute_pkts.append((t, build_tcp_packet(b_attacker, b_target, 48000 + i, 22, syn=True)))
+    write_pcap_file(str(fdir / "repeated_conn_attempts.pcap"), brute_pkts)
+
+    # 8. Empty Capture (Valid Global Header, 0 Packets)
+    write_pcap_file(str(fdir / "empty_capture.pcap"), [])
+
+    # 9. Malformed / Truncated Capture (Header + Truncated Packet Frame)
+    p_malformed = fdir / "malformed_truncated.pcap"
+    with p_malformed.open("wb") as f:
+        f.write(build_pcap_global_header())
+        # Write packet header stating 100 bytes, but only supply 10 bytes
+        f.write(struct.pack("<IIII", 1000, 500, 100, 100))
+        f.write(b"\x00" * 10)  # Truncated!
+
 
 if __name__ == "__main__":
     generate_all_test_fixtures()

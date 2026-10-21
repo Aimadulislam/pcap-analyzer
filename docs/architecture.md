@@ -88,3 +88,35 @@ The compiled analysis result is emitted through multiple reporting channels:
 - **12-Section Formal Investigation Report (`TextReporter`)**: Structured forensic incident response document containing executive summaries, forensic integrity hashes, protocol distributions, top talkers, security findings with full evidence, and IOC manifests.
 - **IOC Artifacts (`--iocs`)**: Standalone JSON/CSV file containing all extracted, deduplicated network indicators.
 - **Interactive CLI**: Colorized terminal summary displaying high-priority alerts, protocol distributions, and analysis metrics.
+
+---
+
+### 5. API Backend & Storage Isolation Architecture
+
+In full-stack deployment, the engine is exposed through high-performance REST APIs:
+
+```text
+               HTTP/REST Client (Browser / SOC Console)
+                                │
+                                ▼
+                       Express / FastAPI API
+               (Request ID, Security Headers, CORS)
+                                │
+                                ▼
+                     AnalysisStorageManager
+              (Regex ID Validation, Path Sanitization)
+                                │
+                                ▼
+                        Sandbox Directory
+                     data/analyses/<analysis_id>/
+                                │
+               ┌────────────────┴────────────────┐
+               ▼                                 ▼
+         capture.pcap                      results.json
+         status.json                       report.txt / iocs.json
+```
+
+- **Ephemeral Sandboxing**: Each analysis job is isolated in a unique sandbox directory (`data/analyses/<id>/`) where `<id>` is strictly validated against `^[a-zA-Z0-9_-]{12,64}$`.
+- **Subprocess Isolation**: CLI executions utilize strict argument arrays with `shell=False` to eliminate command injection risk.
+- **Resource Protections**: 50MB maximum upload limit (`HTTP 413`), 60s hard execution timeout, and maximum concurrent analysis semaphore (`HTTP 429`).
+- **Data Retention**: Completed and failed analyses older than the configured retention window (default: 7 days) are purged via automated retention scripts.

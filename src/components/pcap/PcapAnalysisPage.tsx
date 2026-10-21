@@ -219,6 +219,19 @@ export const PcapAnalysisPage: React.FC<PcapAnalysisPageProps> = ({
           </div>
         </div>
 
+        {/* Defensive Authorization & Privacy Notice */}
+        <div className="mt-4 p-3.5 rounded bg-slate-900/80 border border-slate-800/90 text-[11px] text-slate-400 space-y-1">
+          <div className="flex items-center space-x-1.5 text-slate-300 font-semibold">
+            <Shield className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+            <span>Defensive Security &amp; Privacy Policy</span>
+          </div>
+          <p className="leading-relaxed text-slate-400">
+            This tool is intended for authorized defensive security, network troubleshooting, incident response, and forensic analysis.
+            Only inspect packet captures you are explicitly authorized to examine. Captures are processed in an isolated local sandbox
+            and ephemeral records are cleaned per data retention policies.
+          </p>
+        </div>
+
         {/* Error Alert */}
         {errorMessage && (
           <div className="mt-3 flex items-center space-x-2 text-xs text-rose-400 bg-rose-950/40 border border-rose-800/80 p-3 rounded">

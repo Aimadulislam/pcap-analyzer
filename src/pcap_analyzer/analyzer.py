@@ -40,7 +40,7 @@ from pathlib import Path
 import time
 from typing import Optional, Union
 
-from .config import AnalysisConfig
+from .config import AnalysisConfig, DetectionConfig
 from .detections import DetectionEngine
 from .dns_analyzer import DNSAnalyzer
 from .http_analyzer import HTTPAnalyzer
@@ -69,10 +69,13 @@ class PCAPAnalyzer:
     def __init__(
         self,
         file_path: Union[str, Path],
-        config: Optional[AnalysisConfig] = None,
+        config: Optional[Union[AnalysisConfig, DetectionConfig]] = None,
     ):
         self.file_path = Path(file_path).resolve()
-        self.config = config or AnalysisConfig()
+        if isinstance(config, DetectionConfig):
+            self.config = AnalysisConfig(detection=config)
+        else:
+            self.config = config or AnalysisConfig()
         self._reader: Optional[BasePcapReader] = None
         self._stats_engine = StatisticsEngine()
         self._dns_analyzer = DNSAnalyzer()

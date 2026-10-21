@@ -37,7 +37,7 @@
 >
 > Ingesting raw PCAP/PCAPNG captures, the engine dissects Layer 2–7 protocols (Ethernet, IPv4/IPv6, TCP, UDP, ICMP, DNS, HTTP, TLS), reconstructs bidirectional 5-tuple conversation flows, extracts observable IOCs, and evaluates 11 deterministic heuristic detection rules across calibrated environment profiles.
 >
-> The stack combines a native C-struct unpacker and Scapy/PyShark engines with a FastAPI backend and a high-density React/TypeScript analyst console. Detections provide transparent packet indices and byte ratios aligned with MITRE ATT&CK techniques, supported by 44 automated unit tests, Docker containerization, and DevSecOps pipelines.
+> The stack combines a native C-struct unpacker and Scapy/PyShark engines with a FastAPI backend and a high-density React/TypeScript analyst console. Detections provide transparent packet indices and byte ratios aligned with MITRE ATT&CK techniques, supported by 50 automated unit tests, Docker containerization, and DevSecOps pipelines.
 
 ---
 
@@ -49,7 +49,7 @@
 | **Network Analysis** | Native binary struct unpacker, Scapy, PyShark, tshark |
 | **Backend & REST API** | FastAPI, Pydantic, Express, Node.js |
 | **Frontend UI** | React 19, Vite, Tailwind CSS, Recharts, Lucide Icons |
-| **Testing & CI** | unittest, pytest, 44 automated test fixtures |
+| **Testing & CI** | unittest, pytest, 50 automated test fixtures |
 | **DevSecOps** | GitHub Actions, Ruff, mypy, Gitleaks, pip-audit |
 | **Containerization** | Docker (unprivileged non-root), Docker Compose |
 
@@ -178,7 +178,7 @@ To validate detection logic without handling sensitive proprietary network data,
 ## 10. Technical Interview Preparation
 
 ### 60-Second Elevator Pitch
-> "I built the Automated Python PCAP Analyzer & Threat Parser, an offline network-forensics platform. It parses PCAP/PCAPNG captures, reconstructs bidirectional 5-tuple flows, extracts observable IOCs, and evaluates 11 deterministic heuristic detection rules across calibrated environment profiles. The backend uses Python with native C-struct unpacking and Scapy/PyShark fallbacks served via FastAPI, while the frontend provides a high-density SOC analyst console in React/TypeScript. To ensure security and reliability, I implemented path-traversal defenses, non-root Docker execution, 44 automated unit tests, and reproducible synthetic PCAP fixtures."
+> "I built the Automated Python PCAP Analyzer & Threat Parser, an offline network-forensics platform. It parses PCAP/PCAPNG captures, reconstructs bidirectional 5-tuple flows, extracts observable IOCs, and evaluates 11 deterministic heuristic detection rules across calibrated environment profiles. The backend uses Python with native C-struct unpacking and Scapy/PyShark fallbacks served via FastAPI, while the frontend provides a high-density SOC analyst console in React/TypeScript. To ensure security and reliability, I implemented path-traversal defenses, non-root Docker execution, 50 automated unit tests, and reproducible synthetic PCAP fixtures."
 
 ### Technical Q&A Highlights
 - **Why use both a native parser and Scapy/PyShark?**  
@@ -186,4 +186,4 @@ To validate detection logic without handling sensitive proprietary network data,
 - **How do you reconstruct conversation flows?**  
   *Packets are grouped by normalized 5-tuple `(min(src, dst), min(sport, dport), max(src, dst), max(sport, dport), protocol)`. The state machine inspects TCP flags in sequence to verify 3-way handshake completion (`SYN` -> `SYN-ACK` -> `ACK`), flag reset (`RST`) aborts, and track byte transfer ratios per direction.*
 - **How are detections tested without real attacks?**  
-  *Using Scapy, I wrote automated generator scripts that craft mathematically precise synthetic PCAPs reflecting specific traffic invariants (e.g. uncompleted SYN bursts, Shannon entropy spikes). These run in CI across 44 automated test cases to prevent regressions.*
+  *Using Scapy, I wrote automated generator scripts that craft mathematically precise synthetic PCAPs reflecting specific traffic invariants (e.g. uncompleted SYN bursts, Shannon entropy spikes). These run in CI across 50 automated test cases to prevent regressions.*

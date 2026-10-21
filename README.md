@@ -65,7 +65,7 @@ source venv/bin/activate
 # 2. Install dependencies
 pip install -r requirements.txt -r requirements-dev.txt
 
-# 3. Run full test suite (44 unit tests)
+# 3. Run full test suite (50 unit tests)
 PYTHONPATH=src python3 -m unittest discover tests
 
 # 4. Analyze a capture via CLI
@@ -473,13 +473,14 @@ Run the test suite using Python's standard `unittest`:
 PYTHONPATH=src python3 -m unittest discover -s tests -p "test_*.py" -v
 ```
 
-All 44 unit and integration tests validate:
+All 50 unit and integration tests validate:
 - Binary packet parsing accuracy across Ethernet, IPv4, TCP, UDP, ICMP, DNS, HTTP, and TLS.
 - Handshake state machine accuracy across established, incomplete, and reset flows.
 - Shannon entropy calculations and threshold-based DNS tunneling detection.
 - IOC deduplication, timestamp aggregation, and JSON schema conformity.
 - Profile loading and threshold override logic.
 - Input validation, path traversal defense, and ephemeral data retention.
+- Empty capture resilience, truncated frame recovery, and brute-force rules.
 - End-to-end execution against reproducible synthetic PCAPs.
 
 ---

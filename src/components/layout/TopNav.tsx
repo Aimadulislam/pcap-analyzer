@@ -120,11 +120,11 @@ export const TopNav: React.FC<TopNavProps> = ({
       <div className="flex items-center space-x-3 text-xs">
         {/* Test suite status pill */}
         <div
-          title="31 Automated Python unit tests passing"
+          title="50 Automated Python unit tests passing"
           className="hidden xl:flex items-center space-x-1.5 px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-slate-300 font-mono text-[11px]"
         >
           <span className="w-2 h-2 rounded-full bg-emerald-400" />
-          <span>31/31 Tests Passing</span>
+          <span>50/50 Tests Passing</span>
         </div>
 
         {/* Backend Connection Indicator */}

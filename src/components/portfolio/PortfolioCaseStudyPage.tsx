@@ -75,7 +75,7 @@ export const PortfolioCaseStudyPage: React.FC<PortfolioCaseStudyPageProps> = ({
             </span>
             <span className="flex items-center space-x-1.5 px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-slate-300 text-xs font-mono">
               <span className="w-2 h-2 rounded-full bg-emerald-400" />
-              <span>44 Automated Tests Passing</span>
+              <span>50 Automated Tests Passing</span>
             </span>
             <span className="px-2.5 py-1 rounded bg-slate-900 border border-slate-800 text-slate-400 text-xs font-mono">
               v0.1.0 Production Baseline

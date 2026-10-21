@@ -89,7 +89,7 @@ export const PORTFOLIO_DATA: PortfolioCaseStudy = {
     networkAnalysis: ["Scapy", "PyShark", "Wireshark / tshark", "Native struct unpacker"],
     backend: ["FastAPI", "Pydantic", "Express", "Node.js"],
     frontend: ["React 19", "Vite", "Tailwind CSS", "Recharts", "Lucide Icons"],
-    testing: ["unittest", "pytest", "44 automated test cases"],
+    testing: ["unittest", "pytest", "50 automated test cases"],
     devSecOps: ["GitHub Actions", "Ruff", "mypy", "Gitleaks", "pip-audit"],
     containerization: ["Docker (Multi-stage non-root)", "Docker Compose"],
   },

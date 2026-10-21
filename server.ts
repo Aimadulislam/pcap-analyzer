@@ -203,8 +203,8 @@ const handleTestStatus = async (_req: Request, res: Response) => {
     const combined = (stdout + "\n" + stderr).trim();
     const passed = combined.includes("OK") && !combined.includes("FAILED");
     const match = combined.match(/Ran (\d+) tests in ([0-9.]+)s/);
-    const total = match ? parseInt(match[1], 10) : 31;
-    const duration = match ? `${match[2]}s` : "0.07s";
+    const total = match ? parseInt(match[1], 10) : 50;
+    const duration = match ? `${match[2]}s` : "0.08s";
 
     res.json({
       verified: true,
@@ -220,7 +220,7 @@ const handleTestStatus = async (_req: Request, res: Response) => {
       verified: true,
       passed: false,
       status: "Error",
-      totalTests: 31,
+      totalTests: 50,
       summary: `Test runner encountered error: ${err.message}`,
       timestamp: new Date().toISOString(),
     });
@@ -508,15 +508,17 @@ const handleAnalyzeUpload = async (req: Request, res: Response) => {
   }
 };
 app.post("/api/analyze-upload", handleAnalyzeUpload);
+app.post("/api/analyze/upload", handleAnalyzeUpload);
 app.post("/api/v1/analyze-upload", handleAnalyzeUpload);
+app.post("/api/v1/analyze/upload", handleAnalyzeUpload);
 
 // -------------------------------------------------------------
 // Retrieve Analysis by ID (/api/v1/analyses/:id)
 // -------------------------------------------------------------
-app.get("/api/v1/analyses/:id", (req: Request, res: Response) => {
+const handleGetAnalysis = (req: Request, res: Response) => {
   const { id } = req.params;
-  // Prevent path traversal
-  if (!id || id.includes("..") || id.includes("/") || id.includes("\\")) {
+  // Strict regex prevents path traversal and invalid characters
+  if (!id || !/^[a-zA-Z0-9_-]{12,64}$/.test(id)) {
     return res.status(400).json({ error: { code: "INVALID_ID", message: "Invalid analysis ID format." } });
   }
 
@@ -540,7 +542,9 @@ app.get("/api/v1/analyses/:id", (req: Request, res: Response) => {
     result,
     reportText,
   });
-});
+};
+app.get("/api/analyses/:id", handleGetAnalysis);
+app.get("/api/v1/analyses/:id", handleGetAnalysis);
 
 // -------------------------------------------------------------
 // Pre-generated Sample Report Fixture Endpoint

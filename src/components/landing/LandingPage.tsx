@@ -68,7 +68,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
         verified: false,
         passed: false,
         status: "Not verified",
-        totalTests: 31,
+        totalTests: 50,
         summary: "Unable to verify test suite",
       });
     } finally {
@@ -141,7 +141,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({
       title: "Reproducible Testing",
       icon: Cpu,
       desc: "Automated synthetic capture generators creating mathematically deterministic PCAP fixtures for CI/CD test verification.",
-      specs: "31 automated unit tests · Scapy ground-truth fixtures",
+      specs: "50 automated unit tests · Scapy ground-truth fixtures",
     },
     {
       title: "Security Reporting",
@@ -420,8 +420,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({
             <div className="pt-2 border-t border-slate-800/80 text-[11px] text-slate-500 font-mono leading-relaxed">
               {testStatus && testStatus.verified ? (
                 <div className="flex items-center justify-between text-slate-400">
-                  <span>31 unit tests</span>
-                  <span>{testStatus.duration || "0.07s"}</span>
+                  <span>{testStatus.totalTests || 50} unit tests</span>
+                  <span>{testStatus.duration || "0.08s"}</span>
                 </div>
               ) : (
                 <span>Click refresh to execute real test discovery runner</span>

@@ -18,19 +18,16 @@ from pathlib import Path
 import tempfile
 import unittest
 
-from pcap_analyzer.analyzer import PCAPAnalyzer, compute_sha256
+from pcap_analyzer.analyzer import PCAPAnalyzer
 from pcap_analyzer.cli import main as cli_main
-from pcap_analyzer.config import AnalysisConfig, DetectionConfig, PROFILE_DEFINITIONS
+from pcap_analyzer.config import AnalysisConfig
 from pcap_analyzer.dns_analyzer import DNSAnalyzer
 from pcap_analyzer.http_analyzer import HTTPAnalyzer
 from pcap_analyzer.iocs import IOCExtractor
 from pcap_analyzer.models import (
     DNSRecord,
-    HTTPRecord,
-    IOCRecord,
     PacketRecord,
     Severity,
-    TLSRecord,
 )
 from pcap_analyzer.tls_analyzer import TLSAnalyzer
 

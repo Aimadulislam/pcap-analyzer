@@ -14,7 +14,7 @@ from abc import ABC, abstractmethod
 import logging
 from pathlib import Path
 import struct
-from typing import Any, Dict, Iterator, List, Optional, Tuple, Union
+from typing import Any, Dict, Iterator, List, Optional, Union
 
 from .models import PacketRecord
 from .protocols import (
@@ -274,7 +274,7 @@ class NativePcapReader(BasePcapReader):
         elif protocol_num in (IP_PROTO_ICMP, IP_PROTO_IPV6_ICMP):
             transport_proto = "ICMP"
             protocol = "ICMP"
-            icmp_info = dissect_icmp(l4_data)
+            dissect_icmp(l4_data)
             return PacketRecord(
                 packet_number=packet_num,
                 timestamp=timestamp,

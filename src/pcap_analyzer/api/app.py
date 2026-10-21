@@ -6,17 +6,16 @@ structured JSON logging, and versioned routing (/api/v1).
 
 from __future__ import annotations
 
+import json
 import logging
-import os
 import sys
 import time
 import uuid
-from typing import Any, Dict
+from typing import Any
 
 from ..settings import settings
 from .routes import (
     SAMPLE_PCAPS,
-    execute_analysis_on_file,
     get_health_data,
     get_readiness_data,
     storage_manager,
@@ -28,7 +27,7 @@ logger = logging.getLogger("pcap_analyzer")
 try:
     from fastapi import FastAPI, HTTPException, Request, Response, status
     from fastapi.middleware.cors import CORSMiddleware
-    from fastapi.responses import JSONResponse, PlainTextResponse
+    from fastapi.responses import JSONResponse
 
     FASTAPI_AVAILABLE = True
 except ImportError:

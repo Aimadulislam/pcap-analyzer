@@ -7,12 +7,11 @@ Deduplicates occurrences and records forensic telemetry timestamps.
 
 from __future__ import annotations
 
-from collections import defaultdict
 import ipaddress
 import json
 from pathlib import Path
 import re
-from typing import Any, Dict, List, Optional, Set, Union
+from typing import Any, Dict, List, Optional, Union
 
 from .models import IOCRecord, PacketRecord
 

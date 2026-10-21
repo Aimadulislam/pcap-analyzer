@@ -8,9 +8,8 @@ Generates:
 
 from __future__ import annotations
 
-import json
 from pathlib import Path
-from typing import Optional, Union
+from typing import Union
 
 from .models import AnalysisResult, Severity
 from .utils import format_bytes, format_duration, format_timestamp_iso, get_port_service_name

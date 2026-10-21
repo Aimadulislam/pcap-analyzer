@@ -70,12 +70,19 @@ class PCAPAnalyzer:
         self,
         file_path: Union[str, Path],
         config: Optional[Union[AnalysisConfig, DetectionConfig]] = None,
+        profile_name: Optional[str] = None,
+        parser_engine: Optional[str] = None,
+        **kwargs: Any,
     ):
         self.file_path = Path(file_path).resolve()
         if isinstance(config, DetectionConfig):
             self.config = AnalysisConfig(detection=config)
         else:
             self.config = config or AnalysisConfig()
+        if profile_name:
+            self.config.profile_source = profile_name
+        if parser_engine:
+            self.config.preferred_engine = parser_engine
         self._reader: Optional[BasePcapReader] = None
         self._stats_engine = StatisticsEngine()
         self._dns_analyzer = DNSAnalyzer()

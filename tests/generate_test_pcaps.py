@@ -180,12 +180,12 @@ def build_dns_response_packet(
     dns_hdr = struct.pack("!HHHHHH", tx_id, 0x8180, 1, 1, 0, 0)  # Standard response, No error
     qname = encode_dns_name(domain)
     qtype_qclass = struct.pack("!HH", 1, 1)
-    
+
     # Answer record: pointer to qname (0xc00c), Type A (1), Class IN (1), TTL (300), RDLENGTH (4), RDATA
     ans_name_ptr = struct.pack("!H", 0xC00C)
     ans_meta = struct.pack("!HHIH", 1, 1, 300, 4)
     ans_rdata = socket.inet_aton(resolved_ip)
-    
+
     dns_payload = dns_hdr + qname + qtype_qclass + ans_name_ptr + ans_meta + ans_rdata
     return build_udp_packet(src_ip, dst_ip, src_port, dst_port, dns_payload)
 

@@ -5,7 +5,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from pcap_analyzer.parser import NativePcapReader, get_pcap_reader
+from pcap_analyzer.parser import NativePcapReader
 from generate_test_pcaps import (
     build_dns_query_packet,
     build_http_request_packet,

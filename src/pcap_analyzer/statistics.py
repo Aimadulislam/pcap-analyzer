@@ -6,7 +6,7 @@ TCP conversation handshakes, and communication flow matrices.
 
 from __future__ import annotations
 
-from collections import Counter, defaultdict
+from collections import Counter
 from typing import Any, Dict, List, Optional, Tuple
 
 from .models import FlowRecord, PacketRecord, TrafficStatistics

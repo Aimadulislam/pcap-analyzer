@@ -9,7 +9,7 @@ Provides transparent evidence, exact packet references, analyst recommendations,
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from collections import Counter, defaultdict
+from collections import defaultdict
 import logging
 from typing import Any, Dict, List, Optional, Set
 

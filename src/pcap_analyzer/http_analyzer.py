@@ -6,7 +6,7 @@ monitors URI lengths, and flags protocol deviations.
 
 from __future__ import annotations
 
-from collections import Counter, defaultdict
+from collections import Counter
 import logging
 from typing import Any, Dict, List, Optional, Tuple
 

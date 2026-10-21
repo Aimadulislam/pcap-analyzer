@@ -6,7 +6,7 @@ inspects cipher suite offerings, and flags legacy or insecure protocol usage wit
 
 from __future__ import annotations
 
-from collections import Counter, defaultdict
+from collections import Counter
 import logging
 from typing import Any, Dict, List, Optional, Tuple
 

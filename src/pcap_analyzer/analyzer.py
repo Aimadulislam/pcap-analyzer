@@ -38,7 +38,7 @@ import json
 import logging
 from pathlib import Path
 import time
-from typing import Optional, Union
+from typing import Any, Optional, Union
 
 from .config import AnalysisConfig, DetectionConfig
 from .detections import DetectionEngine

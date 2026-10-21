@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 class DNSAnalyzer:
     """Performs in-depth DNS traffic inspection, resolution tracking, and heuristic profiling."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.records: List[DNSRecord] = []
         self.queries_by_source: Dict[str, List[DNSRecord]] = defaultdict(list)
         self.domain_counter: Counter[str] = Counter()

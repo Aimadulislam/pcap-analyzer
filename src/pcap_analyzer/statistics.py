@@ -15,7 +15,7 @@ from .models import FlowRecord, PacketRecord, TrafficStatistics
 class StatisticsEngine:
     """Computes reproducible traffic statistics and flow records from parsed packets."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.total_packets: int = 0
         self.total_bytes: int = 0
         self.first_timestamp: Optional[float] = None

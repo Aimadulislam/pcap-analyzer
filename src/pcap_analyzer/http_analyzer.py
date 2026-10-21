@@ -38,7 +38,7 @@ SUSPICIOUS_UA_PATTERNS = [
 class HTTPAnalyzer:
     """Performs deep inspection of unencrypted HTTP transactions."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.records: List[HTTPRecord] = []
         self.methods: Counter[str] = Counter()
         self.hosts: Counter[str] = Counter()

@@ -26,7 +26,7 @@ SHA256_REGEX = re.compile(r"\b[a-fA-F0-9]{64}\b")
 class IOCExtractor:
     """Extracts, deduplicates, and classifies network indicators from analyzed packets."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         # Key: (ioc_type, value) -> metadata dict
         self._indicators: Dict[tuple[str, str], Dict[str, Any]] = {}
 

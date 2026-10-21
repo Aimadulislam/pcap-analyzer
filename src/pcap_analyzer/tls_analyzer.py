@@ -21,7 +21,7 @@ STANDARD_TLS_PORTS = {443, 8443, 9443, 4433}
 class TLSAnalyzer:
     """Extracts and evaluates unencrypted TLS handshake metadata."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.records: List[TLSRecord] = []
         self.versions: Counter[str] = Counter()
         self.server_names: Counter[str] = Counter()

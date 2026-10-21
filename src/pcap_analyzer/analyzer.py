@@ -73,7 +73,7 @@ class PCAPAnalyzer:
         profile_name: Optional[str] = None,
         parser_engine: Optional[str] = None,
         **kwargs: Any,
-    ):
+    ) -> None:
         self.file_path = Path(file_path).resolve()
         if isinstance(config, DetectionConfig):
             self.config = AnalysisConfig(detection=config)

@@ -132,7 +132,7 @@ def execute_analysis_on_file(
         report_text = generate_text_report(result)
 
         # Generate IOCs manifest
-        iocs_data = result.iocs.to_dict() if result.iocs else {}
+        iocs_data = result.iocs if isinstance(result.iocs, dict) else {}
 
         # Save artifacts to sandbox
         with open(sandbox.results_file, "w", encoding="utf-8") as f:
